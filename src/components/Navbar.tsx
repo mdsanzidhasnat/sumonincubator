@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import {
   Menu,
   ChevronDown,
@@ -21,25 +22,13 @@ import { categories } from '../data/categories';
 
 interface NavbarProps {
   lang: Language;
-  activeCategory: string;
-  setActiveCategory: (cat: string) => void;
-  activeTab: 'home' | 'shop' | 'blog' | 'about' | 'contact' | 'videos';
-  setActiveTab: (tab: 'home' | 'shop' | 'blog' | 'about' | 'contact' | 'videos') => void;
   onOpenVideos: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({
-  lang,
-  activeCategory,
-  setActiveCategory,
-  activeTab,
-  setActiveTab,
-  onOpenVideos,
-}) => {
+export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const megaMenuRef = useRef<HTMLDivElement>(null);
 
-  // Icon mapping helper
   const getCategoryIcon = (iconName: string) => {
     switch (iconName) {
       case 'Egg':
@@ -69,6 +58,13 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    `px-3.5 py-3.5 border-b-2 flex items-center gap-1.5 transition-all cursor-pointer ${
+      isActive
+        ? 'border-emerald-500 text-emerald-400 font-bold'
+        : 'border-transparent text-slate-300 hover:text-white hover:border-slate-700'
+    }`;
+
   return (
     <nav className="bg-slate-900 text-white shadow-md relative z-30">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
@@ -94,14 +90,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 {lang === 'bn' ? 'সকল বিভাগ' : 'All Departments'}
               </div>
               <div className="divide-y divide-slate-50">
-                <button
-                  onClick={() => {
-                    setActiveCategory('all');
-                    setIsMegaMenuOpen(false);
-                  }}
-                  className={`w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-emerald-50/80 transition-colors cursor-pointer ${
-                    activeCategory === 'all' ? 'bg-emerald-50 text-emerald-700 font-bold' : ''
-                  }`}
+                <Link
+                  to="/shop"
+                  onClick={() => setIsMegaMenuOpen(false)}
+                  className="w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-emerald-50/80 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <Sparkles className="w-4 h-4 text-emerald-600" />
@@ -112,18 +104,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <span className="text-[10px] bg-slate-100 text-slate-600 font-bold px-1.5 py-0.5 rounded-full">
                     150+
                   </span>
-                </button>
+                </Link>
 
                 {categories.map((cat) => (
-                  <button
+                  <Link
                     key={cat.id}
-                    onClick={() => {
-                      setActiveCategory(cat.id);
-                      setIsMegaMenuOpen(false);
-                    }}
-                    className={`w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-emerald-50/80 transition-colors cursor-pointer ${
-                      activeCategory === cat.id ? 'bg-emerald-50 text-emerald-700 font-bold' : ''
-                    }`}
+                    to={`/category/${cat.id}`}
+                    onClick={() => setIsMegaMenuOpen(false)}
+                    className="w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-emerald-50/80 transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       {getCategoryIcon(cat.iconName)}
@@ -134,7 +122,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <span className="text-[10px] bg-slate-100 text-slate-600 font-bold px-1.5 py-0.5 rounded-full">
                       {cat.itemCount}
                     </span>
-                  </button>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -143,65 +131,30 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* CENTER: HORIZONTAL MENU LINKS */}
         <div className="hidden md:flex items-center gap-1 lg:gap-2 text-xs font-semibold tracking-wide">
-          <button
-            onClick={() => setActiveTab('home')}
-            className={`px-3.5 py-3.5 border-b-2 flex items-center gap-1.5 transition-all cursor-pointer ${
-              activeTab === 'home'
-                ? 'border-emerald-500 text-emerald-400 font-bold'
-                : 'border-transparent text-slate-300 hover:text-white hover:border-slate-700'
-            }`}
-          >
+          <NavLink to="/" className={linkClass}>
             <Home className="w-3.5 h-3.5" />
             <span>{lang === 'bn' ? 'হোম' : 'Home'}</span>
-          </button>
+          </NavLink>
 
-          <button
-            onClick={() => setActiveTab('shop')}
-            className={`px-3.5 py-3.5 border-b-2 flex items-center gap-1.5 transition-all cursor-pointer ${
-              activeTab === 'shop'
-                ? 'border-emerald-500 text-emerald-400 font-bold'
-                : 'border-transparent text-slate-300 hover:text-white hover:border-slate-700'
-            }`}
-          >
+          <NavLink to="/shop" className={linkClass}>
             <ShoppingBag className="w-3.5 h-3.5" />
             <span>{lang === 'bn' ? 'শপ' : 'Shop'}</span>
-          </button>
+          </NavLink>
 
-          <button
-            onClick={() => setActiveTab('blog')}
-            className={`px-3.5 py-3.5 border-b-2 flex items-center gap-1.5 transition-all cursor-pointer ${
-              activeTab === 'blog'
-                ? 'border-emerald-500 text-emerald-400 font-bold'
-                : 'border-transparent text-slate-300 hover:text-white hover:border-slate-700'
-            }`}
-          >
+          <NavLink to="/blog" className={linkClass}>
             <BookOpen className="w-3.5 h-3.5" />
             <span>{lang === 'bn' ? 'আমাদের ব্লগ' : 'Our Blog'}</span>
-          </button>
+          </NavLink>
 
-          <button
-            onClick={() => setActiveTab('about')}
-            className={`px-3.5 py-3.5 border-b-2 flex items-center gap-1.5 transition-all cursor-pointer ${
-              activeTab === 'about'
-                ? 'border-emerald-500 text-emerald-400 font-bold'
-                : 'border-transparent text-slate-300 hover:text-white hover:border-slate-700'
-            }`}
-          >
+          <NavLink to="/about" className={linkClass}>
             <Info className="w-3.5 h-3.5" />
             <span>{lang === 'bn' ? 'আমাদের সম্পর্কে' : 'About Us'}</span>
-          </button>
+          </NavLink>
 
-          <button
-            onClick={() => setActiveTab('contact')}
-            className={`px-3.5 py-3.5 border-b-2 flex items-center gap-1.5 transition-all cursor-pointer ${
-              activeTab === 'contact'
-                ? 'border-emerald-500 text-emerald-400 font-bold'
-                : 'border-transparent text-slate-300 hover:text-white hover:border-slate-700'
-            }`}
-          >
+          <NavLink to="/contact" className={linkClass}>
             <Phone className="w-3.5 h-3.5" />
             <span>{lang === 'bn' ? 'যোগাযোগ' : 'Contact Us'}</span>
-          </button>
+          </NavLink>
 
           <button
             onClick={onOpenVideos}

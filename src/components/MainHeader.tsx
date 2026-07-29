@@ -1,39 +1,42 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Phone, ShoppingBag, Egg, ChevronDown, X, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Phone, ShoppingBag, Egg, ChevronDown, X } from 'lucide-react';
 import { Product, Language } from '../types';
 import { categories } from '../data/categories';
+import { products as allProducts } from '../data/products';
 
 interface MainHeaderProps {
   lang: Language;
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  selectedCategory: string;
-  setSelectedCategory: (cat: string) => void;
   cartCount: number;
   cartTotal: number;
   onOpenCart: () => void;
-  products: Product[];
   onSelectProduct: (p: Product) => void;
 }
 
 export const MainHeader: React.FC<MainHeaderProps> = ({
   lang,
-  searchQuery,
-  setSearchQuery,
-  selectedCategory,
-  setSelectedCategory,
   cartCount,
   cartTotal,
   onOpenCart,
-  products,
   onSelectProduct,
 }) => {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const query = searchQuery.trim();
+    if (query) {
+      navigate(`/search?q=${encodeURIComponent(query)}`);
+      setIsSearchFocused(false);
+    }
+  };
 
   // Filter products for search auto-suggest
   const matchingProducts = searchQuery.trim()
-    ? products.filter((p) => {
+    ? allProducts.filter((p: Product) => {
         const matchesCategory =
           selectedCategory === 'all' || p.categoryId === selectedCategory;
         const matchesQuery =
@@ -57,11 +60,18 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Reset searchQuery when navigating to a product detail
+  const handleSelectProduct = (product: Product) => {
+    onSelectProduct(product);
+    setSearchQuery('');
+    setIsSearchFocused(false);
+  };
+
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs transition-all">
       <div className="max-w-7xl mx-auto px-4 py-3.5 flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
         {/* LOGO AREA */}
-        <a href="#" className="flex items-center gap-2.5 group shrink-0">
+        <a href="/" className="flex items-center gap-2.5 group shrink-0">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
             <Egg className="w-6 h-6 stroke-[2.2]" />
           </div>
@@ -82,7 +92,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
           ref={searchContainerRef}
           className="relative flex-1 max-w-2xl mx-2 order-last md:order-none w-full md:w-auto"
         >
-          <div className="flex items-center bg-slate-100/90 border border-slate-200 rounded-full pl-3 pr-1.5 py-1 focus-within:border-emerald-500 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all shadow-inner">
+          <form onSubmit={handleSearch} className="flex items-center bg-slate-100/90 border border-slate-200 rounded-full pl-3 pr-1.5 py-1 focus-within:border-emerald-500 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all shadow-inner">
             {/* Category Dropdown inside Search */}
             <div className="relative border-r border-slate-300/70 pr-2 mr-2 hidden sm:block shrink-0">
               <select
@@ -117,6 +127,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
             {/* Clear icon */}
             {searchQuery && (
               <button
+                type="button"
                 onClick={() => setSearchQuery('')}
                 className="p-1 text-slate-400 hover:text-slate-600 rounded-full cursor-pointer mr-1"
               >
@@ -125,10 +136,13 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
             )}
 
             {/* Search Submit Button */}
-            <button className="bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-full cursor-pointer shadow-sm transition-all hover:scale-105 shrink-0">
+            <button
+              type="submit"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-full cursor-pointer shadow-sm transition-all hover:scale-105 shrink-0"
+            >
               <Search className="w-4 h-4 stroke-[2.5]" />
             </button>
-          </div>
+          </form>
 
           {/* Search Suggestions Dropdown */}
           {isSearchFocused && matchingProducts.length > 0 && (
@@ -142,13 +156,10 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
                 </span>
               </div>
               <div className="divide-y divide-slate-100 max-h-80 overflow-y-auto">
-                {matchingProducts.map((product) => (
+                {matchingProducts.map((product: Product) => (
                   <div
                     key={product.id}
-                    onClick={() => {
-                      onSelectProduct(product);
-                      setIsSearchFocused(false);
-                    }}
+                    onClick={() => handleSelectProduct(product)}
                     className="p-3 hover:bg-emerald-50/60 flex items-center gap-3 cursor-pointer transition-colors"
                   >
                     <img

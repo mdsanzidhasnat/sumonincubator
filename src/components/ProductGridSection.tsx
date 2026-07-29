@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Sparkles, SlidersHorizontal, ChevronRight } from 'lucide-react';
 import { Product, Language } from '../types';
 import { ProductCard } from './ProductCard';
@@ -6,29 +7,39 @@ import { ProductCard } from './ProductCard';
 interface ProductGridSectionProps {
   products: Product[];
   lang: Language;
-  selectedCategory: string;
-  setSelectedCategory: (cat: string) => void;
+  selectedCategory?: string;
+  setSelectedCategory?: (cat: string) => void;
   onQuickView: (product: Product) => void;
   onAddToCart: (product: Product) => void;
   onToggleWishlist: (product: Product) => void;
   onToggleCompare: (product: Product) => void;
   wishlistIds: string[];
   compareIds: string[];
+  limit?: number;
+  viewAllLink?: string;
 }
 
 export const ProductGridSection: React.FC<ProductGridSectionProps> = ({
   products,
   lang,
-  selectedCategory,
-  setSelectedCategory,
+  selectedCategory: externalCategory,
+  setSelectedCategory: externalSetCategory,
   onQuickView,
   onAddToCart,
   onToggleWishlist,
   onToggleCompare,
   wishlistIds,
   compareIds,
+  limit,
+  viewAllLink,
 }) => {
+  const [internalCategory, setInternalCategory] = useState('all');
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'rating'>('featured');
+
+  const selectedCategory = externalCategory ?? internalCategory;
+  const setSelectedCategory = externalSetCategory ?? setInternalCategory;
+
+  const isPreview = limit !== undefined && limit > 0;
 
   const filterTabs = [
     { id: 'all', labelBn: 'সকল প্রোডাক্ট', labelEn: 'All Products' },
@@ -51,6 +62,9 @@ export const ProductGridSection: React.FC<ProductGridSectionProps> = ({
     if (sortBy === 'rating') return b.rating - a.rating;
     return (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0);
   });
+
+  // Limit for preview mode
+  const displayed = isPreview ? filtered.slice(0, limit) : filtered;
 
   return (
     <section id="all-products" className="py-12 bg-slate-50">
@@ -75,66 +89,80 @@ export const ProductGridSection: React.FC<ProductGridSectionProps> = ({
           </div>
 
           {/* FILTER TABS & SORT SELECTOR */}
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Category Pill Tabs */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar bg-white p-1 rounded-2xl border border-slate-200 shadow-xs">
-              {filterTabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setSelectedCategory(tab.id)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-                    selectedCategory === tab.id
-                      ? 'bg-emerald-600 text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                  }`}
-                >
-                  {lang === 'bn' ? tab.labelBn : tab.labelEn}
-                </button>
-              ))}
-            </div>
+          {!isPreview && (
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar bg-white p-1 rounded-2xl border border-slate-200 shadow-xs">
+                {filterTabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setSelectedCategory(tab.id)}
+                    className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                      selectedCategory === tab.id
+                        ? 'bg-emerald-600 text-white shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    }`}
+                  >
+                    {lang === 'bn' ? tab.labelBn : tab.labelEn}
+                  </button>
+                ))}
+              </div>
 
-            {/* Sort Selector */}
-            <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-xs text-xs font-semibold text-slate-700">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                className="bg-transparent outline-none cursor-pointer text-slate-800 font-bold"
-              >
-                <option value="featured">
-                  {lang === 'bn' ? 'ফিচার্ড প্রোডাক্ট' : 'Featured First'}
-                </option>
-                <option value="price-asc">
-                  {lang === 'bn' ? 'দাম: কম থেকে বেশি' : 'Price: Low to High'}
-                </option>
-                <option value="price-desc">
-                  {lang === 'bn' ? 'দাম: বেশি থেকে কম' : 'Price: High to Low'}
-                </option>
-                <option value="rating">
-                  {lang === 'bn' ? 'সর্বোচ্চ রেটিং' : 'Top Rated'}
-                </option>
-              </select>
+              <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-xs text-xs font-semibold text-slate-700">
+                <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as any)}
+                  className="bg-transparent outline-none cursor-pointer text-slate-800 font-bold"
+                >
+                  <option value="featured">
+                    {lang === 'bn' ? 'ফিচার্ড প্রোডাক্ট' : 'Featured First'}
+                  </option>
+                  <option value="price-asc">
+                    {lang === 'bn' ? 'দাম: কম থেকে বেশি' : 'Price: Low to High'}
+                  </option>
+                  <option value="price-desc">
+                    {lang === 'bn' ? 'দাম: বেশি থেকে কম' : 'Price: High to Low'}
+                  </option>
+                  <option value="rating">
+                    {lang === 'bn' ? 'সর্বোচ্চ রেটিং' : 'Top Rated'}
+                  </option>
+                </select>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* PRODUCT CARD GRID (4 COLUMNS DESKTOP) */}
-        {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filtered.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                lang={lang}
-                onQuickView={onQuickView}
-                onAddToCart={onAddToCart}
-                onToggleWishlist={onToggleWishlist}
-                onToggleCompare={onToggleCompare}
-                isInWishlist={wishlistIds.includes(product.id)}
-                isInCompare={compareIds.includes(product.id)}
-              />
-            ))}
-          </div>
+        {displayed.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {displayed.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  lang={lang}
+                  onQuickView={onQuickView}
+                  onAddToCart={onAddToCart}
+                  onToggleWishlist={onToggleWishlist}
+                  onToggleCompare={onToggleCompare}
+                  isInWishlist={wishlistIds.includes(product.id)}
+                  isInCompare={compareIds.includes(product.id)}
+                />
+              ))}
+            </div>
+            {/* View All link for preview mode */}
+            {isPreview && viewAllLink && (
+              <div className="text-center pt-4">
+                <Link
+                  to={viewAllLink}
+                  className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-6 py-3 rounded-full shadow-lg shadow-emerald-600/25 transition-all hover:scale-105"
+                >
+                  <span>{lang === 'bn' ? 'সকল প্রোডাক্ট দেখুন' : 'View All Products'}</span>
+                  <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+                </Link>
+              </div>
+            )}
+          </>
         ) : (
           <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 space-y-3">
             <p className="text-base font-bold text-slate-800">

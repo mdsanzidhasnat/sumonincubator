@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Egg,
   MapPin,
@@ -9,7 +10,6 @@ import {
   Youtube,
   MessageSquare,
   ArrowUp,
-  Heart,
   Truck,
   CreditCard,
 } from 'lucide-react';
@@ -19,14 +19,12 @@ interface FooterProps {
   lang: Language;
   onOpenVideos: () => void;
   onOpenAuth: () => void;
-  onSelectCategory: (catId: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   lang,
   onOpenVideos,
   onOpenAuth,
-  onSelectCategory,
 }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -39,14 +37,14 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* COLUMN 1: LOGO & CONTACT INFO */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2.5">
+            <Link to="/" className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-sm">
                 <Egg className="w-5 h-5 stroke-[2.2]" />
               </div>
               <span className="text-xl font-black text-slate-900 tracking-tight">
                 Sumon<span className="text-emerald-600">Incubator</span>
               </span>
-            </div>
+            </Link>
 
             <p className="text-xs text-slate-600 leading-relaxed font-medium">
               {lang === 'bn'
@@ -122,36 +120,36 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2 text-xs font-semibold text-slate-600">
               <li>
-                <button
-                  onClick={() => onSelectCategory('incubators')}
-                  className="hover:text-emerald-600 transition-colors cursor-pointer"
+                <Link
+                  to="/category/incubators"
+                  className="hover:text-emerald-600 transition-colors"
                 >
                   {lang === 'bn' ? 'অটোমেটিক ইনকিউবেটর' : 'Automatic Egg Incubators'}
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectCategory('parts')}
-                  className="hover:text-emerald-600 transition-colors cursor-pointer"
+                <Link
+                  to="/category/parts"
+                  className="hover:text-emerald-600 transition-colors"
                 >
                   {lang === 'bn' ? 'XM-18 পার্টস ও কন্ট্রোলার' : 'Incubator Parts & Kits'}
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectCategory('ips-ups')}
-                  className="hover:text-emerald-600 transition-colors cursor-pointer"
+                <Link
+                  to="/category/ips-ups"
+                  className="hover:text-emerald-600 transition-colors"
                 >
                   {lang === 'bn' ? 'হোম আইপিএস ও ইনভার্টার' : 'Home UPS & IPS'}
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectCategory('battery')}
-                  className="hover:text-emerald-600 transition-colors cursor-pointer"
+                <Link
+                  to="/category/battery"
+                  className="hover:text-emerald-600 transition-colors"
                 >
                   {lang === 'bn' ? 'টিউবুলার ব্যাটারি' : 'IPS & Solar Battery'}
-                </button>
+                </Link>
               </li>
               <li>
                 <button

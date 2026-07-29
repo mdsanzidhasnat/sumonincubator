@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ChevronRight, Egg, Cpu, Sliders, Zap } from 'lucide-react';
 import { Product, Language } from '../types';
 import { ProductCard } from './ProductCard';
@@ -16,7 +17,6 @@ interface CategorySectionProps {
   onAddToCart: (product: Product) => void;
   onToggleWishlist: (product: Product) => void;
   onToggleCompare: (product: Product) => void;
-  onSeeMoreCategory: (catId: string) => void;
   wishlistIds: string[];
   compareIds: string[];
 }
@@ -34,7 +34,6 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
   onAddToCart,
   onToggleWishlist,
   onToggleCompare,
-  onSeeMoreCategory,
   wishlistIds,
   compareIds,
 }) => {
@@ -77,13 +76,13 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
           </div>
 
           {/* MORE PRODUCT PILL BUTTON */}
-          <button
-            onClick={() => onSeeMoreCategory(categoryId)}
+          <Link
+            to={`/category/${categoryId}`}
             className="inline-flex items-center gap-1.5 bg-white hover:bg-emerald-600 text-emerald-700 hover:text-white border border-emerald-300 hover:border-emerald-600 font-bold text-xs px-4 py-2 rounded-full shadow-xs cursor-pointer transition-all self-start sm:self-center"
           >
             <span>{lang === 'bn' ? 'আরও প্রোডাক্ট দেখুন' : 'More Product'}</span>
             <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-          </button>
+          </Link>
         </div>
 
         {/* PRODUCTS GRID */}
