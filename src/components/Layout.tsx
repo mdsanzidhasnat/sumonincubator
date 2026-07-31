@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { TopBar } from './TopBar';
 import { MainHeader } from './MainHeader';
@@ -9,10 +9,12 @@ import { QuickViewModal } from './QuickViewModal';
 import { CompareModal } from './CompareModal';
 import { AuthModal } from './AuthModal';
 import { VideosModal } from './VideosModal';
-import { WhatsAppWidget } from './WhatsAppWidget';
+import { MobileMenu } from './MobileMenu';
+import { FloatingSocialContact } from './FloatingSocialContact';
 import { useApp } from '../context/AppContext';
 
 export const Layout: React.FC = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {
     lang, setLang, compareIds, cartItems, handleAddToCart,
     handleToggleWishlist, handleToggleCompare, wishlistIds, compareProducts,
@@ -24,7 +26,7 @@ export const Layout: React.FC = () => {
   } = useApp();
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-slate-900 font-sans selection:bg-brand-600 selection:text-white">
       <TopBar
         lang={lang}
         setLang={setLang}
@@ -41,6 +43,7 @@ export const Layout: React.FC = () => {
         cartTotal={cartTotal}
         onOpenCart={() => setIsCartOpen(true)}
         onSelectProduct={(product) => setQuickViewProduct(product)}
+        onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
       />
 
       <Navbar
@@ -51,6 +54,13 @@ export const Layout: React.FC = () => {
       <main className="flex-1">
         <Outlet />
       </main>
+
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        lang={lang}
+        onOpenVideos={() => setIsVideosOpen(true)}
+      />
 
       <Footer
         lang={lang}
@@ -105,7 +115,7 @@ export const Layout: React.FC = () => {
         </div>
       )}
 
-      <WhatsAppWidget lang={lang} />
+      <FloatingSocialContact />
     </div>
   );
 };

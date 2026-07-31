@@ -8,8 +8,8 @@ export const trustBadges: TrustBadge[] = [
     subtitle: 'Across all 64 districts of Bangladesh',
     subtitleBn: 'সারাদেশে ৬৪ জেলায় কুরিয়ার সার্ভিস',
     icon: 'Truck',
-    colorBg: 'bg-emerald-50 text-emerald-600',
-    iconColor: '#0F9D74'
+    colorBg: 'bg-brand-50 text-brand-600',
+    iconColor: '#00799E'
   },
   {
     id: 'tb-2',
@@ -28,8 +28,8 @@ export const trustBadges: TrustBadge[] = [
     subtitle: 'Direct hotline & technical assistance',
     subtitleBn: 'অভিজ্ঞ টেকনিশিয়ানের সরাসরি সহায়তা',
     icon: 'Headphones',
-    colorBg: 'bg-amber-50 text-amber-600',
-    iconColor: '#F59E0B'
+    colorBg: 'bg-accent-50 text-accent-600',
+    iconColor: '#F5A90B'
   },
   {
     id: 'tb-4',
@@ -38,8 +38,8 @@ export const trustBadges: TrustBadge[] = [
     subtitle: 'Original product & factory tested',
     subtitleBn: 'ফ্যাক্টরি টেস্টেড অরিজিনাল পণ্য',
     icon: 'ShieldCheck',
-    colorBg: 'bg-teal-50 text-teal-600',
-    iconColor: '#0D9488'
+    colorBg: 'bg-brand-50 text-brand-600',
+    iconColor: '#00799E'
   },
   {
     id: 'tb-5',

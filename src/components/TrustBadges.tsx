@@ -32,7 +32,7 @@ export const TrustBadges: React.FC<TrustBadgesProps> = ({ lang }) => {
           {trustBadges.map((badge) => (
             <div
               key={badge.id}
-              className="bg-slate-50/80 hover:bg-white p-4 rounded-2xl border border-slate-200/80 hover:border-emerald-500/40 hover:shadow-md transition-all duration-200 flex items-center gap-3.5 group cursor-default"
+              className="bg-slate-50/80 hover:bg-white p-4 rounded-2xl border border-slate-200/80 hover:border-brand-500/40 hover:shadow-md transition-all duration-200 flex items-center gap-3.5 group cursor-default"
             >
               <div
                 className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${badge.colorBg} group-hover:scale-110 transition-transform`}
@@ -40,7 +40,7 @@ export const TrustBadges: React.FC<TrustBadgesProps> = ({ lang }) => {
                 {getIcon(badge.icon)}
               </div>
               <div className="min-w-0">
-                <h4 className="text-xs font-black text-slate-900 group-hover:text-emerald-700 transition-colors">
+                <h4 className="text-xs font-black text-slate-900 group-hover:text-brand-700 transition-colors">
                   {lang === 'bn' ? badge.titleBn : badge.title}
                 </h4>
                 <p className="text-[11px] text-slate-500 font-medium leading-tight mt-0.5 truncate">

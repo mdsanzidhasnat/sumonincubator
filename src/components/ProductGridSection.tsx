@@ -72,8 +72,8 @@ export const ProductGridSection: React.FC<ProductGridSectionProps> = ({
         {/* SECTION HEADER WITH TABS & SORT */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-6">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-700 uppercase tracking-widest bg-emerald-100/60 px-3 py-1 rounded-full mb-2">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+            <div className="inline-flex items-center gap-1.5 text-xs font-black text-brand-700 uppercase tracking-widest bg-brand-100/60 px-3 py-1 rounded-full mb-2">
+              <Sparkles className="w-3.5 h-3.5 text-brand-600" />
               <span>
                 {lang === 'bn' ? 'সুমন ক্যাটালগ' : 'SUMON Verified Catalog'}
               </span>
@@ -98,7 +98,7 @@ export const ProductGridSection: React.FC<ProductGridSectionProps> = ({
                     onClick={() => setSelectedCategory(tab.id)}
                     className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                       selectedCategory === tab.id
-                        ? 'bg-emerald-600 text-white shadow-xs'
+                        ? 'bg-brand-600 text-white shadow-xs'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                     }`}
                   >
@@ -155,7 +155,7 @@ export const ProductGridSection: React.FC<ProductGridSectionProps> = ({
               <div className="text-center pt-4">
                 <Link
                   to={viewAllLink}
-                  className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-6 py-3 rounded-full shadow-lg shadow-emerald-600/25 transition-all hover:scale-105"
+                  className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm px-6 py-3 rounded-full shadow-lg shadow-brand-600/25 transition-all hover:scale-105"
                 >
                   <span>{lang === 'bn' ? 'সকল প্রোডাক্ট দেখুন' : 'View All Products'}</span>
                   <ChevronRight className="w-4 h-4 stroke-[2.5]" />
@@ -172,7 +172,7 @@ export const ProductGridSection: React.FC<ProductGridSectionProps> = ({
             </p>
             <button
               onClick={() => setSelectedCategory('all')}
-              className="bg-emerald-600 text-white font-bold text-xs px-4 py-2 rounded-xl"
+              className="bg-brand-600 text-white font-bold text-xs px-4 py-2 rounded-xl"
             >
               {lang === 'bn' ? 'সকল প্রোডাক্ট দেখুন' : 'Show All Products'}
             </button>

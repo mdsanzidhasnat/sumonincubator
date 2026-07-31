@@ -16,8 +16,8 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ lang }) => {
         {/* HEADER */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-800 uppercase tracking-widest bg-emerald-100/70 px-3 py-1 rounded-full mb-2">
-              <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
+            <div className="inline-flex items-center gap-1.5 text-xs font-black text-brand-800 uppercase tracking-widest bg-brand-100/70 px-3 py-1 rounded-full mb-2">
+              <BookOpen className="w-3.5 h-3.5 text-brand-600" />
               <span>{lang === 'bn' ? 'জ্ঞান ও গাইড' : 'Knowledge & Guides'}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
@@ -36,7 +36,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ lang }) => {
           {blogPosts.map((post) => (
             <article
               key={post.id}
-              className="group bg-slate-50 hover:bg-white rounded-2xl border border-slate-200 hover:border-emerald-500/40 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden"
+              className="group bg-slate-50 hover:bg-white rounded-2xl border border-slate-200 hover:border-brand-500/40 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden"
             >
               {/* IMAGE */}
               <div className="relative h-48 overflow-hidden bg-slate-200">
@@ -46,7 +46,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ lang }) => {
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
-                <span className="absolute top-3 left-3 bg-emerald-600 text-white font-extrabold text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-lg shadow-sm">
+                <span className="absolute top-3 left-3 bg-brand-600 text-white font-extrabold text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-lg shadow-sm">
                   {lang === 'bn' ? post.categoryBn : post.category}
                 </span>
               </div>
@@ -65,7 +65,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ lang }) => {
                     </span>
                   </div>
 
-                  <h3 className="text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
+                  <h3 className="text-sm font-bold text-slate-900 group-hover:text-brand-700 transition-colors line-clamp-2 leading-snug">
                     {lang === 'bn' ? post.titleBn : post.title}
                   </h3>
 
@@ -82,7 +82,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ lang }) => {
 
                   <button
                     onClick={() => setSelectedPost(post)}
-                    className="text-xs font-black text-emerald-600 hover:text-emerald-800 flex items-center gap-1 cursor-pointer group-hover:translate-x-1 transition-transform"
+                    className="text-xs font-black text-brand-600 hover:text-brand-800 flex items-center gap-1 cursor-pointer group-hover:translate-x-1 transition-transform"
                   >
                     <span>{lang === 'bn' ? 'পড়ুন' : 'Read More'}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -114,7 +114,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ lang }) => {
             </div>
 
             <div className="p-6 space-y-4">
-              <span className="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">
+              <span className="inline-block bg-brand-100 text-brand-800 text-xs font-bold px-3 py-1 rounded-full">
                 {lang === 'bn' ? selectedPost.categoryBn : selectedPost.category}
               </span>
 

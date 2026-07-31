@@ -44,9 +44,9 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
   const getIcon = () => {
     switch (iconName) {
       case 'Egg':
-        return <Egg className="w-5 h-5 text-emerald-600" />;
+        return <Egg className="w-5 h-5 text-brand-600" />;
       case 'Cpu':
-        return <Cpu className="w-5 h-5 text-amber-600" />;
+        return <Cpu className="w-5 h-5 text-accent-600" />;
       case 'Sliders':
         return <Sliders className="w-5 h-5 text-indigo-600" />;
       default:
@@ -78,7 +78,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
           {/* MORE PRODUCT PILL BUTTON */}
           <Link
             to={`/category/${categoryId}`}
-            className="inline-flex items-center gap-1.5 bg-white hover:bg-emerald-600 text-emerald-700 hover:text-white border border-emerald-300 hover:border-emerald-600 font-bold text-xs px-4 py-2 rounded-full shadow-xs cursor-pointer transition-all self-start sm:self-center"
+            className="inline-flex items-center gap-1.5 bg-white hover:bg-brand-600 text-brand-700 hover:text-white border border-brand-300 hover:border-brand-600 font-bold text-xs px-4 py-2 rounded-full shadow-xs cursor-pointer transition-all self-start sm:self-center"
           >
             <span>{lang === 'bn' ? 'আরও প্রোডাক্ট দেখুন' : 'More Product'}</span>
             <ChevronRight className="w-4 h-4 stroke-[2.5]" />

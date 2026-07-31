@@ -22,7 +22,7 @@ export const CategoryPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 space-y-6">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-          <Link to="/" className="hover:text-emerald-600 transition-colors">
+          <Link to="/" className="hover:text-brand-600 transition-colors">
             {lang === 'bn' ? 'হোম' : 'Home'}
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
@@ -42,7 +42,7 @@ export const CategoryPage: React.FC = () => {
             <p className="text-sm text-slate-600 font-medium">
               {lang === 'bn' ? category.descriptionBn : category.description}
             </p>
-            <p className="text-xs font-bold text-emerald-700">
+            <p className="text-xs font-bold text-brand-700">
               {categoryProducts.length} {lang === 'bn' ? 'টি প্রোডাক্ট পাওয়া গেছে' : 'products found'}
             </p>
           </div>
@@ -85,7 +85,7 @@ export const CategoryPage: React.FC = () => {
             </p>
             <Link
               to="/shop"
-              className="inline-block mt-4 bg-emerald-600 text-white font-bold text-xs px-4 py-2 rounded-xl"
+              className="inline-block mt-4 bg-brand-600 text-white font-bold text-xs px-4 py-2 rounded-xl"
             >
               {lang === 'bn' ? 'সকল প্রোডাক্ট দেখুন' : 'View All Products'}
             </Link>

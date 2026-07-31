@@ -1,12 +1,159 @@
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-xs: 480px;
+
+  /* ============================================================
+     PENTAMART-INSPIRED COLOR SYSTEM
+     Primary:   Teal (#00799E)  — dominant brand color
+     Accent:    Gold (#FFC431)  — highlights, CTAs, shopping actions
+     Discount:  Orange-Red (#FF4500 -> #E03A3E)
+     Surface:   Pure White (#FFFFFF) / Light Gray (#F8F9FA)
+     Text:      Dark Charcoal (#212529) / Muted Gray (#6C757D)
+     ============================================================ */
+
+  /* Brand — Teal scale (primary) */
+  --color-brand-50: #eaf5f8;
+  --color-brand-100: #cfe8ef;
+  --color-brand-200: #a3d0de;
+  --color-brand-300: #6eb3c8;
+  --color-brand-400: #3c97af;
+  --color-brand-500: #1d849f;
+  --color-brand-600: #00799e;
+  --color-brand-700: #00688a;
+  --color-brand-800: #025c7a;
+  --color-brand-900: #013f54;
+  --color-brand-950: #012c3c;
+
+  /* Accent — Gold scale */
+  --color-accent-50: #fff8e1;
+  --color-accent-100: #fff3c4;
+  --color-accent-200: #ffec9e;
+  --color-accent-300: #ffd766;
+  --color-accent-400: #ffc431;
+  --color-accent-500: #f5a90b;
+  --color-accent-600: #d98e00;
+  --color-accent-700: #b57400;
+  --color-accent-800: #8f5a00;
+
+  /* Discount / Deal accent — Orange-Red scale */
+  --color-discount-400: #ff7a45;
+  --color-discount-500: #ff4500;
+  --color-discount-600: #e03a3e;
+  --color-discount-700: #c22a33;
+
+  /* Surface tones */
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8f9fa;
+
+  /* Typography ink */
+  --color-ink: #212529;
+  --color-ink-muted: #6c757d;
+}
+
+/* Semantic color tokens — single source of truth for the whole UI */
+:root {
+  --primary-color: #00799e;
+  --primary-dark: #00688a;
+  --primary-light: #1d849f;
+  --secondary-color: #013f54;
+  --accent-color: #ffc431;
+  --background-color: #f8f9fa;
+  --surface-color: #ffffff;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --border-color: #e9ecef;
+  --success-color: #10b981;
+  --error-color: #e02424;
+  --warning-color: #f59e0b;
+  --discount-color: #e03a3e;
+}
+
 @layer base {
   body {
-    font-family: 'Inter', 'Hind Siliguri', system-ui, -apple-system, sans-serif;
-    background-color: #F8FAFC;
-    color: #0F172A;
+    font-family: 'Inter', 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    /* PENTAMART TOP-BANNER GRADIENT
+       Dark teal/deep blue at the header area, smoothly fading into
+       pure white for the lower sections & product grids. The gradient
+       is viewport-anchored (fixed) so it stays at the top while content
+       scrolls through it down into the white zone. */
+    background-color: var(--surface-color);
+    background-image: linear-gradient(
+      to bottom,
+      var(--color-brand-800) 0%,
+      var(--color-brand-900) 22%,
+      #ffffff 58%
+    );
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: var(--text-primary);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--primary-color);
+    color: #ffffff;
+  }
+}
+
+/* ============================================================
+   COMPONENT STYLING — Pentamart spec
+   Buttons & badges: solid primary backgrounds, white text,
+   border-radius 4-6px. Product cards: white, clean borders.
+   ============================================================ */
+@layer components {
+  .btn-primary {
+    background-color: var(--color-brand-600);
+    color: #ffffff;
+    border-radius: 6px;
+    font-weight: 700;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-brand-700);
+  }
+
+  .badge-brand {
+    background-color: var(--color-brand-600);
+    color: #ffffff;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  .badge-discount {
+    background: linear-gradient(135deg, #ff4500, #e03a3e);
+    color: #ffffff;
+    border-radius: 4px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  .product-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .product-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 24px rgb(0 121 158 / 0.12);
+  }
+
+  .text-ink {
+    color: var(--text-primary);
+  }
+  .text-ink-muted {
+    color: var(--text-secondary);
+  }
+  .bg-surface {
+    background-color: var(--surface-color);
+  }
+  .bg-surface-muted {
+    background-color: var(--background-color);
   }
 }
 
@@ -17,16 +164,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #f8f9fa;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #ced4da;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #adb5bd;
 }
 
 /* Hide scrollbars for clean horizontal scrollable elements while keeping scrollability */
@@ -37,4 +184,3 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-

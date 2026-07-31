@@ -29,7 +29,7 @@ export const SearchPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 space-y-6">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-          <Link to="/" className="hover:text-emerald-600 transition-colors">
+          <Link to="/" className="hover:text-brand-600 transition-colors">
             {lang === 'bn' ? 'হোম' : 'Home'}
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
@@ -41,7 +41,7 @@ export const SearchPage: React.FC = () => {
         {/* Search header */}
         <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-3">
           <div className="flex items-center gap-3">
-            <Search className="w-6 h-6 text-emerald-600" />
+            <Search className="w-6 h-6 text-brand-600" />
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900">
               {lang === 'bn' ? 'সার্চ ফলাফল' : 'Search Results'}
             </h1>
@@ -90,7 +90,7 @@ export const SearchPage: React.FC = () => {
             </div>
             <Link
               to="/shop"
-              className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors"
+              className="inline-block bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors"
             >
               {lang === 'bn' ? 'সকল প্রোডাক্ট ব্রাউজ করুন' : 'Browse All Products'}
             </Link>

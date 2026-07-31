@@ -50,14 +50,14 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                 className="w-full h-full object-cover"
               />
               {product.discountPct > 0 && (
-                <span className="absolute top-3 left-3 bg-amber-500 text-slate-950 font-black text-xs px-2.5 py-1 rounded-lg">
+                <span className="absolute top-3 left-3 bg-gradient-to-r from-discount-500 to-discount-600 text-white font-black text-xs px-2.5 py-1 rounded-md">
                   -{product.discountPct}% OFF
                 </span>
               )}
             </div>
 
-            <div className="bg-emerald-50 p-3 rounded-xl border border-emerald-200/80 text-xs text-emerald-900 font-semibold flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
+            <div className="bg-brand-50 p-3 rounded-xl border border-brand-200/80 text-xs text-brand-900 font-semibold flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-brand-600 shrink-0" />
               <span>
                 {lang === 'bn'
                   ? '১০০% অরিজিনাল ব্র্যান্ড নিউ টেস্টেড প্রোডাক্ট'
@@ -69,7 +69,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
           {/* DETAILS COLUMN */}
           <div className="md:col-span-7 space-y-4">
             <div>
-              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              <span className="text-[10px] font-bold text-brand-700 bg-brand-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                 {lang === 'bn' ? product.categoryBn : product.category}
               </span>
               <h2 className="text-lg sm:text-xl font-black text-slate-900 leading-snug mt-1.5">
@@ -77,14 +77,14 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               </h2>
 
               <div className="flex items-center gap-3 mt-2 text-xs font-semibold text-slate-600">
-                <div className="flex items-center gap-1 text-amber-500">
-                  <Star className="w-4 h-4 fill-amber-400" />
+                <div className="flex items-center gap-1 text-accent-500">
+                  <Star className="w-4 h-4 fill-accent-400" />
                   <span className="font-bold text-slate-800">{product.rating}</span>
                 </div>
                 <span>•</span>
                 <span>{product.reviewCount} {lang === 'bn' ? 'রিভিউ' : 'Reviews'}</span>
                 <span>•</span>
-                <span className="text-emerald-700 font-bold flex items-center gap-1">
+                <span className="text-brand-700 font-bold flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   {lang === 'bn' ? 'স্টকে আছে (SKU: ' + product.sku + ')' : 'In Stock (SKU: ' + product.sku + ')'}
                 </span>
@@ -93,7 +93,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
 
             {/* PRICING */}
             <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200/80 flex items-baseline gap-3">
-              <span className="text-2xl font-black text-emerald-600">
+              <span className="text-2xl font-black text-brand-600">
                 ৳ {product.price.toLocaleString()}
               </span>
               {product.discountPct > 0 && (
@@ -110,7 +110,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                   onClick={() => setActiveTab('specs')}
                   className={`pb-2 border-b-2 transition-all cursor-pointer ${
                     activeTab === 'specs'
-                      ? 'border-emerald-600 text-emerald-700'
+                      ? 'border-brand-600 text-brand-700'
                       : 'border-transparent text-slate-400'
                   }`}
                 >
@@ -120,7 +120,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                   onClick={() => setActiveTab('desc')}
                   className={`pb-2 border-b-2 transition-all cursor-pointer ${
                     activeTab === 'desc'
-                      ? 'border-emerald-600 text-emerald-700'
+                      ? 'border-brand-600 text-brand-700'
                       : 'border-transparent text-slate-400'
                   }`}
                 >
@@ -151,7 +151,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                   {product.specs.warranty && (
                     <div className="grid grid-cols-3 gap-2">
                       <span className="font-bold text-slate-900">{lang === 'bn' ? 'ওয়ারেন্টি:' : 'Warranty:'}</span>
-                      <span className="col-span-2 text-emerald-700 font-bold">{product.specs.warranty}</span>
+                      <span className="col-span-2 text-brand-700 font-bold">{product.specs.warranty}</span>
                     </div>
                   )}
                 </div>
@@ -185,7 +185,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                   onAddToCart(product, quantity);
                   onClose();
                 }}
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all"
+                className="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs sm:text-sm py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all"
               >
                 <ShoppingBag className="w-4 h-4" />
                 <span>{lang === 'bn' ? 'কার্টে যোগ করুন' : 'Add to Cart'}</span>

@@ -11,11 +11,11 @@ import {
   Sliders,
   Sparkles,
   Video,
-  BookOpen,
   Info,
   Phone,
   Home,
   ShoppingBag,
+  BookOpen,
 } from 'lucide-react';
 import { Language } from '../types';
 import { categories } from '../data/categories';
@@ -32,19 +32,19 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
   const getCategoryIcon = (iconName: string) => {
     switch (iconName) {
       case 'Egg':
-        return <Egg className="w-4 h-4 text-emerald-600" />;
+        return <Egg className="w-4 h-4 text-brand-600" />;
       case 'Cpu':
-        return <Cpu className="w-4 h-4 text-amber-600" />;
+        return <Cpu className="w-4 h-4 text-accent-600" />;
       case 'Zap':
         return <Zap className="w-4 h-4 text-blue-600" />;
       case 'BatteryCharging':
-        return <BatteryCharging className="w-4 h-4 text-teal-600" />;
+        return <BatteryCharging className="w-4 h-4 text-brand-600" />;
       case 'Sprout':
         return <Sprout className="w-4 h-4 text-green-600" />;
       case 'Sliders':
         return <Sliders className="w-4 h-4 text-indigo-600" />;
       default:
-        return <Egg className="w-4 h-4 text-emerald-600" />;
+        return <Egg className="w-4 h-4 text-brand-600" />;
     }
   };
 
@@ -61,18 +61,18 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `px-3.5 py-3.5 border-b-2 flex items-center gap-1.5 transition-all cursor-pointer ${
       isActive
-        ? 'border-emerald-500 text-emerald-400 font-bold'
-        : 'border-transparent text-slate-300 hover:text-white hover:border-slate-700'
+        ? 'border-accent-400 text-accent-300 font-bold'
+        : 'border-transparent text-white/80 hover:text-white hover:border-white/25'
     }`;
 
   return (
-    <nav className="bg-slate-900 text-white shadow-md relative z-30">
+    <nav className="hidden md:block bg-brand-900 text-white shadow-md relative z-30">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
         {/* LEFT: MEGA MENU BUTTON FOR CATEGORIES */}
-        <div className="relative" ref={megaMenuRef}>
+        <div className="relative hidden md:block" ref={megaMenuRef}>
           <button
             onClick={() => setIsMegaMenuOpen(!isMegaMenuOpen)}
-            className="flex items-center gap-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-5 py-3.5 cursor-pointer transition-colors"
+            className="flex items-center gap-2.5 bg-accent-400 hover:bg-accent-300 text-slate-900 font-bold text-sm px-5 py-3.5 cursor-pointer transition-colors"
           >
             <Menu className="w-5 h-5 stroke-[2.2]" />
             <span>{lang === 'bn' ? 'ক্যাটাগরি সমূহ' : 'Browse Categories'}</span>
@@ -93,10 +93,10 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
                 <Link
                   to="/shop"
                   onClick={() => setIsMegaMenuOpen(false)}
-                  className="w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-emerald-50/80 transition-colors"
+                  className="w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-brand-50/80 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <Sparkles className="w-4 h-4 text-emerald-600" />
+                    <Sparkles className="w-4 h-4 text-brand-600" />
                     <span className="text-xs font-semibold">
                       {lang === 'bn' ? 'সকল প্রোডাক্ট' : 'All Products'}
                     </span>
@@ -111,7 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
                     key={cat.id}
                     to={`/category/${cat.id}`}
                     onClick={() => setIsMegaMenuOpen(false)}
-                    className="w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-emerald-50/80 transition-colors"
+                    className="w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-brand-50/80 transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       {getCategoryIcon(cat.iconName)}
@@ -158,17 +158,17 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
 
           <button
             onClick={onOpenVideos}
-            className="px-3.5 py-3.5 border-b-2 border-transparent text-amber-400 hover:text-amber-300 flex items-center gap-1.5 transition-all cursor-pointer"
+            className="px-3.5 py-3.5 border-b-2 border-transparent text-accent-400 hover:text-accent-300 flex items-center gap-1.5 transition-all cursor-pointer"
           >
-            <Video className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+            <Video className="w-3.5 h-3.5 text-accent-400 animate-pulse" />
             <span>{lang === 'bn' ? 'আমাদের ভিডিও' : 'Our Videos'}</span>
           </button>
         </div>
 
         {/* RIGHT: SPECIAL HIGHLIGHT / PROMO TAG */}
-        <div className="hidden lg:flex items-center gap-2 bg-slate-800/80 px-3.5 py-1.5 rounded-full border border-slate-700/60 text-xs">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          <span className="text-slate-200 font-medium">
+        <div className="hidden lg:flex items-center gap-2 bg-black/25 px-3.5 py-1.5 rounded-full border border-white/20 text-xs">
+          <Sparkles className="w-3.5 h-3.5 text-accent-300" />
+          <span className="text-white font-medium">
             {lang === 'bn'
               ? '৮৮টি ডিমে ৯৮% হ্যাচিং গ্যারান্টি!'
               : '98% Hatch Rate Guaranteed!'}

@@ -31,30 +31,30 @@ export const Footer: React.FC<FooterProps> = ({
   };
 
   return (
-    <footer className="bg-slate-100 text-slate-800 border-t border-slate-200/80 pt-12 pb-6">
-      <div className="max-w-7xl mx-auto px-4 space-y-10">
+    <footer className="bg-brand-900 text-white/90 border-t border-white/10 pt-8 sm:pt-12 pb-6">
+      <div className="max-w-7xl mx-auto px-4 space-y-6 sm:space-y-10">
         {/* TOP 4 COLUMNS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8">
           {/* COLUMN 1: LOGO & CONTACT INFO */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-sm">
+              <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-brand-600 shadow-sm">
                 <Egg className="w-5 h-5 stroke-[2.2]" />
               </div>
-              <span className="text-xl font-black text-slate-900 tracking-tight">
-                Sumon<span className="text-emerald-600">Incubator</span>
+              <span className="text-xl font-black text-white tracking-tight">
+                Sumon<span className="text-accent-300">Incubator</span>
               </span>
             </Link>
 
-            <p className="text-xs text-slate-600 leading-relaxed font-medium">
+            <p className="text-xs text-white/70 leading-relaxed font-medium">
               {lang === 'bn'
                 ? 'বাংলাদেশের নির্ভরযোগ্য অটোমেটিক ইনকিউবেটর, স্পেয়ার পার্টস ও আইপিএস ইনভার্টার প্রস্তুতকারক ও সরবরাহকারী।'
                 : 'Bangladesh’s leading manufacturer and supplier of automatic egg incubators, spare parts & IPS inverters.'}
             </p>
 
-            <div className="space-y-2 text-xs text-slate-700 font-medium">
+            <div className="space-y-2 text-xs text-white/80 font-medium">
               <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-accent-400 shrink-0 mt-0.5" />
                 <span>
                   {lang === 'bn'
                     ? 'মিরপুর ১০, ঢাকা-১২১৬, বাংলাদেশ'
@@ -62,15 +62,15 @@ export const Footer: React.FC<FooterProps> = ({
                 </span>
               </div>
               <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
+                <Phone className="w-4 h-4 text-accent-400 shrink-0" />
                 <span>+880 1712-345678, +880 1900-123456</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-emerald-600 shrink-0" />
+                <Mail className="w-4 h-4 text-accent-400 shrink-0" />
                 <span>support@sumonincubator.com</span>
               </div>
-              <div className="flex items-center gap-2.5 text-[11px] text-slate-500 pt-1">
-                <ShieldCheck className="w-4 h-4 text-amber-500 shrink-0" />
+              <div className="flex items-center gap-2.5 text-[11px] text-white/60 pt-1">
+                <ShieldCheck className="w-4 h-4 text-accent-400 shrink-0" />
                 <span>Trade License No: TRAD/DNCC/019284/2024</span>
               </div>
             </div>
@@ -78,34 +78,34 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* COLUMN 2: CUSTOMER CARE */}
           <div className="space-y-3">
-            <h4 className="text-sm font-black text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-2">
+            <h4 className="text-sm font-black text-white uppercase tracking-wider border-b border-white/10 pb-2">
               {lang === 'bn' ? 'কাস্টমার কেয়ার' : 'Customer Care'}
             </h4>
-            <ul className="space-y-2 text-xs font-semibold text-slate-600">
+            <ul className="space-y-2 text-xs font-semibold text-white/75">
               <li>
-                <a href="#" className="hover:text-emerald-600 transition-colors">
+                <a href="#" className="hover:text-accent-400 transition-colors">
                   {lang === 'bn' ? 'প্রাইভেসি পলিসি' : 'Privacy Policy'}
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-emerald-600 transition-colors">
+                <a href="#" className="hover:text-accent-400 transition-colors">
                   {lang === 'bn' ? 'রিফান্ড ও রিটার্ন পলিসি' : 'Refund & Return Policy'}
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-emerald-600 transition-colors">
+                <a href="#" className="hover:text-accent-400 transition-colors">
                   {lang === 'bn' ? 'টার্মস ও কন্ডিশনস' : 'Terms & Conditions'}
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-emerald-600 transition-colors">
-                  {lang === 'bn' ? '১ বছর রিপ্লেসমেন্ট ওয়ারেন্টি' : 'Warranty Policy'}
+                <a href="#" className="hover:text-accent-400 transition-colors">
+                  {lang === 'bn' ? '১ বছর রিপ্লেসমেন্ট ওয়ারেন্টি' : 'Warranty Policy'}
                 </a>
               </li>
               <li>
                 <button
                   onClick={onOpenAuth}
-                  className="hover:text-emerald-600 transition-colors cursor-pointer"
+                  className="hover:text-accent-400 transition-colors cursor-pointer"
                 >
                   {lang === 'bn' ? 'অর্ডার ট্র্যাক করুন' : 'Order Tracking'}
                 </button>
@@ -115,14 +115,14 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* COLUMN 3: CATEGORIES & QUICK LINKS */}
           <div className="space-y-3">
-            <h4 className="text-sm font-black text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-2">
+            <h4 className="text-sm font-black text-white uppercase tracking-wider border-b border-white/10 pb-2">
               {lang === 'bn' ? 'ক্যাটাগরি সমূহ' : 'Quick Categories'}
             </h4>
-            <ul className="space-y-2 text-xs font-semibold text-slate-600">
+            <ul className="space-y-2 text-xs font-semibold text-white/75">
               <li>
                 <Link
                   to="/category/incubators"
-                  className="hover:text-emerald-600 transition-colors"
+                  className="hover:text-accent-400 transition-colors"
                 >
                   {lang === 'bn' ? 'অটোমেটিক ইনকিউবেটর' : 'Automatic Egg Incubators'}
                 </Link>
@@ -130,7 +130,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <Link
                   to="/category/parts"
-                  className="hover:text-emerald-600 transition-colors"
+                  className="hover:text-accent-400 transition-colors"
                 >
                   {lang === 'bn' ? 'XM-18 পার্টস ও কন্ট্রোলার' : 'Incubator Parts & Kits'}
                 </Link>
@@ -138,7 +138,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <Link
                   to="/category/ips-ups"
-                  className="hover:text-emerald-600 transition-colors"
+                  className="hover:text-accent-400 transition-colors"
                 >
                   {lang === 'bn' ? 'হোম আইপিএস ও ইনভার্টার' : 'Home UPS & IPS'}
                 </Link>
@@ -146,7 +146,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <Link
                   to="/category/battery"
-                  className="hover:text-emerald-600 transition-colors"
+                  className="hover:text-accent-400 transition-colors"
                 >
                   {lang === 'bn' ? 'টিউবুলার ব্যাটারি' : 'IPS & Solar Battery'}
                 </Link>
@@ -154,7 +154,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <button
                   onClick={onOpenVideos}
-                  className="hover:text-emerald-600 transition-colors cursor-pointer flex items-center gap-1 text-amber-600 font-bold"
+                  className="hover:text-accent-400 transition-colors cursor-pointer flex items-center gap-1 text-accent-400 font-bold"
                 >
                   <span>{lang === 'bn' ? 'ভিডিও টিউটোরিয়াল গ্যালারি' : 'Video Tutorials'}</span>
                 </button>
@@ -164,10 +164,10 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* COLUMN 4: ABOUT US & OFFICE HOURS */}
           <div className="space-y-3">
-            <h4 className="text-sm font-black text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-2">
+            <h4 className="text-sm font-black text-white uppercase tracking-wider border-b border-white/10 pb-2">
               {lang === 'bn' ? 'আমাদের সম্পর্কে' : 'About SumonIncubator'}
             </h4>
-            <p className="text-xs text-slate-600 leading-relaxed font-medium">
+            <p className="text-xs text-white/70 leading-relaxed font-medium">
               {lang === 'bn'
                 ? 'সুমন ইনকিউবেটর দীর্ঘ ৮ বছর ধরে সততা ও বিশ্বস্ততার সাথে খামারিদের সেবা দিয়ে আসছে।'
                 : 'Over 8 years of trusted service empowering poultry farmers across Bangladesh.'}
@@ -182,7 +182,7 @@ export const Footer: React.FC<FooterProps> = ({
                   ? 'শনিবার - বৃহস্পতিবার (সকাল ৯টা - রাত ৯টা)'
                   : 'Saturday - Thursday (9:00 AM - 9:00 PM)'}
               </p>
-              <p className="text-[11px] font-bold text-emerald-700 pt-1">
+              <p className="text-[11px] font-bold text-brand-700 pt-1">
                 bKash Merchant: 01700-000000
               </p>
             </div>
@@ -190,11 +190,11 @@ export const Footer: React.FC<FooterProps> = ({
         </div>
 
         {/* BOTTOM SECTION: PAYMENTS, COURIERS & SOCIALS */}
-        <div className="border-t border-slate-200 pt-8 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div className="border-t border-white/10 pt-5 sm:pt-8 space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-center">
             {/* Payment Methods */}
             <div>
-              <p className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">
+              <p className="text-[11px] font-extrabold text-white/60 uppercase tracking-wider mb-2">
                 {lang === 'bn' ? 'গৃহীত পেমেন্ট মাধ্যমসমূহ' : 'Accepted Payment Methods'}
               </p>
               <div className="flex flex-wrap items-center gap-2">
@@ -213,7 +213,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <span className="bg-red-600 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg">
                   Mastercard
                 </span>
-                <span className="bg-emerald-700 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg">
+                <span className="bg-brand-700 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg">
                   Cash on Delivery
                 </span>
               </div>
@@ -221,7 +221,7 @@ export const Footer: React.FC<FooterProps> = ({
 
             {/* Courier Partners */}
             <div>
-              <p className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">
+              <p className="text-[11px] font-extrabold text-white/60 uppercase tracking-wider mb-2">
                 {lang === 'bn' ? 'ডেলিভারি পার্টনারসমূহ' : 'Delivery Partners'}
               </p>
               <div className="flex flex-wrap items-center gap-2">
@@ -234,7 +234,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <span className="bg-white border border-slate-300 font-bold text-[11px] text-slate-800 px-2.5 py-1 rounded-lg">
                   RedX
                 </span>
-                <span className="bg-white border border-slate-300 font-bold text-[11px] text-emerald-700 px-2.5 py-1 rounded-lg">
+                <span className="bg-white border border-slate-300 font-bold text-[11px] text-brand-700 px-2.5 py-1 rounded-lg">
                   Sundarban
                 </span>
               </div>
@@ -242,7 +242,7 @@ export const Footer: React.FC<FooterProps> = ({
 
             {/* Social Media Circular Buttons */}
             <div className="flex items-center md:justify-end gap-3">
-              <span className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider hidden sm:inline">
+              <span className="text-[11px] font-extrabold text-white/60 uppercase tracking-wider hidden sm:inline">
                 {lang === 'bn' ? 'যুক্ত থাকুন:' : 'Follow Us:'}
               </span>
 
@@ -270,7 +270,7 @@ export const Footer: React.FC<FooterProps> = ({
                 href="https://wa.me/8801700000000"
                 target="_blank"
                 rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white shadow-xs transition-all"
+                className="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center text-brand-600 hover:bg-brand-600 hover:text-white shadow-xs transition-all"
                 title="WhatsApp Hotline"
               >
                 <MessageSquare className="w-4 h-4" />
@@ -278,7 +278,7 @@ export const Footer: React.FC<FooterProps> = ({
 
               <button
                 onClick={scrollToTop}
-                className="w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center hover:bg-emerald-700 shadow-sm transition-all cursor-pointer"
+                className="w-9 h-9 rounded-full bg-brand-600 text-white flex items-center justify-center hover:bg-brand-700 shadow-sm transition-all cursor-pointer"
                 title="Scroll to Top"
               >
                 <ArrowUp className="w-4 h-4" />
@@ -287,11 +287,11 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
 
           {/* Copyright line */}
-          <div className="pt-4 border-t border-slate-200/60 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 font-medium">
+          <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-white/60 font-medium">
             <p>
-              © 2026 <span className="font-extrabold text-slate-800">SumonIncubator</span>. All rights reserved. Designed for Bangladesh Poultry Industry.
+              © 2026 <span className="font-extrabold text-white">SumonIncubator</span>. All rights reserved. Designed for Bangladesh Poultry Industry.
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-white/50">
               {lang === 'bn'
                 ? 'কারিগরি সহায়তায়: সুমন টেকনোলজি টিম'
                 : 'Powered by Sumon Tech Engine'}

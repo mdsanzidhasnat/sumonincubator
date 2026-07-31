@@ -70,12 +70,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         className="absolute inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
         <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col border-l border-slate-200 animate-in slide-in-from-right duration-250">
           {/* HEADER */}
           <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <ShoppingBag className="w-5 h-5 text-emerald-400" />
+              <ShoppingBag className="w-5 h-5 text-brand-400" />
               <h3 className="text-base font-extrabold tracking-tight">
                 {lang === 'bn' ? 'আপনার শপিং কার্ট' : 'Shopping Cart'} ({cartItems.length})
               </h3>
@@ -89,8 +89,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           </div>
 
           {/* FREE SHIPPING PROGRESS METER */}
-          <div className="bg-emerald-50 p-3 border-b border-emerald-100 text-xs">
-            <div className="flex justify-between font-bold text-emerald-900 mb-1">
+          <div className="bg-brand-50 p-3 border-b border-brand-100 text-xs">
+            <div className="flex justify-between font-bold text-brand-900 mb-1">
               <span>
                 {subtotal >= freeShippingThreshold
                   ? lang === 'bn'
@@ -101,9 +101,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   : `Add BDT ${(freeShippingThreshold - subtotal).toLocaleString()} more for Free Shipping`}
               </span>
             </div>
-            <div className="w-full h-2 bg-emerald-200 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-brand-200 rounded-full overflow-hidden">
               <div
-                className="h-full bg-emerald-600 transition-all duration-300 rounded-full"
+                className="h-full bg-brand-600 transition-all duration-300 rounded-full"
                 style={{ width: `${progressToFreeShipping}%` }}
               />
             </div>
@@ -123,7 +123,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     </p>
                     <button
                       onClick={onClose}
-                      className="bg-emerald-600 text-white font-bold text-xs px-5 py-2.5 rounded-xl cursor-pointer"
+                      className="bg-brand-600 text-white font-bold text-xs px-5 py-2.5 rounded-xl cursor-pointer"
                     >
                       {lang === 'bn' ? 'প্রোডাক্ট কেনাকাটা শুরু করুন' : 'Start Shopping'}
                     </button>
@@ -142,7 +142,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                           <h4 className="text-xs font-bold text-slate-900 truncate">
                             {lang === 'bn' ? product.titleBn : product.title}
                           </h4>
-                          <p className="text-xs font-black text-emerald-600 mt-0.5">
+                          <p className="text-xs font-black text-brand-600 mt-0.5">
                             ৳ {product.price.toLocaleString()}
                           </p>
 
@@ -205,7 +205,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                     placeholder={lang === 'bn' ? 'যেমন: মোহাম্মদ রহিম' : 'e.g. Rahim Chowdhury'}
-                    className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 focus:bg-white focus:border-emerald-500 outline-none"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 focus:bg-white focus:border-brand-500 outline-none"
                   />
                 </div>
 
@@ -219,7 +219,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
                     placeholder="017XXXXXXXX"
-                    className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 focus:bg-white focus:border-emerald-500 outline-none"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 focus:bg-white focus:border-brand-500 outline-none"
                   />
                 </div>
 
@@ -233,7 +233,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     value={customerAddress}
                     onChange={(e) => setCustomerAddress(e.target.value)}
                     placeholder={lang === 'bn' ? 'যেমন: গ্রাম/রাস্তা, থানা, জেলা...' : 'House, Road, Thana, District...'}
-                    className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 focus:bg-white focus:border-emerald-500 outline-none"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs text-slate-900 focus:bg-white focus:border-brand-500 outline-none"
                   />
                 </div>
 
@@ -241,13 +241,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <label className="block text-slate-700 font-bold mb-1">
                     {lang === 'bn' ? 'পেমেন্ট মেথড সিলেক্ট করুন' : 'Select Payment Method'}
                   </label>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-1 xs:grid-cols-3 gap-2">
                     <button
                       type="button"
                       onClick={() => setPaymentMethod('cod')}
-                      className={`p-2.5 rounded-xl border text-center font-bold transition-all cursor-pointer ${
+                      className={`p-2.5 rounded-xl border text-center font-bold transition-all cursor-pointer text-[10px] sm:text-xs ${
                         paymentMethod === 'cod'
-                          ? 'border-emerald-600 bg-emerald-50 text-emerald-800'
+                          ? 'border-brand-600 bg-brand-50 text-brand-800'
                           : 'border-slate-300 bg-white text-slate-700'
                       }`}
                     >
@@ -256,7 +256,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     <button
                       type="button"
                       onClick={() => setPaymentMethod('bkash')}
-                      className={`p-2.5 rounded-xl border text-center font-bold transition-all cursor-pointer ${
+                      className={`p-2.5 rounded-xl border text-center font-bold transition-all cursor-pointer text-[10px] sm:text-xs ${
                         paymentMethod === 'bkash'
                           ? 'border-pink-600 bg-pink-50 text-pink-700'
                           : 'border-slate-300 bg-white text-slate-700'
@@ -267,7 +267,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     <button
                       type="button"
                       onClick={() => setPaymentMethod('nagad')}
-                      className={`p-2.5 rounded-xl border text-center font-bold transition-all cursor-pointer ${
+                      className={`p-2.5 rounded-xl border text-center font-bold transition-all cursor-pointer text-[10px] sm:text-xs ${
                         paymentMethod === 'nagad'
                           ? 'border-orange-600 bg-orange-50 text-orange-700'
                           : 'border-slate-300 bg-white text-slate-700'
@@ -288,14 +288,14 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     <span>৳ {shippingCost}</span>
                   </div>
                   {appliedDiscount > 0 && (
-                    <div className="flex justify-between font-semibold text-emerald-600">
+                    <div className="flex justify-between font-semibold text-brand-600">
                       <span>{lang === 'bn' ? 'কুপন ছাড়:' : 'Coupon Discount:'}</span>
                       <span>- ৳ {appliedDiscount}</span>
                     </div>
                   )}
                   <div className="flex justify-between font-black text-slate-900 text-xs pt-1 border-t border-slate-200">
                     <span>{lang === 'bn' ? 'সর্বমোট প্রদানযোগ্য:' : 'Grand Total:'}</span>
-                    <span className="text-emerald-700">৳ {finalTotal.toLocaleString()}</span>
+                    <span className="text-brand-700">৳ {finalTotal.toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -315,7 +315,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-2.5 rounded-xl shadow-md cursor-pointer"
+                    className="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-extrabold py-2.5 rounded-xl shadow-md cursor-pointer"
                   >
                     {lang === 'bn' ? 'অর্ডার কনফার্ম করুন' : 'Confirm Order'}
                   </button>
@@ -326,7 +326,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             {/* ORDER SUCCESS STEP */}
             {checkoutStep === 'success' && (
               <div className="text-center py-10 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                <div className="w-16 h-16 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
                 <h4 className="text-lg font-black text-slate-900">
@@ -345,7 +345,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     setCheckoutStep('cart');
                     onClose();
                   }}
-                  className="bg-emerald-600 text-white font-bold text-xs px-6 py-2.5 rounded-xl cursor-pointer shadow-md"
+                  className="bg-brand-600 text-white font-bold text-xs px-6 py-2.5 rounded-xl cursor-pointer shadow-md"
                 >
                   {lang === 'bn' ? 'কেনাকাটা চালিয়ে যান' : 'Continue Shopping'}
                 </button>
@@ -364,7 +364,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     onClick={() => setDeliveryArea('dhaka')}
                     className={`px-2 py-1 rounded-lg text-[11px] font-bold cursor-pointer ${
                       deliveryArea === 'dhaka'
-                        ? 'bg-emerald-600 text-white'
+                        ? 'bg-brand-600 text-white'
                         : 'bg-slate-100 text-slate-600'
                     }`}
                   >
@@ -374,7 +374,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     onClick={() => setDeliveryArea('outside')}
                     className={`px-2 py-1 rounded-lg text-[11px] font-bold cursor-pointer ${
                       deliveryArea === 'outside'
-                        ? 'bg-emerald-600 text-white'
+                        ? 'bg-brand-600 text-white'
                         : 'bg-slate-100 text-slate-600'
                     }`}
                   >
@@ -394,7 +394,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 />
                 <button
                   onClick={applyCoupon}
-                  className="bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-xl cursor-pointer hover:bg-emerald-700"
+                  className="bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-xl cursor-pointer hover:bg-brand-700"
                 >
                   {lang === 'bn' ? 'প্রয়োগ করুন' : 'Apply'}
                 </button>
@@ -412,20 +412,20 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <span>৳ {shippingCost}</span>
                 </div>
                 {appliedDiscount > 0 && (
-                  <div className="flex justify-between font-bold text-emerald-600">
+                  <div className="flex justify-between font-bold text-brand-600">
                     <span>{lang === 'bn' ? 'কুপন ডিসকাউন্ট:' : 'Discount:'}</span>
                     <span>- ৳ {appliedDiscount}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm font-black text-slate-900 pt-2 border-t border-slate-200">
                   <span>{lang === 'bn' ? 'সর্বমোট মূল্য:' : 'Grand Total:'}</span>
-                  <span className="text-emerald-700">৳ {finalTotal.toLocaleString()}</span>
+                  <span className="text-brand-700">৳ {finalTotal.toLocaleString()}</span>
                 </div>
               </div>
 
               <button
                 onClick={() => setCheckoutStep('checkout')}
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3 rounded-xl shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-all"
+                className="w-full bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-sm py-3 rounded-xl shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-all"
               >
                 <span>{lang === 'bn' ? 'অর্ডার করতে এগিয়ে যান' : 'Proceed to Checkout'}</span>
                 <ArrowRight className="w-4 h-4" />

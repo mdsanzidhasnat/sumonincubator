@@ -62,7 +62,7 @@ export const VideosModal: React.FC<VideosModalProps> = ({
                 </div>
 
                 <div className="p-3 space-y-1">
-                  <h4 className="text-xs font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-emerald-700">
+                  <h4 className="text-xs font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-brand-700">
                     {lang === 'bn' ? vid.titleBn : vid.title}
                   </h4>
                   <p className="text-[10px] text-slate-500 font-medium">

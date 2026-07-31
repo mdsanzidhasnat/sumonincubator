@@ -32,8 +32,8 @@ export const BestsellersSection: React.FC<BestsellersSectionProps> = ({
         {/* HEADER */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-black text-amber-800 uppercase tracking-widest bg-amber-100/80 px-3 py-1 rounded-full mb-2">
-              <Flame className="w-3.5 h-3.5 text-amber-600 fill-amber-500" />
+            <div className="inline-flex items-center gap-1.5 text-xs font-black text-accent-800 uppercase tracking-widest bg-accent-100/80 px-3 py-1 rounded-full mb-2">
+              <Flame className="w-3.5 h-3.5 text-accent-600 fill-accent-500" />
               <span>
                 {lang === 'bn' ? 'সবথেকে বেশি বিক্রিত' : 'Top Customer Choice'}
               </span>

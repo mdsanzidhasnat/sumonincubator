@@ -14,7 +14,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
       <div className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 space-y-8">
           <div className="text-center space-y-2">
-            <span className="text-xs font-black text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+            <span className="text-xs font-black text-brand-700 bg-brand-100 px-3 py-1 rounded-full uppercase tracking-wider">
               {lang === 'bn' ? 'আমাদের ইতিহাস ও বিশ্বাস' : 'Our Brand Story'}
             </span>
             <h1 className="text-3xl font-black text-slate-900">
@@ -29,7 +29,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center space-y-2">
-              <Award className="w-8 h-8 text-emerald-600 mx-auto" />
+              <Award className="w-8 h-8 text-brand-600 mx-auto" />
               <h3 className="text-base font-extrabold text-slate-900">
                 {lang === 'bn' ? '৯৮% হ্যাচিং গ্যারান্টি' : '98% Hatch Rate'}
               </h3>
@@ -41,7 +41,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
             </div>
 
             <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center space-y-2">
-              <ShieldCheck className="w-8 h-8 text-emerald-600 mx-auto" />
+              <ShieldCheck className="w-8 h-8 text-brand-600 mx-auto" />
               <h3 className="text-base font-extrabold text-slate-900">
                 {lang === 'bn' ? '১ বছর ওয়ারেন্টি' : '1 Year Replacement'}
               </h3>
@@ -53,7 +53,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
             </div>
 
             <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center space-y-2">
-              <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
+              <CheckCircle2 className="w-8 h-8 text-brand-600 mx-auto" />
               <h3 className="text-base font-extrabold text-slate-900">
                 {lang === 'bn' ? '৬৪ জেলায় ডেলিভারি' : 'Nationwide Courier'}
               </h3>
@@ -73,7 +73,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
     <div className="py-12 bg-white">
       <div className="max-w-4xl mx-auto px-4 space-y-8">
         <div className="text-center space-y-2">
-          <span className="text-xs font-black text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+          <span className="text-xs font-black text-brand-700 bg-brand-100 px-3 py-1 rounded-full uppercase tracking-wider">
             {lang === 'bn' ? 'যোগাযোগ করুন' : 'Contact Helpline'}
           </span>
           <h1 className="text-3xl font-black text-slate-900">
@@ -93,7 +93,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
             </h3>
             <div className="space-y-3 text-xs text-slate-700 font-medium">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-brand-600 shrink-0 mt-0.5" />
                 <div>
                   <p className="font-bold text-slate-900">Sumon Incubator Bangladesh</p>
                   <p>Plot 12, Road 4, Section 10, Mirpur, Dhaka-1216, Bangladesh</p>
@@ -101,7 +101,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
               </div>
 
               <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-emerald-600 shrink-0" />
+                <Phone className="w-5 h-5 text-brand-600 shrink-0" />
                 <div>
                   <p className="font-bold text-slate-900">Hotline Calls</p>
                   <p>01700-000000, 01900-123456</p>
@@ -109,7 +109,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
               </div>
 
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-emerald-600 shrink-0" />
+                <Mail className="w-5 h-5 text-brand-600 shrink-0" />
                 <div>
                   <p className="font-bold text-slate-900">Official Email</p>
                   <p>info@sumonincubator.com</p>
@@ -117,7 +117,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
               </div>
 
               <div className="flex items-center gap-3 pt-2">
-                <Clock className="w-5 h-5 text-emerald-600 shrink-0" />
+                <Clock className="w-5 h-5 text-brand-600 shrink-0" />
                 <div>
                   <p className="font-bold text-slate-900">Working Hours</p>
                   <p>Sat - Thu: 9:00 AM - 9:00 PM (Friday Closed)</p>
@@ -138,8 +138,8 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
             </h3>
 
             {submitted && (
-              <div className="bg-emerald-50 text-emerald-800 p-3 rounded-xl border border-emerald-200 text-xs font-bold flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+              <div className="bg-brand-50 text-brand-800 p-3 rounded-xl border border-brand-200 text-xs font-bold flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-brand-600 shrink-0" />
                 <span>
                   {lang === 'bn' ? 'ধন্যবাদ! আপনার বার্তাটি সফলভাবে পাওয়া গেছে।' : 'Thank you! Your message has been sent.'}
                 </span>
@@ -153,7 +153,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
               <input
                 type="text"
                 required
-                className="w-full bg-white border border-slate-300 rounded-xl p-2.5 outline-none focus:border-emerald-600"
+                className="w-full bg-white border border-slate-300 rounded-xl p-2.5 outline-none focus:border-brand-600"
               />
             </div>
 
@@ -164,7 +164,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
               <input
                 type="tel"
                 required
-                className="w-full bg-white border border-slate-300 rounded-xl p-2.5 outline-none focus:border-emerald-600"
+                className="w-full bg-white border border-slate-300 rounded-xl p-2.5 outline-none focus:border-brand-600"
               />
             </div>
 
@@ -175,13 +175,13 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
               <textarea
                 rows={3}
                 required
-                className="w-full bg-white border border-slate-300 rounded-xl p-2.5 outline-none focus:border-emerald-600"
+                className="w-full bg-white border border-slate-300 rounded-xl p-2.5 outline-none focus:border-brand-600"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl shadow-md cursor-pointer"
+              className="w-full bg-brand-600 hover:bg-brand-700 text-white font-extrabold py-3 rounded-xl shadow-md cursor-pointer"
             >
               {lang === 'bn' ? 'মেসেজ পাঠান' : 'Send Message'}
             </button>

@@ -51,7 +51,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         </button>
 
         <div className="text-center space-y-1">
-          <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+          <div className="w-12 h-12 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center mx-auto">
             <Smartphone className="w-6 h-6" />
           </div>
           <h3 className="text-lg font-black text-slate-900">
@@ -76,7 +76,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 {lang === 'bn' ? 'মোবাইল নম্বর (বাংলাদেশ)' : 'Mobile Number (BD)'}
               </label>
-              <div className="flex items-center border border-slate-300 rounded-xl overflow-hidden focus-within:border-emerald-500">
+              <div className="flex items-center border border-slate-300 rounded-xl overflow-hidden focus-within:border-brand-500">
                 <span className="bg-slate-100 px-3 py-2.5 text-xs font-bold text-slate-600 border-r border-slate-200">
                   +88
                 </span>
@@ -93,7 +93,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
             <button
               type="submit"
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs py-3 rounded-xl shadow-md cursor-pointer transition-all"
+              className="w-full bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs py-3 rounded-xl shadow-md cursor-pointer transition-all"
             >
               {lang === 'bn' ? 'ওটিপি কোড পাঠান (SMS)' : 'Send SMS OTP'}
             </button>
@@ -102,7 +102,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {step === 'otp' && (
           <form onSubmit={handleVerifyOtp} className="space-y-4">
-            <div className="bg-amber-50 p-2.5 rounded-xl text-[11px] text-amber-800 font-semibold text-center border border-amber-200">
+            <div className="bg-accent-50 p-2.5 rounded-xl text-[11px] text-accent-800 font-semibold text-center border border-accent-200">
               {lang === 'bn'
                 ? `ডেমো ওটিপি কোড: ১২৩৪ (পাঠানো হয়েছে ${phone} নম্বরে)`
                 : `Demo OTP Code: 1234 (Sent to ${phone})`}
@@ -119,13 +119,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 placeholder="1234"
-                className="w-full text-center tracking-widest font-mono text-lg border border-slate-300 rounded-xl p-2.5 outline-none focus:border-emerald-500"
+                className="w-full text-center tracking-widest font-mono text-lg border border-slate-300 rounded-xl p-2.5 outline-none focus:border-brand-500"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs py-3 rounded-xl shadow-md cursor-pointer transition-all"
+              className="w-full bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs py-3 rounded-xl shadow-md cursor-pointer transition-all"
             >
               {lang === 'bn' ? 'কোড যাচাই করুন' : 'Verify & Continue'}
             </button>
@@ -134,7 +134,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {step === 'success' && (
           <div className="text-center py-4 space-y-3">
-            <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
+            <CheckCircle2 className="w-12 h-12 text-brand-600 mx-auto" />
             <h4 className="text-base font-black text-slate-900">
               {lang === 'bn' ? 'লগইন সফল হয়েছে!' : 'Login Successful!'}
             </h4>
