@@ -1,0 +1,151 @@
+/*
+ * Sumon Incubator — shared admin sidebar for standalone pages
+ * (dashboard.html, add-product.html). Mirrors Mongoose Studio's
+ * left navigation so switching between Dashboard / Category / Product
+ * feels the same everywhere in the panel.
+ */
+
+body {
+  padding-left: 256px;
+}
+
+.si-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 256px;
+  display: flex;
+  flex-direction: column;
+  background: var(--studio-bg-page, #f8fafc);
+  border-right: 1px solid var(--studio-border, #e2e8f0);
+  z-index: 50;
+}
+
+.si-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border-bottom: 1px solid var(--studio-border, #e2e8f0);
+}
+
+.si-brand img {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+.si-brand-name {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.si-brand-sub {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--studio-text-muted, #64748b);
+}
+
+.si-close {
+  display: none;
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--studio-text-muted, #64748b);
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.si-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.si-section {
+  padding: 6px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--studio-text-muted, #64748b);
+}
+
+.si-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.si-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--studio-text-secondary, #334155);
+  text-decoration: none;
+  transition: background 0.12s, color 0.12s;
+}
+
+.si-link:hover {
+  background: var(--studio-bg-muted, #f1f5f9);
+}
+
+.si-link.active {
+  background: var(--studio-bg-subtle, #e2e8f0);
+  color: var(--studio-text-primary, #0f172a);
+  font-weight: 600;
+}
+
+.si-hamburger {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 0;
+  z-index: 60;
+  padding: 8px 9px;
+  background: var(--studio-bg-muted, #f1f5f9);
+  color: var(--studio-text-secondary, #334155);
+  border: 1px solid var(--studio-border, #e2e8f0);
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-left: 0;
+  }
+
+  .si-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    box-shadow: 0 0 24px rgba(15, 23, 42, 0.15);
+  }
+
+  .si-sidebar.si-open {
+    transform: translateX(0);
+  }
+
+  .si-close {
+    display: block;
+  }
+
+  .si-hamburger {
+    display: block;
+  }
+
+  body.si-open {
+    overflow: hidden;
+  }
+}

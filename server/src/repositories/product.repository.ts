@@ -26,6 +26,32 @@ export interface ProductListResult {
   total: number;
 }
 
+export const LOW_STOCK_THRESHOLD = 10;
+
+export interface ProductStatsFacet {
+  total: Array<{ count: number }>;
+  stockQty: Array<{ sum: number }>;
+  outOfStock: Array<{ count: number }>;
+  lowStock: Array<{ count: number }>;
+  bestsellers: Array<{ count: number }>;
+  featured: Array<{ count: number }>;
+  active: Array<{ count: number }>;
+  rating: Array<{ avg: number }>;
+  price: Array<{ min: number; max: number; avg: number }>;
+  discount: Array<{ avg: number }>;
+  byCategory: Array<{ _id: Types.ObjectId; count: number }>;
+}
+
+export interface RecentProductStat {
+  id: string;
+  sku: string;
+  title: string;
+  priceCents: number;
+  images: string[];
+  stockQty: number;
+  createdAt: Date;
+}
+
 interface ProductQuery {
   isActive: true;
   category?: Types.ObjectId;
@@ -159,5 +185,102 @@ export class ProductRepository {
   async delete(id: string): Promise<boolean> {
     const result = await ProductModel.deleteOne({ _id: id });
     return result.deletedCount > 0;
+  }
+
+  async getStats(): Promise<{ facet: ProductStatsFacet; recent: RecentProductStat[] }> {
+    const facetPipeline = [
+      {
+        $facet: {
+          total: [{ $count: 'count' }],
+          stockQty: [{ $group: { _id: null, sum: { $sum: '$stockQty' } } }],
+          outOfStock: [{ $match: { stockQty: 0 } }, { $count: 'count' }],
+          lowStock: [
+            { $match: { stockQty: { $gt: 0, $lt: LOW_STOCK_THRESHOLD } } },
+            { $count: 'count' },
+          ],
+          bestsellers: [{ $match: { isBestseller: true } }, { $count: 'count' }],
+          featured: [{ $match: { isFeatured: true } }, { $count: 'count' }],
+          active: [{ $match: { isActive: true } }, { $count: 'count' }],
+          rating: [{ $group: { _id: null, avg: { $avg: '$rating' } } }],
+          price: [
+            {
+              $group: {
+                _id: null,
+                min: { $min: '$priceCents' },
+                max: { $max: '$priceCents' },
+                avg: { $avg: '$priceCents' },
+              },
+            },
+          ],
+          discount: [
+            {
+              $project: {
+                d: {
+                  $cond: [
+                    {
+                      $and: [
+                        { $gt: ['$originalPriceCents', '$priceCents'] },
+                        { $gt: ['$originalPriceCents', 0] },
+                      ],
+                    },
+                    {
+                      $multiply: [
+                        { $subtract: [1, { $divide: ['$priceCents', '$originalPriceCents'] }] },
+                        100,
+                      ],
+                    },
+                    0,
+                  ],
+                },
+              },
+            },
+            { $group: { _id: null, avg: { $avg: '$d' } } },
+          ],
+          byCategory: [{ $group: { _id: '$category', count: { $sum: 1 } } }],
+        },
+      },
+    ];
+
+    const [facets, recentDocs] = await Promise.all([
+      ProductModel.aggregate<ProductStatsFacet>(facetPipeline),
+      ProductModel.find()
+        .sort({ createdAt: -1 })
+        .limit(5)
+        .select('sku title priceCents images stockQty createdAt')
+        .lean(),
+    ]);
+
+    return {
+      facet: facets[0] ?? {
+        total: [],
+        stockQty: [],
+        outOfStock: [],
+        lowStock: [],
+        bestsellers: [],
+        featured: [],
+        active: [],
+        rating: [],
+        price: [],
+        discount: [],
+        byCategory: [],
+      },
+      recent: (recentDocs as unknown as Array<{
+        _id: Types.ObjectId;
+        sku: string;
+        title: string;
+        priceCents: number;
+        images: string[];
+        stockQty: number;
+        createdAt: Date;
+      }>).map((doc) => ({
+        id: doc._id.toString(),
+        sku: doc.sku,
+        title: doc.title,
+        priceCents: doc.priceCents,
+        images: doc.images,
+        stockQty: doc.stockQty,
+        createdAt: doc.createdAt,
+      })),
+    };
   }
 }

@@ -23,6 +23,13 @@ export class ProductController {
     res.status(200).json(result);
   });
 
+  stats = asyncHandler(async (_req: Request, res: Response) => {
+    const stats = await this.service.getStats();
+
+    res.setHeader('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
+    res.status(200).json(stats);
+  });
+
   get = asyncHandler(async (req: Request, res: Response) => {
     const { slugOrId } = req.params as { slugOrId: string };
     const product = await this.service.getBySlugOrId(slugOrId);

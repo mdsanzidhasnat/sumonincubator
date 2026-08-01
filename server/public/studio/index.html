@@ -59,6 +59,104 @@
 
     <script src="vendor/prism.js" data-manual="true"></script>
     <script src="vendor/chart.umd.js"></script>
+    <script>
+      (function () {
+        try {
+          var KNOWN = { category: 'Category', product: 'Product' };
+
+          function fixHash() {
+            var h = location.hash || '';
+            if (!h) return;
+            var m = h.match(/^#\/model\/([^/?]+)/);
+            if (!m) return;
+            var exact = KNOWN[m[1].toLowerCase()];
+            if (exact && m[1] !== exact) {
+              var fixed = h.replace(m[1], exact);
+              if (history.replaceState) {
+                history.replaceState(null, '', fixed);
+              } else {
+                location.hash = fixed;
+              }
+            }
+          }
+
+          function sanitizeModels(list) {
+            return list
+              .filter(function (m) { return typeof m === 'string'; })
+              .map(function (m) { return KNOWN[m.toLowerCase()] || m; })
+              .filter(function (m) { return KNOWN[m.toLowerCase()] !== undefined; });
+          }
+
+          function sanitizePages(list) {
+            return list.map(function (entry) {
+              if (entry && typeof entry.path === 'string') {
+                entry.path = entry.path.replace(
+                  /^\/model\/(category|product)(?=\/|$)/i,
+                  function (_, name) { return '/model/' + KNOWN[name.toLowerCase()]; }
+                );
+              }
+              return entry;
+            });
+          }
+
+          function sanitizeStorage(key, fn) {
+            var raw = localStorage.getItem(key);
+            if (!raw) return;
+            var parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+              localStorage.setItem(key, JSON.stringify(fn(parsed)));
+            }
+          }
+
+          fixHash();
+          sanitizeStorage('studio:recently-viewed-models', sanitizeModels);
+          sanitizeStorage('studio:recent-pages-history', sanitizePages);
+        } catch (err) { /* ignore */ }
+      })();
+    </script>
     <script src="./app.js"></script>
+    <script>
+      (function () {
+        var MARKER = 'sidebar-dashboard-link';
+
+        function isDashboardActive() {
+          return /dashboard\.html/.test(window.location.href);
+        }
+
+        function inject() {
+          if (document.getElementById(MARKER)) return;
+          var nav = document.querySelector('.models aside nav');
+          if (!nav) return;
+
+          var header = null;
+          var labels = nav.querySelectorAll('div');
+          for (var i = 0; i < labels.length; i++) {
+            var text = (labels[i].textContent || '').trim();
+            if (text.indexOf('All Models') === 0 || text.indexOf('Search Results') === 0) {
+              header = labels[i];
+              break;
+            }
+          }
+          if (!header) return;
+          var list = header.nextElementSibling;
+          if (!list || list.tagName !== 'UL') return;
+          if (list.querySelector('#' + MARKER)) return;
+
+          var li = document.createElement('li');
+          li.id = MARKER;
+          var a = document.createElement('a');
+          a.href = 'dashboard.html';
+          a.className =
+            'flex items-center rounded-md py-1.5 px-2 text-sm text-content-secondary' +
+            (isDashboardActive() ? ' bg-gray-200 font-semibold text-content' : ' hover:bg-muted');
+          a.textContent = 'Dashboard';
+          li.appendChild(a);
+          list.insertBefore(li, list.firstChild);
+        }
+
+        inject();
+        new MutationObserver(inject).observe(document.body, { childList: true, subtree: true });
+      })();
+    </script>
   </body>
 </html>

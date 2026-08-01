@@ -62,6 +62,7 @@ export function productRoutes(controller: ProductController): Router {
   const router = Router();
 
   router.get('/', validate(listSchema), controller.list);
+  router.get('/stats', controller.stats);
   router.get('/:slugOrId', validate(slugOrIdParamsSchema), controller.get);
   router.post('/', validate(createSchema), controller.create);
   router.put('/:id', validate(updateSchema), controller.update);

@@ -43,6 +43,31 @@ export interface ProductListResponse {
   totalPages: number;
 }
 
+export interface ProductStatsDto {
+  totals: {
+    products: number;
+    stockQty: number;
+    outOfStock: number;
+    lowStock: number;
+    bestsellers: number;
+    featured: number;
+    active: number;
+    avgRating: number;
+    avgDiscountPct: number;
+  };
+  price: { min: number; avg: number; max: number };
+  byCategory: Array<{ key: string; name: string; nameBn: string; count: number }>;
+  recent: Array<{
+    id: string;
+    sku: string;
+    title: string;
+    price: number;
+    image: string;
+    stockQty: number;
+    createdAt: Date;
+  }>;
+}
+
 export interface ProductCreateInput {
   sku: string;
   title: string;
@@ -199,6 +224,55 @@ export class ProductService {
   async remove(id: string): Promise<void> {
     const deleted = await this.repository.delete(id);
     if (!deleted) throw new AppError(404, 'Product not found', 'PRODUCT_NOT_FOUND');
+  }
+
+  async getStats(): Promise<ProductStatsDto> {
+    const { facet, recent } = await this.repository.getStats();
+
+    const categoryIds = facet.byCategory.map((c) => c._id);
+    const categories = await CategoryModel.find({ _id: { $in: categoryIds } }).lean();
+    const catById = new Map(categories.map((c) => [c._id.toString(), c]));
+
+    const byCategory = facet.byCategory
+      .map((c) => {
+        const cat = catById.get(c._id.toString());
+        return {
+          key: cat?.key ?? 'unknown',
+          name: cat?.name ?? 'Unknown',
+          nameBn: cat?.nameBn ?? '',
+          count: c.count,
+        };
+      })
+      .sort((a, b) => b.count - a.count);
+
+    return {
+      totals: {
+        products: facet.total[0]?.count ?? 0,
+        stockQty: facet.stockQty[0]?.sum ?? 0,
+        outOfStock: facet.outOfStock[0]?.count ?? 0,
+        lowStock: facet.lowStock[0]?.count ?? 0,
+        bestsellers: facet.bestsellers[0]?.count ?? 0,
+        featured: facet.featured[0]?.count ?? 0,
+        active: facet.active[0]?.count ?? 0,
+        avgRating: Math.round((facet.rating[0]?.avg ?? 0) * 10) / 10,
+        avgDiscountPct: Math.round((facet.discount[0]?.avg ?? 0) * 10) / 10,
+      },
+      price: {
+        min: (facet.price[0]?.min ?? 0) / 100,
+        avg: Math.round((facet.price[0]?.avg ?? 0)) / 100,
+        max: (facet.price[0]?.max ?? 0) / 100,
+      },
+      byCategory,
+      recent: recent.map((p) => ({
+        id: p.id,
+        sku: p.sku,
+        title: p.title,
+        price: p.priceCents / 100,
+        image: p.images[0] ?? '',
+        stockQty: p.stockQty,
+        createdAt: p.createdAt,
+      })),
+    };
   }
 
   private async uniqueSlug(base: string): Promise<string> {

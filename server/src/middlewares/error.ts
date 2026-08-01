@@ -49,6 +49,16 @@ export function errorHandler(
     return;
   }
 
+  if (err && typeof err === 'object' && (err as { type?: string }).type === 'entity.too.large') {
+    res.status(413).json({
+      error: {
+        code: 'PAYLOAD_TOO_LARGE',
+        message: 'Request body exceeds the 100KB limit',
+      },
+    });
+    return;
+  }
+
   console.error('Unhandled error', err);
   res.status(500).json({
     error: { code: 'INTERNAL_ERROR', message: 'Something went wrong' },

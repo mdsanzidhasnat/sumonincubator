@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import express, { type Express } from 'express';
+import express, { type Express, type Request } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -23,6 +23,40 @@ const studioStaticDir = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   '../public/studio',
 );
+
+function normalizeStudioModelParam(req: Request): void {
+  const models = Object.keys(mongoose.models);
+  if (models.length === 0) {
+    return;
+  }
+  const fix = (value: unknown): unknown => {
+    if (typeof value !== 'string') {
+      return value;
+    }
+    const match = models.find((name) => name.toLowerCase() === value.toLowerCase());
+    return match ?? value;
+  };
+
+  const originalQuery = req.query;
+  const hasQueryModel = typeof originalQuery?.model === 'string';
+  const body = req.body as Record<string, unknown> | undefined;
+  const hasBodyModel = body != null && typeof body === 'object' && typeof body.model === 'string';
+  if (!hasQueryModel && !hasBodyModel) {
+    return;
+  }
+
+  if (hasQueryModel) {
+    const normalized = { ...originalQuery, model: fix(originalQuery.model) };
+    Object.defineProperty(req, 'query', {
+      configurable: true,
+      enumerable: true,
+      get: () => normalized,
+    });
+  }
+  if (hasBodyModel) {
+    body.model = fix(body.model);
+  }
+}
 
 export async function createApp(deps: AppDeps): Promise<Express> {
   const app = express();
@@ -46,8 +80,13 @@ export async function createApp(deps: AppDeps): Promise<Express> {
 
   if (env.STUDIO_ENABLED) {
     const studioOptions = env.STUDIO_BIND_IP ? { bindIp: env.STUDIO_BIND_IP } : undefined;
-    app.use(env.STUDIO_PATH, (_req, res, next) => {
+    app.use(env.STUDIO_PATH, (req, res, next) => {
       res.removeHeader('Content-Security-Policy');
+      if (req.path === '/' || req.path === '') {
+        res.redirect(302, `${env.STUDIO_PATH}/dashboard.html`);
+        return;
+      }
+      normalizeStudioModelParam(req);
       next();
     });
     app.use(env.STUDIO_PATH, express.static(studioStaticDir));
