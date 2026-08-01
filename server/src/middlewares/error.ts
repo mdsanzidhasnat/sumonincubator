@@ -1,4 +1,5 @@
 import type { NextFunction, Request, RequestHandler, Response } from 'express';
+import { MulterError } from 'multer';
 
 import { AppError } from '../errors/app-error.js';
 
@@ -36,6 +37,14 @@ export function errorHandler(
         message: err.message,
         ...(err.details !== undefined ? { details: err.details } : {}),
       },
+    });
+    return;
+  }
+
+  if (err instanceof MulterError) {
+    const status = err.code === 'LIMIT_FILE_SIZE' ? 413 : 400;
+    res.status(status).json({
+      error: { code: err.code, message: err.message },
     });
     return;
   }

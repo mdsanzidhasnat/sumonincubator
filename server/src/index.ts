@@ -9,6 +9,7 @@ import { connectDb, disconnectDb } from './config/db.js';
 import { ProductRepository } from './repositories/product.repository.js';
 import { ProductService } from './services/product.service.js';
 import { ProductController } from './controllers/product.controller.js';
+import { UploadController } from './controllers/upload.controller.js';
 
 export async function start(): Promise<void> {
   await connectDb();
@@ -16,8 +17,9 @@ export async function start(): Promise<void> {
   const repository = new ProductRepository();
   const service = new ProductService(repository);
   const productController = new ProductController(service);
+  const uploadController = new UploadController();
 
-  const app = await createApp({ productController });
+  const app = await createApp({ productController, uploadController });
 
   await new Promise<void>((resolve, reject) => {
     const server = app.listen(env.PORT);

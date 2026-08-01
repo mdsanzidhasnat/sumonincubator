@@ -10,10 +10,13 @@ import studio from '@mongoosejs/studio/express.js';
 import { corsOrigins, env } from './config/env.js';
 import { errorHandler, notFoundHandler } from './middlewares/error.js';
 import { productRoutes } from './routes/product.routes.js';
+import { uploadRoutes } from './routes/upload.routes.js';
 import type { ProductController } from './controllers/product.controller.js';
+import type { UploadController } from './controllers/upload.controller.js';
 
 export interface AppDeps {
   productController: ProductController;
+  uploadController: UploadController;
 }
 
 const studioStaticDir = path.resolve(
@@ -39,6 +42,7 @@ export async function createApp(deps: AppDeps): Promise<Express> {
   });
 
   app.use('/api/v1/products', productRoutes(deps.productController));
+  app.use('/api/v1/uploads', uploadRoutes(deps.uploadController, env.STUDIO_ENABLED));
 
   if (env.STUDIO_ENABLED) {
     const studioOptions = env.STUDIO_BIND_IP ? { bindIp: env.STUDIO_BIND_IP } : undefined;

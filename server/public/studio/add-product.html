@@ -131,6 +131,28 @@
       .spinner { display: none; }
       button.primary.loading .spinner { display: inline-block; }
       button.primary.loading .label { display: none; }
+      #dropzone {
+        border: 1.5px dashed var(--studio-border-strong, #cbd5e1);
+        border-radius: 10px;
+        padding: 18px;
+        text-align: center;
+        cursor: pointer;
+        background: var(--studio-bg-muted, #f1f5f9);
+        transition: border-color .15s, background .15s;
+      }
+      #dropzone:hover { border-color: var(--studio-focus-ring, #059669); }
+      #dropzone.drag { border-color: var(--studio-focus-ring, #059669); background: var(--studio-brand-primary-subtle, rgba(5,150,105,.08)); }
+      .dz-inner { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+      #uploadStatus { min-height: 16px; }
+      .previews { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+      .thumb { position: relative; width: 72px; height: 72px; border-radius: 8px; overflow: hidden; border: 1px solid var(--studio-border, #e2e8f0); }
+      .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .thumb button {
+        position: absolute; top: 2px; right: 2px; width: 20px; height: 20px;
+        border: none; border-radius: 50%; background: rgba(0,0,0,.55); color: #fff;
+        font-size: 14px; line-height: 1; cursor: pointer;
+      }
+      .thumb button:hover { background: rgba(0,0,0,.8); }
       @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
     </style>
   </head>
@@ -210,9 +232,21 @@
       <section class="card">
         <h2>Images</h2>
         <div class="field full">
-          <label for="images">Image URLs <span class="hint">— one per line, up to 10</span></label>
-          <textarea id="images" rows="4" placeholder="https://.../1.jpg&#10;https://.../2.jpg"></textarea>
-          <span class="err">Enter valid image URLs (max 10)</span>
+          <label for="fileInput">Upload images</label>
+          <div id="dropzone" tabindex="0" role="button" aria-label="Upload product images">
+            <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple hidden />
+            <div class="dz-inner">
+              <strong>Click or drag images here</strong>
+              <span class="hint">JPG, PNG, WebP or GIF · max 5 MB each · 10 images total</span>
+              <span id="uploadStatus" class="hint"></span>
+            </div>
+          </div>
+          <div id="previews" class="previews"></div>
+        </div>
+        <div class="field full" style="margin-top:14px">
+          <label for="images">Or paste image URLs <span class="hint">— one per line; combined with uploads, max 10</span></label>
+          <textarea id="images" rows="3" placeholder="https://.../1.jpg&#10;https://.../2.jpg"></textarea>
+          <span class="err">Enter valid image URLs (max 10 total)</span>
         </div>
       </section>
 
@@ -275,6 +309,104 @@
         banner.innerHTML = '';
       }
 
+      const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
+      const MAX_FILE_BYTES = 5 * 1024 * 1024;
+      const MAX_IMAGES = 10;
+      let uploadedUrls = [];
+      const previewsEl = $('previews');
+      const dropzone = $('dropzone');
+      const uploadStatus = $('uploadStatus');
+
+      function combinedImages() {
+        const manual = $('images').value.split('\n').map((s) => s.trim()).filter(Boolean);
+        return uploadedUrls.concat(manual);
+      }
+
+      function renderPreviews() {
+        previewsEl.innerHTML = '';
+        uploadedUrls.forEach((url, i) => {
+          const wrap = document.createElement('div');
+          wrap.className = 'thumb';
+          const img = document.createElement('img');
+          img.src = url;
+          img.alt = 'Uploaded image';
+          const rm = document.createElement('button');
+          rm.type = 'button';
+          rm.textContent = '\u00d7';
+          rm.title = 'Remove image';
+          rm.addEventListener('click', () => {
+            uploadedUrls.splice(i, 1);
+            renderPreviews();
+            hideBanner();
+          });
+          wrap.append(img, rm);
+          previewsEl.appendChild(wrap);
+        });
+      }
+
+      async function uploadFiles(fileList) {
+        const files = Array.from(fileList).filter((f) => ALLOWED_TYPES.has(f.type));
+        if (!files.length) {
+          showBanner('error', 'Only JPG, PNG, WebP or GIF images are accepted.');
+          return;
+        }
+        const tooBig = files.find((f) => f.size > MAX_FILE_BYTES);
+        if (tooBig) {
+          showBanner('error', '"' + tooBig.name + '" exceeds the 5 MB limit.');
+          return;
+        }
+        if (uploadedUrls.length + files.length > MAX_IMAGES) {
+          showBanner('error', 'Maximum ' + MAX_IMAGES + ' images total.');
+          return;
+        }
+
+        hideBanner();
+        const fd = new FormData();
+        files.forEach((f) => fd.append('images', f));
+        uploadStatus.textContent = 'Uploading ' + files.length + ' image' + (files.length > 1 ? 's' : '') + '\u2026';
+        try {
+          const res = await fetch('/api/v1/uploads/products', { method: 'POST', body: fd });
+          const data = await res.json();
+          if (!res.ok) {
+            const msg = (data.error && data.error.message) || 'Upload failed (' + res.status + ').';
+            throw new Error(msg);
+          }
+          uploadedUrls.push.apply(uploadedUrls, data.urls);
+          renderPreviews();
+          uploadStatus.textContent = 'Uploaded ' + data.urls.length + ' image' + (data.urls.length > 1 ? 's' : '') + '.';
+        } catch (err) {
+          uploadStatus.textContent = '';
+          showBanner('error', 'Image upload failed: ' + err.message);
+        }
+      }
+
+      $('fileInput').addEventListener('change', () => {
+        if ($('fileInput').files.length) uploadFiles($('fileInput').files);
+        $('fileInput').value = '';
+      });
+      dropzone.addEventListener('click', () => $('fileInput').click());
+      dropzone.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          $('fileInput').click();
+        }
+      });
+      ['dragenter', 'dragover'].forEach((evt) =>
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          dropzone.classList.add('drag');
+        }),
+      );
+      ['dragleave', 'drop'].forEach((evt) =>
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          dropzone.classList.remove('drag');
+        }),
+      );
+      dropzone.addEventListener('drop', (e) => {
+        if (e.dataTransfer && e.dataTransfer.files.length) uploadFiles(e.dataTransfer.files);
+      });
+
       function urlOk(value) {
         try { return new URL(value) && true; } catch (_) { return false; }
       }
@@ -291,8 +423,8 @@
             return Number.isFinite(v) && v >= 0 && v <= 5;
           }],
           ['images', () => {
-            const urls = $('images').value.split('\n').map((s) => s.trim()).filter(Boolean);
-            return urls.length <= 10 && urls.every(urlOk);
+            const urls = combinedImages();
+            return urls.length <= MAX_IMAGES && urls.every(urlOk);
           }],
         ];
         checks.forEach(([id, test]) => {
@@ -331,7 +463,7 @@
           stockQty: Math.round(Number($('stockQty').value) || 0),
           rating: Number($('rating').value) || 0,
           reviewCount: Math.round(Number($('reviewCount').value) || 0),
-          images: $('images').value.split('\n').map((s) => s.trim()).filter(Boolean),
+          images: combinedImages(),
           isBestseller: $('isBestseller').checked,
           isFeatured: $('isFeatured').checked,
           specs,
@@ -391,6 +523,9 @@
         $('isFeatured').checked = false;
         $('categoryKey').selectedIndex = 0;
         $('currency').value = 'BDT';
+        uploadedUrls = [];
+        renderPreviews();
+        uploadStatus.textContent = '';
         document.querySelectorAll('.field').forEach((f) => f.classList.remove('invalid'));
         hideBanner();
       });
