@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Add Product · Sumon Incubator Admin</title>
+    <link rel="stylesheet" href="vendor/inter.css" />
+    <link rel="stylesheet" href="vendor/hind-siliguri.css" />
+    <link rel="stylesheet" href="custom.css" />
+    <link rel="icon" href="images/logo.svg" type="image/svg+xml" />
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--studio-bg-page, #f8fafc);
+        color: var(--studio-text-primary, #0f172a);
+        font-family: "Inter", "Hind Siliguri", system-ui, sans-serif;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 24px;
+        background: var(--studio-bg-surface, #fff);
+        border-bottom: 1px solid var(--studio-border, #e2e8f0);
+      }
+      header img { width: 30px; height: 30px; border-radius: 8px; }
+      header .brand { font-weight: 700; font-size: 15px; }
+      header .brand small { display: block; font-weight: 500; font-size: 12px; color: var(--studio-text-muted, #64748b); }
+      header .spacer { flex: 1; }
+      header a.back {
+        color: var(--studio-link, #047857);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      header a.back:hover { text-decoration: underline; }
+      main { max-width: 720px; margin: 0 auto; padding: 24px 20px 96px; }
+      section.card {
+        background: var(--studio-bg-surface, #fff);
+        border: 1px solid var(--studio-border, #e2e8f0);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+      section.card h2 {
+        margin: 0 0 16px;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--studio-text-muted, #64748b);
+      }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      .field { display: flex; flex-direction: column; gap: 6px; }
+      .field.full { grid-column: 1 / -1; }
+      label { font-size: 13px; font-weight: 600; color: var(--studio-text-secondary, #334155); }
+      label .req { color: var(--color-primary, #059669); }
+      input[type="text"], input[type="number"], select, textarea {
+        width: 100%;
+        padding: 9px 11px;
+        font: inherit;
+        font-size: 14px;
+        color: var(--studio-text-primary, #0f172a);
+        background: var(--studio-bg-surface, #fff);
+        border: 1px solid var(--studio-border-strong, #cbd5e1);
+        border-radius: 8px;
+        outline: none;
+        transition: border-color .15s, box-shadow .15s;
+      }
+      input:focus, select:focus, textarea:focus {
+        border-color: var(--studio-focus-ring, #059669);
+        box-shadow: 0 0 0 3px var(--studio-focus-ring-shadow, rgba(5,150,105,.25));
+      }
+      textarea { resize: vertical; min-height: 72px; font-family: ui-monospace, "Cascadia Code", monospace; font-size: 13px; }
+      .hint { font-size: 12px; color: var(--studio-text-muted, #64748b); }
+      .err { font-size: 12px; color: var(--studio-text-error, #b91c1c); display: none; }
+      .field.invalid input, .field.invalid textarea { border-color: var(--studio-border-error, #fecaca); }
+      .field.invalid .err { display: block; }
+      .checks { display: flex; gap: 22px; flex-wrap: wrap; }
+      .check { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+      .check input { width: 16px; height: 16px; accent-color: var(--color-primary, #059669); }
+      .banner {
+        display: none;
+        padding: 12px 14px;
+        border-radius: 10px;
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
+      .banner.error { display: block; background: var(--studio-bg-error, #fef2f2); color: var(--studio-text-error, #b91c1c); border: 1px solid var(--studio-border-error, #fecaca); }
+      .banner.success {
+        display: block;
+        background: var(--studio-bg-success, #f0fdf4);
+        color: var(--studio-text-success, #15803d);
+        border: 1px solid var(--studio-border-success, #bbf7d0);
+      }
+      .banner.success .slug { font-family: ui-monospace, monospace; }
+      .banner.success a { color: var(--studio-link, #047857); font-weight: 600; }
+      .actions { display: flex; gap: 12px; margin-top: 4px; }
+      button.primary {
+        flex: 1;
+        padding: 11px 16px;
+        font: inherit;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--color-primary-text, #fff);
+        background: var(--color-primary, #059669);
+        border: none;
+        border-radius: 9px;
+        cursor: pointer;
+        transition: background .15s;
+      }
+      button.primary:hover { background: var(--color-primary-hover, #047857); }
+      button.primary:disabled { opacity: .6; cursor: not-allowed; }
+      button.secondary {
+        padding: 11px 16px;
+        font: inherit;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--studio-text-secondary, #334155);
+        background: var(--studio-bg-muted, #f1f5f9);
+        border: 1px solid var(--studio-border, #e2e8f0);
+        border-radius: 9px;
+        cursor: pointer;
+      }
+      button.secondary:hover { background: var(--studio-bg-muted-hover, #e2e8f0); }
+      .spinner { display: none; }
+      button.primary.loading .spinner { display: inline-block; }
+      button.primary.loading .label { display: none; }
+      @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img src="images/logo.svg" alt="Sumon Incubator" />
+      <div class="brand">Sumon Incubator<small>Admin · Add Product</small></div>
+      <div class="spacer"></div>
+      <a class="back" href="./">&larr; Back to panel</a>
+    </header>
+
+    <main>
+      <div id="banner" class="banner"></div>
+
+      <section class="card">
+        <h2>Basics</h2>
+        <div class="grid">
+          <div class="field">
+            <label for="sku">SKU <span class="req">*</span></label>
+            <input id="sku" type="text" maxlength="64" placeholder="e.g. INC-AUTO-56-1" />
+            <span class="err">SKU is required</span>
+          </div>
+          <div class="field">
+            <label for="categoryKey">Category <span class="req">*</span></label>
+            <select id="categoryKey"></select>
+          </div>
+          <div class="field">
+            <label for="title">Title (English) <span class="req">*</span></label>
+            <input id="title" type="text" maxlength="200" placeholder="e.g. 56 Egg Automatic Incubator" />
+            <span class="err">Title is required</span>
+          </div>
+          <div class="field">
+            <label for="titleBn">Title (বাংলা) <span class="req">*</span></label>
+            <input id="titleBn" type="text" maxlength="200" placeholder="যেমন: ৫৬ ডিম অটোমেটিক ইনকিউবেটর" />
+            <span class="err">Bangla title is required</span>
+          </div>
+          <div class="field">
+            <label for="price">Price (৳) <span class="req">*</span></label>
+            <input id="price" type="number" min="0" step="1" placeholder="e.g. 12500" />
+            <span class="err">Enter a valid price</span>
+          </div>
+          <div class="field">
+            <label for="originalPrice">Original price (৳)</label>
+            <input id="originalPrice" type="number" min="0" step="1" placeholder="Optional; enables discount%" />
+          </div>
+          <div class="field">
+            <label for="currency">Currency</label>
+            <select id="currency">
+              <option value="BDT" selected>BDT</option>
+              <option value="USD">USD</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="stockQty">Stock quantity</label>
+            <input id="stockQty" type="number" min="0" step="1" value="0" />
+          </div>
+          <div class="field">
+            <label for="rating">Rating (0–5)</label>
+            <input id="rating" type="number" min="0" max="5" step="0.1" value="0" />
+            <span class="err">Rating must be between 0 and 5</span>
+          </div>
+          <div class="field">
+            <label for="reviewCount">Review count</label>
+            <input id="reviewCount" type="number" min="0" step="1" value="0" />
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Flags</h2>
+        <div class="checks">
+          <label class="check"><input id="isBestseller" type="checkbox" /> Bestseller</label>
+          <label class="check"><input id="isFeatured" type="checkbox" /> Featured</label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Images</h2>
+        <div class="field full">
+          <label for="images">Image URLs <span class="hint">— one per line, up to 10</span></label>
+          <textarea id="images" rows="4" placeholder="https://.../1.jpg&#10;https://.../2.jpg"></textarea>
+          <span class="err">Enter valid image URLs (max 10)</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Specifications</h2>
+        <div class="field full">
+          <label for="specs">Specs <span class="hint">— one <code>key = value</code> per line</span></label>
+          <textarea id="specs" rows="5" placeholder="Capacity = 56 eggs&#10;Power = 80W&#10;Voltage = 220V"></textarea>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Description</h2>
+        <div class="field full">
+          <label for="description">English</label>
+          <textarea id="description" rows="4" maxlength="5000"></textarea>
+        </div>
+        <div class="field full" style="margin-top:14px">
+          <label for="descriptionBn">বাংলা</label>
+          <textarea id="descriptionBn" rows="4" maxlength="5000"></textarea>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button class="secondary" id="resetBtn" type="button">Reset</button>
+        <button class="primary" id="submitBtn" type="button">
+          <span class="spinner">Saving…</span>
+          <span class="label">Add Product</span>
+        </button>
+      </div>
+    </main>
+
+    <script>
+      const CATEGORIES = [
+        { key: 'incubators', name: 'Automatic Egg Incubators', nameBn: 'অটোমেটিক ইনকিউবেটর' },
+        { key: 'parts', name: 'Incubator Parts & Kits', nameBn: 'ইনকিউবেটর পার্টস ও কিটস' },
+        { key: 'ips-ups', name: 'Home UPS & IPS', nameBn: 'হোম ইউপিএস ও আইপিএস' },
+        { key: 'battery', name: 'Solar & IPS Battery', nameBn: 'আইপিএস ও সোলার ব্যাটারি' },
+        { key: 'agri-tools', name: 'Agriculture Tools', nameBn: 'কৃষি প্রযুক্তি সরঞ্জাম' },
+        { key: 'gadgets', name: 'Electronic Gadgets', nameBn: 'ইলেকট্রনিক গ্যাজেট ও টাইমাস' },
+      ];
+
+      const $ = (id) => document.getElementById(id);
+      const banner = $('banner');
+
+      CATEGORIES.forEach((c) => {
+        const opt = document.createElement('option');
+        opt.value = c.key;
+        opt.textContent = c.name + ' — ' + c.nameBn;
+        $('categoryKey').appendChild(opt);
+      });
+
+      function showBanner(type, html) {
+        banner.className = 'banner ' + type;
+        banner.innerHTML = html;
+        banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      function hideBanner() {
+        banner.className = 'banner';
+        banner.innerHTML = '';
+      }
+
+      function urlOk(value) {
+        try { return new URL(value) && true; } catch (_) { return false; }
+      }
+
+      function validate() {
+        let ok = true;
+        const checks = [
+          ['sku', () => $('sku').value.trim().length > 0],
+          ['title', () => $('title').value.trim().length > 0],
+          ['titleBn', () => $('titleBn').value.trim().length > 0],
+          ['price', () => Number($('price').value) >= 0 && Number.isFinite(Number($('price').value))],
+          ['rating', () => {
+            const v = Number($('rating').value);
+            return Number.isFinite(v) && v >= 0 && v <= 5;
+          }],
+          ['images', () => {
+            const urls = $('images').value.split('\n').map((s) => s.trim()).filter(Boolean);
+            return urls.length <= 10 && urls.every(urlOk);
+          }],
+        ];
+        checks.forEach(([id, test]) => {
+          const field = $(id).closest('.field');
+          if (!field) return;
+          field.classList.toggle('invalid', !test());
+          if (!test()) ok = false;
+        });
+        return ok;
+      }
+
+      $('submitBtn').addEventListener('click', async () => {
+        hideBanner();
+        if (!validate()) {
+          showBanner('error', 'Please fix the highlighted fields and try again.');
+          return;
+        }
+
+        const specs = {};
+        $('specs').value.split('\n').forEach((line) => {
+          const idx = line.indexOf('=');
+          if (idx > 0) {
+            const key = line.slice(0, idx).trim();
+            const val = line.slice(idx + 1).trim();
+            if (key) specs[key] = val;
+          }
+        });
+
+        const payload = {
+          sku: $('sku').value.trim(),
+          title: $('title').value.trim(),
+          titleBn: $('titleBn').value.trim(),
+          categoryKey: $('categoryKey').value,
+          priceCents: Math.round(Number($('price').value) * 100),
+          currency: $('currency').value,
+          stockQty: Math.round(Number($('stockQty').value) || 0),
+          rating: Number($('rating').value) || 0,
+          reviewCount: Math.round(Number($('reviewCount').value) || 0),
+          images: $('images').value.split('\n').map((s) => s.trim()).filter(Boolean),
+          isBestseller: $('isBestseller').checked,
+          isFeatured: $('isFeatured').checked,
+          specs,
+          description: $('description').value,
+          descriptionBn: $('descriptionBn').value,
+        };
+        const originalPrice = Number($('originalPrice').value);
+        if (Number.isFinite(originalPrice) && originalPrice > 0) {
+          payload.originalPriceCents = Math.round(originalPrice * 100);
+        }
+
+        const btn = $('submitBtn');
+        btn.disabled = true;
+        btn.classList.add('loading');
+        try {
+          const res = await fetch('/api/v1/products', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            const msg =
+              (data.error && data.error.message) ||
+              (data.errors ? Object.values(data.errors).map((e) => e.message || e).join('; ') : null) ||
+              'Something went wrong (' + res.status + ').';
+            showBanner('error', 'Could not add product: ' + msg);
+            return;
+          }
+          const p = data.data || data;
+          const original = p.originalPrice;
+          const discount = original && original > p.price ? Math.round((1 - p.price / original) * 100) : 0;
+          showBanner(
+            'success',
+            '<strong>Product created!</strong> ' + p.title + ' · ' + (p.categoryBn || p.category) +
+            '<br />SKU: ' + p.sku + ' · Price: ৳' + p.price.toFixed(2) +
+            (discount ? ' · <strong>' + discount + '% off</strong>' : '') +
+            (p.inStock ? '' : ' · <strong>Out of stock</strong>') +
+            '<br /><a href="./">&rarr; Open in panel</a> &nbsp; <a href="add-product.html">Add another product</a>'
+          );
+          $('resetBtn').click();
+        } catch (err) {
+          showBanner('error', 'Network error: ' + err.message);
+        } finally {
+          btn.disabled = false;
+          btn.classList.remove('loading');
+        }
+      });
+
+      $('resetBtn').addEventListener('click', () => {
+        ['sku', 'title', 'titleBn', 'price', 'originalPrice', 'stockQty', 'rating', 'reviewCount', 'images', 'specs', 'description', 'descriptionBn']
+          .forEach((id) => { $(id).value = ''; });
+        $('stockQty').value = 0;
+        $('rating').value = 0;
+        $('reviewCount').value = 0;
+        $('isBestseller').checked = false;
+        $('isFeatured').checked = false;
+        $('categoryKey').selectedIndex = 0;
+        $('currency').value = 'BDT';
+        document.querySelectorAll('.field').forEach((f) => f.classList.remove('invalid'));
+        hideBanner();
+      });
+
+      ['sku', 'title', 'titleBn', 'price', 'rating', 'images'].forEach((id) => {
+        $(id).addEventListener('input', () => {
+          const field = $(id).closest('.field');
+          if (field) field.classList.remove('invalid');
+        });
+      });
+    </script>
+  </body>
+</html>
