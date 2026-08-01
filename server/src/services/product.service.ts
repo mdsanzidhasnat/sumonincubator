@@ -2,6 +2,7 @@ import { ProductRepository, type ProductFilter, type ProductSort } from '../repo
 import { CategoryModel } from '../models/category.model.js';
 import type { Product } from '../models/product.model.js';
 import { AppError } from '../errors/app-error.js';
+import { slugify } from '../utils/slugify.js';
 
 export interface ProductListInput {
   categoryKey?: string;
@@ -88,13 +89,6 @@ export interface ProductCreateInput {
 }
 
 export type ProductUpdateInput = Partial<ProductCreateInput>;
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-+|-+$)/g, '');
-}
 
 function toDto(product: Product): ProductDto {
   const discountPct =

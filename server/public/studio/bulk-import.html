@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bulk Import · Sumon Incubator Admin</title>
+    <link rel="stylesheet" href="vendor/inter.css" />
+    <link rel="stylesheet" href="vendor/hind-siliguri.css" />
+    <link rel="stylesheet" href="custom.css" />
+    <link rel="stylesheet" href="sidebar.css" />
+    <link rel="stylesheet" href="bulk-import.css" />
+    <link rel="icon" href="images/logo.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="si-sidebar-root"></div>
+
+    <main>
+      <div id="banner" class="banner"></div>
+
+      <section class="card">
+        <h2>Import products</h2>
+        <p class="intro">
+          Upload a CSV or XLSX file to create products in bulk. Duplicate SKUs are skipped and
+          reported; existing products are never overwritten. Prices are in Taka (৳). Use the
+          template to see the expected columns.
+        </p>
+
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Upload product file">
+          <input id="fileInput" type="file" accept=".csv,.xlsx,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden />
+          <div class="dz-inner">
+            <strong>Click or drag a file here</strong>
+            <span class="hint">CSV or XLSX · max 5 MB · up to 1000 rows</span>
+            <span id="fileStatus" class="hint"></span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a class="secondary-link" href="/api/v1/products/import/template">Download CSV template</a>
+          <button class="primary" id="submitBtn" type="button" disabled>
+            <span class="spinner">Importing…</span>
+            <span class="label">Import</span>
+          </button>
+        </div>
+      </section>
+
+      <section id="summaryCard" class="card" hidden>
+        <h2>Summary</h2>
+        <div id="summary" class="summary"></div>
+      </section>
+
+      <section id="resultsCard" class="card" hidden>
+        <h2>Row results</h2>
+        <div id="results" class="results"></div>
+      </section>
+    </main>
+
+    <script src="js/bulk-import-render.js"></script>
+    <script src="js/bulk-import.js"></script>
+    <script src="sidebar.js"></script>
+  </body>
+</html>

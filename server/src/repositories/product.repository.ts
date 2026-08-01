@@ -110,6 +110,48 @@ function toProduct(doc: PopulatedProductDoc): Product {
   };
 }
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+export interface CreateManyFailure {
+  index: number;
+  message: string;
+}
+
+export interface CreateManyResult {
+  createdCount: number;
+  failures: CreateManyFailure[];
+}
+
+/**
+ * Maps a Mongo `MongoBulkWriteError` (thrown by `insertMany({ ordered: false })`
+ * after partial inserts) into per-row failures. Uses a structural check so we
+ * don't depend on the mongodb driver's type surface directly.
+ */
+function extractBulkWriteFailures(err: unknown): CreateManyResult | null {
+  if (!err || typeof err !== 'object') return null;
+  const candidate = err as { name?: unknown; writeErrors?: unknown; result?: unknown };
+  if (candidate.name !== 'MongoBulkWriteError') return null;
+
+  const writeErrors = Array.isArray(candidate.writeErrors) ? candidate.writeErrors : [];
+  const failures: CreateManyFailure[] = [];
+  for (const entry of writeErrors) {
+    const item = entry as { index?: unknown; message?: unknown } | null;
+    if (!item || typeof item.index !== 'number') continue;
+    const message = typeof item.message === 'string' ? item.message : 'Bulk write failed';
+    failures.push({ index: item.index, message });
+  }
+
+  const result = candidate.result as { insertedCount?: unknown } | undefined;
+  const insertedCount =
+    typeof result?.insertedCount === 'number' && result.insertedCount >= 0
+      ? result.insertedCount
+      : -1;
+  const createdCount = insertedCount >= 0 ? insertedCount : -1;
+  return { createdCount, failures };
+}
+
 export class ProductRepository {
   async list(filter: ProductFilter): Promise<ProductListResult> {
     const query: ProductQuery = { isActive: true };
@@ -162,6 +204,20 @@ export class ProductRepository {
     return doc ? toProduct(doc as unknown as PopulatedProductDoc) : null;
   }
 
+  async findManyBySkus(skus: string[]): Promise<string[]> {
+    if (skus.length === 0) return [];
+    const docs = await ProductModel.find({ sku: { $in: skus } }).select('sku').lean();
+    return docs.map((doc) => doc.sku);
+  }
+
+  /** All existing slugs that are `base` or `base-2`, `base-3`, … for any of the given bases. */
+  async findSlugsByBases(bases: string[]): Promise<string[]> {
+    if (bases.length === 0) return [];
+    const patterns = bases.map((base) => new RegExp(`^${escapeRegExp(base)}(-[0-9]+)?$`));
+    const docs = await ProductModel.find({ slug: { $in: patterns } }).select('slug').lean();
+    return docs.map((doc) => doc.slug);
+  }
+
   async slugExists(slug: string, excludeId?: string): Promise<boolean> {
     const query: Partial<ProductQuery> = { slug };
     if (excludeId) query._id = { $ne: excludeId };
@@ -173,6 +229,29 @@ export class ProductRepository {
     const doc = await ProductModel.create(input);
     const populated = await doc.populate<{ category: CategoryDoc }>('category');
     return toProduct(populated.toObject() as unknown as PopulatedProductDoc);
+  }
+
+  /**
+   * Inserts many documents in one write with `ordered: false`, so one failing
+   * row never aborts the rest. Returns how many were inserted plus per-index
+   * failures (duplicate keys, validation errors, …).
+   */
+  async createMany(docs: ProductCreateInput[]): Promise<CreateManyResult> {
+    if (docs.length === 0) return { createdCount: 0, failures: [] };
+    try {
+      await ProductModel.insertMany(docs, { ordered: false });
+      return { createdCount: docs.length, failures: [] };
+    } catch (err) {
+      const mapped = extractBulkWriteFailures(err);
+      if (mapped) {
+        const createdCount =
+          mapped.createdCount >= 0
+            ? mapped.createdCount
+            : Math.max(0, docs.length - mapped.failures.length);
+        return { createdCount, failures: mapped.failures };
+      }
+      throw err;
+    }
   }
 
   async update(id: string, input: ProductUpdateInput): Promise<Product | null> {

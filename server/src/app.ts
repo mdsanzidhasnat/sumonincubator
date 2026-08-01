@@ -13,10 +13,12 @@ import { productRoutes } from './routes/product.routes.js';
 import { uploadRoutes } from './routes/upload.routes.js';
 import type { ProductController } from './controllers/product.controller.js';
 import type { UploadController } from './controllers/upload.controller.js';
+import type { BulkImportController } from './controllers/bulk-import.controller.js';
 
 export interface AppDeps {
   productController: ProductController;
   uploadController: UploadController;
+  bulkImportController: BulkImportController;
 }
 
 const studioStaticDir = path.resolve(
@@ -75,7 +77,10 @@ export async function createApp(deps: AppDeps): Promise<Express> {
     res.status(200).json({ status: 'ok' });
   });
 
-  app.use('/api/v1/products', productRoutes(deps.productController));
+  app.use(
+    '/api/v1/products',
+    productRoutes(deps.productController, deps.bulkImportController),
+  );
   app.use('/api/v1/uploads', uploadRoutes(deps.uploadController, env.STUDIO_ENABLED));
 
   if (env.STUDIO_ENABLED) {

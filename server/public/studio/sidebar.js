@@ -1,7 +1,9 @@
 /*
  * Sumon Incubator — shared admin sidebar builder.
  * Injects the sidebar into #si-sidebar-root on standalone pages
- * (dashboard.html, add-product.html) and marks the active entry.
+ * (dashboard.html, add-product.html, bulk-import.html) and marks the
+ * active entry. Also renders on the Studio panel (index.html) via the
+ * same root element.
  */
 (function () {
   var root = document.getElementById('si-sidebar-root');
@@ -11,6 +13,7 @@
     var path = window.location.pathname;
     var hash = window.location.hash || '';
     if (/add-product\.html$/.test(path)) return 'add';
+    if (/bulk-import\.html$/.test(path)) return 'bulk';
     if (/dashboard\.html$/.test(path)) return 'dashboard';
     if (hash.indexOf('/model/Category') !== -1) return 'category';
     if (hash.indexOf('/model/Product') !== -1) return 'product';
@@ -28,7 +31,10 @@
     },
     {
       label: 'Tools',
-      links: [{ id: 'add', href: 'add-product.html', label: 'Add Product' }],
+      links: [
+        { id: 'add', href: 'add-product.html', label: 'Add Product' },
+        { id: 'bulk', href: 'bulk-import.html', label: 'Bulk Import' },
+      ],
     },
   ];
 

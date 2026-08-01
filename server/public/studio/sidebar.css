@@ -1,13 +1,41 @@
 /*
  * Sumon Incubator — shared admin sidebar for standalone pages
- * (dashboard.html, add-product.html). Mirrors Mongoose Studio's
- * left navigation so switching between Dashboard / Category / Product
- * feels the same everywhere in the panel.
+ * (dashboard.html, add-product.html, bulk-import.html) and the Studio
+ * panel (index.html). Mirrors Mongoose Studio's left navigation so
+ * switching between Dashboard / Category / Product / tools feels the
+ * same everywhere in the panel.
  */
 
 body {
   padding-left: 256px;
 }
+
+/*
+ * Studio panel integration (index.html only).
+ * The panel replaces Studio's own chrome — the top navbar (Mongoose Studio
+ * brand, Documents/Dashboards/Chat/Docs links, env badge) and the model/chat
+ * sidebars (Recently Viewed, All Models) — with our custom si-sidebar.
+ * Everything is scoped under #content (the Vue mount), so these rules are
+ * inert on the standalone pages that also load this file.
+ */
+#content .navbar,
+#content aside,
+#content .documents-menu button[title="Show sidebar"],
+#content button[title="Toggle chat history"] {
+  display: none !important;
+}
+
+/*
+ * The Studio model/chat pages reserve 55px for the (now hidden) navbar via
+ * inline height: calc(100vh - 55px). Reclaim that strip so the page sits
+ * flush under our sidebar. `:has()` only matches pages that render a side
+ * panel (models + chat), which are exactly the ones we shrink.
+ */
+#content .view > div:has(> aside) {
+  height: 100vh !important;
+  height: 100dvh !important;
+}
+
 
 .si-sidebar {
   position: fixed;
