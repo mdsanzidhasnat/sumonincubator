@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HeroCarousel } from '../components/HeroCarousel';
-import { TrustBadges } from '../components/TrustBadges';
 import { ProductGridSection } from '../components/ProductGridSection';
 import { BestsellersSection } from '../components/BestsellersSection';
 import { CategorySection } from '../components/CategorySection';
@@ -22,8 +21,6 @@ export const HomePage: React.FC = () => {
         lang={lang}
         onShopNow={() => navigate('/shop')}
       />
-
-      <TrustBadges lang={lang} />
 
       <ProductGridSection
         products={products}

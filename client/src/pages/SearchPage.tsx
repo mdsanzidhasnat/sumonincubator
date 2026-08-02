@@ -58,7 +58,7 @@ export const SearchPage: React.FC = () => {
 
         {/* Results */}
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
             {filtered.map((product) => (
               <ProductCard
                 key={product.id}

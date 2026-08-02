@@ -102,7 +102,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </div>
 
       {/* CARD BODY CONTENT */}
-      <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+      <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-3">
         <div>
           {/* Category Pill Tag & Rating */}
           <div className="flex items-center justify-between gap-2 mb-1.5">
@@ -128,7 +128,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Specs highlight summary */}
         {product.specs.capacity && (
-          <div className="text-[11px] text-slate-500 bg-slate-50 p-2 rounded-sm border border-bismillah-borderLight font-medium">
+          <div className="hidden sm:block text-[11px] text-slate-500 bg-slate-50 p-2 rounded-sm border border-bismillah-borderLight font-medium">
             <span className="font-bold text-slate-700">
               {lang === 'bn' ? 'ক্ষমতা:' : 'Cap:'}{' '}
             </span>
@@ -157,10 +157,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
           <button
             onClick={() => onAddToCart(product)}
-            className="bg-bismillah-primaryGreen hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-sm shadow-sm flex items-center gap-1.5 cursor-pointer transition-colors shrink-0"
+            className="bg-bismillah-primaryGreen hover:bg-emerald-700 text-white font-bold text-xs px-2.5 sm:px-3.5 py-2 rounded-sm shadow-sm flex items-center gap-1.5 cursor-pointer transition-colors shrink-0"
           >
             <ShoppingBag className="w-3.5 h-3.5" />
-            <span>{lang === 'bn' ? 'কার্টে রাখুন' : 'Add to Cart'}</span>
+            <span className="hidden sm:inline">{lang === 'bn' ? 'কার্টে রাখুন' : 'Add to Cart'}</span>
           </button>
         </div>
       </div>
