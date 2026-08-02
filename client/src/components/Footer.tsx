@@ -44,7 +44,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <Egg className="w-5 h-5 stroke-[2.2]" />
               </div>
               <span className="text-xl font-black text-bismillah-bgDark tracking-tight">
-                Sumon<span className="text-bismillah-primaryGreen">Incubator</span>
+                Sumon's<span className="text-bismillah-primaryGreen"> World</span>
               </span>
             </Link>
 
@@ -167,11 +167,11 @@ export const Footer: React.FC<FooterProps> = ({
           {/* COLUMN 4: ABOUT US & OFFICE HOURS */}
           <div className="space-y-3">
             <h4 className="text-sm font-black text-bismillah-bgDark uppercase tracking-wider border-b border-bismillah-borderLight pb-2">
-              {lang === 'bn' ? 'আমাদের সম্পর্কে' : 'About SumonIncubator'}
+              {lang === 'bn' ? 'আমাদের সম্পর্কে' : 'About Sumon\'s World'}
             </h4>
             <p className="text-xs text-slate-600 leading-relaxed font-medium">
               {lang === 'bn'
-                ? 'সুমন ইনকিউবেটর দীর্ঘ ৮ বছর ধরে সততা ও বিশ্বস্ততার সাথে খামারিদের সেবা দিয়ে আসছে।'
+                ? 'সুমনের ওয়ার্ল্ড দীর্ঘ ৮ বছর ধরে সততা ও বিশ্বস্ততার সাথে খামারিদের সেবা দিয়ে আসছে।'
                 : 'Over 8 years of trusted service empowering poultry farmers across Bangladesh.'}
             </p>
 
@@ -291,7 +291,7 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Copyright line */}
           <div className="pt-4 border-t border-bismillah-borderLight flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-bismillah-textMuted font-medium">
             <p>
-              © 2026 <span className="font-extrabold text-slate-800">SumonIncubator</span>. All rights reserved. Designed for Bangladesh Poultry Industry.
+              © 2026 <span className="font-extrabold text-slate-800">Sumon's World</span>. All rights reserved. Designed for Bangladesh Poultry Industry.
             </p>
             <p className="text-[11px] text-bismillah-textMuted">
               {lang === 'bn'

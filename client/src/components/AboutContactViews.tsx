@@ -18,7 +18,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
               {lang === 'bn' ? 'আমাদের ইতিহাস ও বিশ্বাস' : 'Our Brand Story'}
             </span>
             <h1 className="text-3xl font-black text-bismillah-bgDark">
-              {lang === 'bn' ? 'সুমন ইনকিউবেটর সম্পর্কে' : 'About SumonIncubator'}
+              {lang === 'bn' ? 'সুমনের ওয়ার্ল্ড সম্পর্কে' : 'About Sumon\'s World'}
             </h1>
             <p className="text-sm text-slate-600 font-medium max-w-xl mx-auto">
               {lang === 'bn'
@@ -95,7 +95,7 @@ export const AboutContactViews: React.FC<AboutContactViewsProps> = ({ view, lang
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-bismillah-primaryGreen shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-bold text-bismillah-bgDark">Sumon Incubator Bangladesh</p>
+                  <p className="font-bold text-bismillah-bgDark">Sumon's World Bangladesh</p>
                   <p>Plot 12, Road 4, Section 10, Mirpur, Dhaka-1216, Bangladesh</p>
                 </div>
               </div>

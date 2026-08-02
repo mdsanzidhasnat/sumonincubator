@@ -80,7 +80,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
           <div className="min-w-0">
             <div className="flex items-center gap-1">
               <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 truncate">
-                SUMON<span className="text-bismillah-primaryGreen">INCUBATOR</span>
+                Sumon's<span className="text-bismillah-primaryGreen"> World</span>
               </span>
             </div>
             <p className="text-[10px] font-semibold text-bismillah-textMuted -mt-1 tracking-wider uppercase truncate">
@@ -154,7 +154,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
                   {lang === 'bn' ? 'খুঁজে পাওয়া প্রোডাক্টসমূহ' : 'Matching Products'} ({matchingProducts.length})
                 </span>
                 <span className="text-[10px] text-bismillah-primaryGreen font-bold uppercase tracking-wider">
-                  Sumon Verified
+                  Sumon's Verified
                 </span>
               </div>
               <div className="divide-y divide-slate-100 max-h-80 overflow-y-auto">

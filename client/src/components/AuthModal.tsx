@@ -55,7 +55,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <Smartphone className="w-6 h-6" />
           </div>
           <h3 className="text-lg font-black text-bismillah-bgDark">
-            {lang === 'bn' ? 'সুমন অ্যাকাউন্ট লগইন / রেজিস্ট্রেশন' : 'Sumon Login / Register'}
+            {lang === 'bn' ? 'সুমন অ্যাকাউন্ট লগইন / রেজিস্ট্রেশন' : 'Sumon\'s World Login / Register'}
           </h3>
           <p className="text-xs text-bismillah-textMuted font-medium">
             {lang === 'bn'

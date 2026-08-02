@@ -26,7 +26,7 @@ export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({ lang }) => {
             <div className="flex items-center gap-2">
               <WhatsAppIcon className="w-4 h-4" />
               <span className="text-xs font-bold">
-                {lang === 'bn' ? 'সুমন কাস্টমার কেয়ার' : 'Sumon Customer Support'}
+                {lang === 'bn' ? 'সুমন কাস্টমার কেয়ার' : 'Sumon\'s World Customer Support'}
               </span>
             </div>
             <button
