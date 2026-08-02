@@ -1,70 +1,50 @@
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-import express, { type Express, type Request } from 'express';
+import express, { type Express, type NextFunction, type Request, type Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import mongoose from 'mongoose';
-import studio from '@mongoosejs/studio/express.js';
 
 import { corsOrigins, env } from './config/env.js';
+import { AppError } from './errors/app-error.js';
 import { errorHandler, notFoundHandler } from './middlewares/error.js';
+import { requireAdmin } from './middlewares/auth.js';
 import { productRoutes } from './routes/product.routes.js';
 import { uploadRoutes } from './routes/upload.routes.js';
+import { authRoutes } from './routes/auth.routes.js';
+import { categoryRoutes } from './routes/categories.routes.js';
 import type { ProductController } from './controllers/product.controller.js';
 import type { UploadController } from './controllers/upload.controller.js';
 import type { BulkImportController } from './controllers/bulk-import.controller.js';
+import type { CategoryController } from './controllers/category.controller.js';
 
 export interface AppDeps {
   productController: ProductController;
   uploadController: UploadController;
   bulkImportController: BulkImportController;
+  categoryController: CategoryController;
 }
 
-const studioStaticDir = path.resolve(
+const adminStaticDir = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
-  '../public/studio',
+  '../public/admin',
 );
-
-function normalizeStudioModelParam(req: Request): void {
-  const models = Object.keys(mongoose.models);
-  if (models.length === 0) {
-    return;
-  }
-  const fix = (value: unknown): unknown => {
-    if (typeof value !== 'string') {
-      return value;
-    }
-    const match = models.find((name) => name.toLowerCase() === value.toLowerCase());
-    return match ?? value;
-  };
-
-  const originalQuery = req.query;
-  const hasQueryModel = typeof originalQuery?.model === 'string';
-  const body = req.body as Record<string, unknown> | undefined;
-  const hasBodyModel = body != null && typeof body === 'object' && typeof body.model === 'string';
-  if (!hasQueryModel && !hasBodyModel) {
-    return;
-  }
-
-  if (hasQueryModel) {
-    const normalized = { ...originalQuery, model: fix(originalQuery.model) };
-    Object.defineProperty(req, 'query', {
-      configurable: true,
-      enumerable: true,
-      get: () => normalized,
-    });
-  }
-  if (hasBodyModel) {
-    body.model = fix(body.model);
-  }
-}
 
 export async function createApp(deps: AppDeps): Promise<Express> {
   const app = express();
   app.disable('x-powered-by');
 
-  app.use(helmet());
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+          'img-src': ["'self'", 'data:', 'https:'],
+        },
+      },
+    }),
+  );
   app.use(
     cors({
       origin: corsOrigins,
@@ -77,28 +57,35 @@ export async function createApp(deps: AppDeps): Promise<Express> {
     res.status(200).json({ status: 'ok' });
   });
 
+  app.use('/api/v1/auth', authRoutes());
+  app.use('/api/v1/categories', categoryRoutes(deps.categoryController));
   app.use(
     '/api/v1/products',
-    productRoutes(deps.productController, deps.bulkImportController),
+    productRoutes(deps.productController, deps.bulkImportController, requireAdmin()),
   );
-  app.use('/api/v1/uploads', uploadRoutes(deps.uploadController, env.STUDIO_ENABLED));
+  app.use(
+    '/api/v1/uploads',
+    uploadRoutes(deps.uploadController, true, requireAdmin()),
+  );
 
-  if (env.STUDIO_ENABLED) {
-    const studioOptions = env.STUDIO_BIND_IP ? { bindIp: env.STUDIO_BIND_IP } : undefined;
-    app.use(env.STUDIO_PATH, (req, res, next) => {
-      res.removeHeader('Content-Security-Policy');
-      if (req.path === '/' || req.path === '') {
-        res.redirect(302, `${env.STUDIO_PATH}/dashboard.html`);
+  if (env.ADMIN_ENABLED) {
+    app.use(env.ADMIN_PATH, express.static(adminStaticDir));
+    app.use(env.ADMIN_PATH, (req: Request, res: Response, next: NextFunction) => {
+      if (req.method !== 'GET' && req.method !== 'HEAD') {
+        next();
         return;
       }
-      normalizeStudioModelParam(req);
-      next();
+      if (req.path.includes('.')) {
+        next(new AppError(404, 'Not found', 'NOT_FOUND'));
+        return;
+      }
+      const indexHtml = path.join(adminStaticDir, 'index.html');
+      if (!existsSync(indexHtml)) {
+        next();
+        return;
+      }
+      res.sendFile(indexHtml);
     });
-    app.use(env.STUDIO_PATH, express.static(studioStaticDir));
-    app.use(
-      env.STUDIO_PATH,
-      await studio(env.STUDIO_API_PATH, mongoose, studioOptions),
-    );
   }
 
   app.use(notFoundHandler);

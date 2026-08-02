@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import multer from 'multer';
 
+import type { RequestHandler } from 'express';
 import { UploadController } from '../controllers/upload.controller.js';
 import { AppError } from '../errors/app-error.js';
 
@@ -20,14 +21,17 @@ const upload = multer({
   },
 });
 
-export function uploadRoutes(controller: UploadController, writable: boolean): Router {
+export function uploadRoutes(controller: UploadController, writable: boolean, protect?: RequestHandler): Router {
   const router = Router();
+
+  const handlers: RequestHandler[] = [];
+  if (protect && writable) handlers.push(protect);
 
   router.get('/products/:id', controller.get);
 
   if (writable) {
-    router.post('/products', upload.array('images', MAX_FILES), controller.create);
-    router.delete('/products/:id', controller.remove);
+    router.post('/products', ...handlers, upload.array('images', MAX_FILES), controller.create);
+    router.delete('/products/:id', ...handlers, controller.remove);
   }
 
   return router;

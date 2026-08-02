@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 
+import type { RequestHandler } from 'express';
 import { BulkImportController } from '../controllers/bulk-import.controller.js';
 import { ProductController } from '../controllers/product.controller.js';
 import { validate } from '../middlewares/validate.js';
@@ -42,17 +43,21 @@ const updateSchema = z.object({
 export function productRoutes(
   controller: ProductController,
   bulkImport: BulkImportController,
+  protect?: RequestHandler,
 ): Router {
   const router = Router();
+
+  const handlers: RequestHandler[] = [];
+  if (protect) handlers.push(protect);
 
   router.get('/', validate(listSchema), controller.list);
   router.get('/stats', controller.stats);
   router.get('/import/template', bulkImport.getTemplate);
   router.post('/import', importUpload.single('file'), bulkImport.importProducts);
   router.get('/:slugOrId', validate(slugOrIdParamsSchema), controller.get);
-  router.post('/', validate(createSchema), controller.create);
-  router.put('/:id', validate(updateSchema), controller.update);
-  router.delete('/:id', validate(idParamsSchema), controller.remove);
+  router.post('/', ...handlers, validate(createSchema), controller.create);
+  router.put('/:id', ...handlers, validate(updateSchema), controller.update);
+  router.delete('/:id', ...handlers, validate(idParamsSchema), controller.remove);
 
   return router;
 }

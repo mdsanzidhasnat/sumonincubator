@@ -7,16 +7,16 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(4000),
   DATABASE_URL: z.string().min(1),
   CORS_ORIGINS: z.string().default('http://localhost:3000'),
-  STUDIO_ENABLED: z
+  ADMIN_ENABLED: z
     .string()
     .default('true')
-    .transform((v) => v === 'true')
-    .refine((v) => process.env.NODE_ENV !== 'production' || v === false, {
-      message: 'STUDIO_ENABLED must be false in production (Mongoose Studio has no auth)',
-    }),
-  STUDIO_PATH: z.string().default('/admin'),
-  STUDIO_API_PATH: z.string().default('/admin/api'),
-  STUDIO_BIND_IP: z.string().optional(),
+    .transform((v) => v === 'true'),
+  ADMIN_PATH: z.string().default('/admin'),
+  ADMIN_USERNAME: z.string().default('admin'),
+  ADMIN_PASSWORD_HASH: z.string().min(1),
+  AUTH_JWT_SECRET: z.string().min(32),
+  AUTH_COOKIE_NAME: z.string().default('si_admin'),
+  AUTH_SESSION_TTL_SECONDS: z.coerce.number().int().positive().default(43200),
 });
 
 export const env = envSchema.parse(process.env);

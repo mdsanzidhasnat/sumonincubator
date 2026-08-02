@@ -22,18 +22,25 @@ export interface ProductDto {
   price: number;
   originalPrice: number;
   discountPct: number;
+  priceCents: number;
+  originalPriceCents: number;
   category: string;
   categoryId: string;
   categoryBn: string;
   rating: number;
   reviewCount: number;
   image: string;
+  images: string[];
+  stockQty: number;
+  currency: string;
   isBestseller: boolean;
   isFeatured: boolean;
   inStock: boolean;
   specs: Record<string, string>;
   description: string;
   descriptionBn: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ProductListResponse {
@@ -104,18 +111,25 @@ function toDto(product: Product): ProductDto {
     price: product.priceCents / 100,
     originalPrice: product.originalPriceCents ? product.originalPriceCents / 100 : product.priceCents / 100,
     discountPct,
+    priceCents: product.priceCents,
+    originalPriceCents: product.originalPriceCents ?? 0,
     category: product.categoryRef?.name ?? product.category,
     categoryId: product.categoryRef?.key ?? '',
     categoryBn: product.categoryRef?.nameBn ?? '',
     rating: product.rating,
     reviewCount: product.reviewCount,
     image: product.images[0] ?? '',
+    images: product.images,
+    stockQty: product.stockQty,
+    currency: product.currency,
     isBestseller: product.isBestseller,
     isFeatured: product.isFeatured,
     inStock: product.stockQty > 0,
     specs: product.specs,
     description: product.description,
     descriptionBn: product.descriptionBn,
+    createdAt: product.createdAt,
+    updatedAt: product.updatedAt,
   };
 }
 
