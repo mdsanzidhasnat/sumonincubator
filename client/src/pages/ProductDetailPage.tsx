@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ChevronRight, Star, ShoppingBag, Heart, GitCompare, CheckCircle2, ShieldCheck, Truck, Zap, ArrowLeft } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { getProduct } from '../lib/api';
+import { Product } from '../types';
 
 export const ProductDetailPage: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -10,17 +12,50 @@ export const ProductDetailPage: React.FC = () => {
     wishlistIds, compareIds, setQuickViewProduct,
   } = useApp();
 
-  const product = products.find((p) => p.id === productId);
+  const fromList = products.find((p) => p.id === productId);
+  const [fetchedProduct, setFetchedProduct] = useState<Product | null>(null);
+  const [notFound, setNotFound] = useState(false);
+
+  useEffect(() => {
+    if (fromList) {
+      setFetchedProduct(null);
+      setNotFound(false);
+      return;
+    }
+    if (!productId) {
+      setNotFound(true);
+      return;
+    }
+    let cancelled = false;
+    setFetchedProduct(null);
+    setNotFound(false);
+    getProduct(productId)
+      .then((p) => {
+        if (!cancelled) setFetchedProduct(p);
+      })
+      .catch(() => {
+        if (!cancelled) setNotFound(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [productId, fromList]);
+
+  const product = fromList ?? fetchedProduct;
 
   if (!product) {
     return (
       <div className="py-20 max-w-7xl mx-auto px-4 text-center">
         <h1 className="text-2xl font-black text-bismillah-bgDark">
-          {lang === 'bn' ? 'প্রোডাক্ট পাওয়া যায়নি' : 'Product Not Found'}
+          {notFound
+            ? lang === 'bn' ? 'প্রোডাক্ট পাওয়া যায়নি' : 'Product Not Found'
+            : lang === 'bn' ? 'লোড হচ্ছে...' : 'Loading...'}
         </h1>
-        <p className="text-sm text-bismillah-textMuted mt-2">
-          {lang === 'bn' ? 'এই প্রোডাক্টটি বিদ্যমান নেই।' : 'This product does not exist.'}
-        </p>
+        {notFound && (
+          <p className="text-sm text-bismillah-textMuted mt-2">
+            {lang === 'bn' ? 'এই প্রোডাক্টটি বিদ্যমান নেই।' : 'This product does not exist.'}
+          </p>
+        )}
         <Link to="/shop" className="inline-block mt-4 bg-bismillah-primaryGreen text-white font-bold text-xs px-4 py-2 rounded-sharp">
           {lang === 'bn' ? 'শপে ফিরে যান' : 'Back to Shop'}
         </Link>

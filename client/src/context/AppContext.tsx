@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { Product, CartItem, Language } from '../types';
-import { products as allProducts } from '../data/products';
+import { products as fallbackProducts } from '../data/products';
+import { getProducts } from '../lib/api';
 
 interface AppContextType {
   lang: Language;
@@ -36,18 +37,33 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [lang, setLang] = useState<Language>('bn');
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    { product: allProducts[0], quantity: 1 },
-    { product: allProducts[3], quantity: 1 },
-  ]);
-  const [wishlistIds, setWishlistIds] = useState<string[]>(['prod-01']);
-  const [compareIds, setCompareIds] = useState<string[]>(['prod-01', 'prod-02']);
+  const [products, setProducts] = useState<Product[]>(fallbackProducts);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [wishlistIds, setWishlistIds] = useState<string[]>([]);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isVideosOpen, setIsVideosOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    getProducts({ limit: 50 })
+      .then((response) => {
+        if (!cancelled && response.items.length > 0) {
+          setProducts(response.items);
+        }
+      })
+      .catch(() => {
+        // Keep the bundled fallback products when the API is unreachable.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
 
   const showToast = useCallback((msg: string) => {
     setToastMessage(msg);
@@ -121,8 +137,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   );
 
   const compareProducts = useMemo(
-    () => allProducts.filter((p) => compareIds.includes(p.id)),
-    [compareIds]
+    () => products.filter((p) => compareIds.includes(p.id)),
+    [products, compareIds]
   );
 
   const value = useMemo<AppContextType>(() => ({
@@ -131,7 +147,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     wishlistIds, handleToggleWishlist,
     compareIds, handleToggleCompare, handleRemoveCompare,
     cartTotal, cartCount, compareProducts,
-    products: allProducts,
+    products,
     isCartOpen, setIsCartOpen,
     isCompareOpen, setIsCompareOpen,
     isAuthOpen, setIsAuthOpen,
@@ -142,7 +158,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     lang, cartItems, handleAddToCart, handleUpdateQuantity, handleRemoveFromCart,
     wishlistIds, handleToggleWishlist,
     compareIds, handleToggleCompare, handleRemoveCompare,
-    cartTotal, cartCount, compareProducts,
+    cartTotal, cartCount, compareProducts, products,
     isCartOpen, isCompareOpen, isAuthOpen, isVideosOpen, quickViewProduct,
     toastMessage, showToast,
   ]);
