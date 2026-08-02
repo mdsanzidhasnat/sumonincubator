@@ -140,6 +140,10 @@ export const dataProvider: DataProvider = {
       const category = categories.find((c) => c.key === params.id || c.id === params.id);
       return { data: category as never };
     }
+    if (resource === 'settings') {
+      const settings = await fetchJson<Record<string, unknown>>('/api/v1/settings/contact');
+      return { data: settings as never };
+    }
     const product = await fetchJson<ProductDto>(`/api/v1/products/${params.id}`);
     return { data: toFormRecord(product) as never };
   },
@@ -170,6 +174,14 @@ export const dataProvider: DataProvider = {
   },
 
   async update(resource, params): Promise<UpdateResult> {
+    if (resource === 'settings') {
+      const { id: _id, ...data } = params.data as Record<string, unknown>;
+      const settings = await fetchJson<Record<string, unknown>>('/api/v1/settings/contact', {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      });
+      return { data: settings as never };
+    }
     const { id, ...data } = params.data as Record<string, unknown>;
     const product = await fetchJson<ProductDto>(`/api/v1/products/${params.id}`, {
       method: 'PUT',

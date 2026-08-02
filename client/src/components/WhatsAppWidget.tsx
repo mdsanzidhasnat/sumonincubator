@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { MessageSquare, X, Send } from 'lucide-react';
+import { X, Send } from 'lucide-react';
 import { Language } from '../types';
+import { useContactSettings } from '../context/ContactSettingsContext';
+import { WhatsAppIcon } from './icons/WhatsAppIcon';
 
 interface WhatsAppWidgetProps {
   lang: Language;
@@ -9,10 +11,11 @@ interface WhatsAppWidgetProps {
 export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({ lang }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [msg, setMsg] = useState('');
+  const { whatsappNumber, whatsappDefaultMessage } = useContactSettings();
 
   const handleSend = () => {
-    const text = encodeURIComponent(msg || 'Salam, I want to inquire about Sumon Egg Incubator.');
-    window.open(`https://wa.me/8801700000000?text=${text}`, '_blank');
+    const text = encodeURIComponent(msg || whatsappDefaultMessage);
+    window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
   };
 
   return (
@@ -21,7 +24,7 @@ export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({ lang }) => {
         <div className="mb-3 w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden animate-in slide-in-from-bottom-4 duration-200">
           <div className="bg-emerald-600 p-3 text-white flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 fill-white" />
+              <WhatsAppIcon className="w-4 h-4" />
               <span className="text-xs font-bold">
                 {lang === 'bn' ? 'সুমন কাস্টমার কেয়ার' : 'Sumon Customer Support'}
               </span>
@@ -68,7 +71,7 @@ export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({ lang }) => {
         className="w-14 h-14 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-xl flex items-center justify-center cursor-pointer transform hover:scale-110 transition-all border-2 border-white"
         title="Live WhatsApp Support"
       >
-        <MessageSquare className="w-7 h-7 fill-white" />
+        <WhatsAppIcon className="w-7 h-7" />
       </button>
     </div>
   );

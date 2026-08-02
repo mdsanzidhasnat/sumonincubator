@@ -12,6 +12,7 @@ import { Route } from 'react-router-dom';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import CategoryIcon from '@mui/icons-material/Category';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import { authProvider } from './authProvider';
 import { dataProvider } from './dataProvider';
@@ -19,6 +20,7 @@ import { Dashboard } from './Dashboard';
 import { ProductCreate, ProductEdit, ProductList } from './products';
 import { CategoryList } from './categories';
 import { BulkImport } from './BulkImport';
+import { ContactSettingsEdit } from './Settings';
 
 const MyMenu = () => {
   const hasDashboard = useHasDashboard();
@@ -28,6 +30,7 @@ const MyMenu = () => {
       <Menu.ResourceItem name="products" />
       <Menu.ResourceItem name="categories" />
       <Menu.Item to="/bulk-import" primaryText="Bulk Import" leftIcon={<UploadFileIcon />} />
+      <Menu.Item to="/settings" primaryText="Contact Settings" leftIcon={<SettingsIcon />} />
     </Menu>
   );
 };
@@ -54,6 +57,7 @@ export const App = () => (
     <Resource name="categories" list={CategoryList} icon={CategoryIcon} />
     <CustomRoutes>
       <Route path="/bulk-import" element={<BulkImport />} />
+      <Route path="/settings" element={<ContactSettingsEdit />} />
     </CustomRoutes>
   </Admin>
 );

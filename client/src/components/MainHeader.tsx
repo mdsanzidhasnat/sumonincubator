@@ -4,6 +4,7 @@ import { Search, Phone, ShoppingBag, Egg, ChevronDown, X } from 'lucide-react';
 import { Product, Language } from '../types';
 import { categories } from '../data/categories';
 import { products as allProducts } from '../data/products';
+import { useContactSettings } from '../context/ContactSettingsContext';
 
 interface MainHeaderProps {
   lang: Language;
@@ -21,6 +22,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
   onSelectProduct,
 }) => {
   const navigate = useNavigate();
+  const { phone, phoneDisplay } = useContactSettings();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -197,7 +199,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
         <div className="flex items-center gap-3 sm:gap-5 shrink-0">
           {/* Phone Helpline */}
           <a
-            href="tel:+8801700000000"
+            href={`tel:${phone}`}
             className="hidden lg:flex items-center gap-3 px-3.5 py-1.5 rounded-xl border border-slate-200 hover:border-emerald-500/50 hover:bg-emerald-50/30 transition-all"
           >
             <div className="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
@@ -208,7 +210,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
                 {lang === 'bn' ? 'হটলাইন কল করুন' : 'Hotline Call'}
               </p>
               <p className="text-xs font-bold text-slate-900 tracking-tight">
-                01700-000000
+                {phoneDisplay.replace(/^\+880\s*/, '0')}
               </p>
             </div>
           </a>

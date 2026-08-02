@@ -8,12 +8,13 @@ import {
   ShieldCheck,
   Facebook,
   Youtube,
-  MessageSquare,
   ArrowUp,
   Truck,
   CreditCard,
 } from 'lucide-react';
 import { Language } from '../types';
+import { useContactSettings } from '../context/ContactSettingsContext';
+import { WhatsAppIcon } from './icons/WhatsAppIcon';
 
 interface FooterProps {
   lang: Language;
@@ -26,6 +27,7 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenVideos,
   onOpenAuth,
 }) => {
+  const { phoneDisplay, whatsappNumber, messengerPageId, messengerPageUrl } = useContactSettings();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -63,7 +65,7 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>+880 1712-345678, +880 1900-123456</span>
+                <span>{phoneDisplay}</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -247,7 +249,7 @@ export const Footer: React.FC<FooterProps> = ({
               </span>
 
               <a
-                href="https://facebook.com"
+                href={messengerPageUrl || 'https://facebook.com'}
                 target="_blank"
                 rel="noreferrer"
                 className="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white shadow-xs transition-all"
@@ -267,13 +269,13 @@ export const Footer: React.FC<FooterProps> = ({
               </a>
 
               <a
-                href="https://wa.me/8801700000000"
+                href={`https://wa.me/${whatsappNumber}`}
                 target="_blank"
                 rel="noreferrer"
                 className="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white shadow-xs transition-all"
                 title="WhatsApp Hotline"
               >
-                <MessageSquare className="w-4 h-4" />
+                <WhatsAppIcon className="w-4 h-4" />
               </a>
 
               <button

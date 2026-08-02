@@ -10,6 +10,7 @@ import { CompareModal } from './CompareModal';
 import { AuthModal } from './AuthModal';
 import { VideosModal } from './VideosModal';
 import { WhatsAppWidget } from './WhatsAppWidget';
+import { FloatingContactButtons } from './FloatingContactButtons';
 import { useApp } from '../context/AppContext';
 
 export const Layout: React.FC = () => {
@@ -105,6 +106,7 @@ export const Layout: React.FC = () => {
         </div>
       )}
 
+      <FloatingContactButtons />
       <WhatsAppWidget lang={lang} />
     </div>
   );

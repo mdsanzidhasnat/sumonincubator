@@ -14,16 +14,19 @@ import { productRoutes } from './routes/product.routes.js';
 import { uploadRoutes } from './routes/upload.routes.js';
 import { authRoutes } from './routes/auth.routes.js';
 import { categoryRoutes } from './routes/categories.routes.js';
+import { settingsRoutes } from './routes/settings.routes.js';
 import type { ProductController } from './controllers/product.controller.js';
 import type { UploadController } from './controllers/upload.controller.js';
 import type { BulkImportController } from './controllers/bulk-import.controller.js';
 import type { CategoryController } from './controllers/category.controller.js';
+import type { SettingsController } from './controllers/settings.controller.js';
 
 export interface AppDeps {
   productController: ProductController;
   uploadController: UploadController;
   bulkImportController: BulkImportController;
   categoryController: CategoryController;
+  settingsController: SettingsController;
 }
 
 const adminStaticDir = path.resolve(
@@ -59,6 +62,10 @@ export async function createApp(deps: AppDeps): Promise<Express> {
 
   app.use('/api/v1/auth', authRoutes());
   app.use('/api/v1/categories', categoryRoutes(deps.categoryController));
+  app.use(
+    '/api/v1/settings',
+    settingsRoutes(deps.settingsController, requireAdmin()),
+  );
   app.use(
     '/api/v1/products',
     productRoutes(deps.productController, deps.bulkImportController, requireAdmin()),

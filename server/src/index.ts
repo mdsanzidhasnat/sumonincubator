@@ -13,6 +13,7 @@ import { UploadController } from './controllers/upload.controller.js';
 import { BulkImportService } from './services/bulk-import.service.js';
 import { BulkImportController } from './controllers/bulk-import.controller.js';
 import { CategoryController } from './controllers/category.controller.js';
+import { SettingsController } from './controllers/settings.controller.js';
 
 export async function start(): Promise<void> {
   await connectDb();
@@ -23,12 +24,14 @@ export async function start(): Promise<void> {
   const uploadController = new UploadController();
   const bulkImportController = new BulkImportController(new BulkImportService(repository));
   const categoryController = new CategoryController();
+  const settingsController = new SettingsController();
 
   const app = await createApp({
     productController,
     uploadController,
     bulkImportController,
     categoryController,
+    settingsController,
   });
 
   await new Promise<void>((resolve, reject) => {
