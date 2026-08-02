@@ -11,6 +11,7 @@ import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { BlogPage } from './pages/BlogPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { AdminPage } from './pages/AdminPage';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
+        <Route path="/admin/*" element={<AdminPage />} />
       </Routes>
     </AppProvider>
   );
