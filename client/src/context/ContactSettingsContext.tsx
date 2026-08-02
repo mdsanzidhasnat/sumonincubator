@@ -28,19 +28,34 @@ export const ContactSettingsProvider: React.FC<{ children: React.ReactNode }> = 
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`${API_BASE}/api/v1/settings/contact`, { credentials: 'same-origin' })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data: Partial<ContactSettings> | null) => {
-        if (data && !cancelled) {
-          setSettings({ ...defaultContactSettings, ...data });
-        }
-      })
-      .catch(() => {
-        // Keep built-in defaults when the API is unreachable.
-      });
+    let attempts = 0;
+    let timer: number | undefined;
+
+    const load = () => {
+      fetch(`${API_BASE}/api/v1/settings/contact`, { credentials: 'same-origin' })
+        .then((response) => (response.ok ? response.json() : null))
+        .then((data: Partial<ContactSettings> | null) => {
+          if (cancelled) return;
+          if (data && typeof data === 'object') {
+            setSettings({ ...defaultContactSettings, ...data });
+          } else if (attempts < 3) {
+            attempts += 1;
+            timer = window.setTimeout(load, 1500 * attempts);
+          }
+        })
+        .catch(() => {
+          if (!cancelled && attempts < 3) {
+            attempts += 1;
+            timer = window.setTimeout(load, 1500 * attempts);
+          }
+        });
+    };
+
+    load();
 
     return () => {
       cancelled = true;
+      if (timer !== undefined) window.clearTimeout(timer);
     };
   }, []);
 
