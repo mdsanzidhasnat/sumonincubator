@@ -7,7 +7,7 @@ export const NotFoundPage: React.FC = () => {
   const { lang } = useApp();
 
   return (
-    <div className="py-20 bg-slate-50 min-h-full flex items-center justify-center">
+    <div className="py-20 min-h-full flex items-center justify-center">
       <div className="max-w-md mx-auto px-4 text-center space-y-6">
         <div className="text-8xl font-black text-slate-200">404</div>
         <h1 className="text-2xl font-black text-bismillah-bgDark">

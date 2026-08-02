@@ -207,7 +207,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
               <Phone className="w-4 h-4 stroke-[2.2]" />
             </div>
             <div>
-              <p className="text-[10px] font-semibold text-white/70 uppercase tracking-wider">
+              <p className="text-[10px] font-semibold text-white uppercase tracking-wider">
                 {lang === 'bn' ? 'হটলাইন কল করুন' : 'Hotline Call'}
               </p>
               <p className="text-xs font-bold text-white tracking-tight">
@@ -230,10 +230,10 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
               )}
             </div>
             <div className="text-left hidden sm:block">
-              <p className="text-[9px] font-medium text-white/80 leading-tight">
+              <p className="text-[9px] font-medium text-slate-500 leading-tight">
                 {lang === 'bn' ? 'আমার কার্ট' : 'My Cart'}
               </p>
-              <p className="text-xs font-extrabold text-white leading-tight">
+              <p className="text-xs font-extrabold text-slate-800 leading-tight">
                 ৳ {cartTotal.toLocaleString()}
               </p>
             </div>

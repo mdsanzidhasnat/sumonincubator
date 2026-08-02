@@ -25,7 +25,7 @@ export const SearchPage: React.FC = () => {
     : [];
 
   return (
-    <div className="py-10 bg-slate-50 min-h-full">
+    <div className="py-10 min-h-full">
       <div className="max-w-7xl mx-auto px-4 space-y-6">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs font-semibold text-bismillah-textMuted">

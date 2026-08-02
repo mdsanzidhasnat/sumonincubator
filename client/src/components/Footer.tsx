@@ -59,8 +59,8 @@ export const Footer: React.FC<FooterProps> = ({
                 <MapPin className="w-4 h-4 text-bismillah-primaryGreen shrink-0 mt-0.5" />
                 <span>
                   {lang === 'bn'
-                    ? 'মিরপুর ১০, ঢাকা-১২১৬, বাংলাদেশ'
-                    : 'Mirpur 10, Dhaka-1216, Bangladesh'}
+                    ? 'চৌগাছা, যশোর, বাংলাদেশ'
+                    : 'Chowgacha, Jessore, Bangladesh'}
                 </span>
               </div>
               <div className="flex items-center gap-2.5">
@@ -69,11 +69,7 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-bismillah-primaryGreen shrink-0" />
-                <span>support@sumonincubator.com</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-[11px] text-bismillah-textMuted pt-1">
-                <ShieldCheck className="w-4 h-4 text-bismillah-accentYellow shrink-0" />
-                <span>Trade License No: TRAD/DNCC/019284/2024</span>
+                <span>sumonsworld@gmail.com</span>
               </div>
             </div>
           </div>
@@ -185,7 +181,7 @@ export const Footer: React.FC<FooterProps> = ({
                   : 'Saturday - Thursday (9:00 AM - 9:00 PM)'}
               </p>
               <p className="text-[11px] font-bold text-bismillah-accentYellow pt-1">
-                bKash Merchant: 01700-000000
+                bKash: 01332921116
               </p>
             </div>
           </div>
