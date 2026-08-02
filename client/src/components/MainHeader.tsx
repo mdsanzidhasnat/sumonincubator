@@ -5,6 +5,7 @@ import { Product, Language } from '../types';
 import { categories } from '../data/categories';
 import { products as allProducts } from '../data/products';
 import { useContactSettings } from '../context/ContactSettingsContext';
+import logoImg from '../images/logo.jpeg';
 
 interface MainHeaderProps {
   lang: Language;
@@ -74,8 +75,8 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 py-3.5 flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
         {/* LOGO AREA */}
         <a href="/" className="flex items-center gap-2.5 group shrink-0 min-w-0">
-          <div className="w-10 h-10 bg-bismillah-bgDark flex items-center justify-center text-bismillah-accentYellow group-hover:bg-bismillah-primaryGreen transition-colors shrink-0">
-            <Egg className="w-6 h-6 stroke-[2.2]" />
+          <div className="w-10 h-10 bg-bismillah-bgDark flex items-center justify-center text-bismillah-accentYellow group-hover:bg-bismillah-primaryGreen transition-colors shrink-0 overflow-hidden">
+            <img src={logoImg} alt="Sumon's World Logo" className="w-10 h-10 object-contain" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1">
