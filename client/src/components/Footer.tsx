@@ -287,7 +287,7 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Copyright line */}
           <div className="pt-4 border-t border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400 font-medium">
             <p className="text-slate-400">
-              © 2026 <span className="font-extrabold text-white">Sumon's World</span>. All rights reserved. Designed for Bangladesh Poultry Industry.
+              © 2026 <span className="font-extrabold text-white">UIBytez</span>. All rights reserved. Designed for Bangladesh Poultry Industry.
             </p>
             <p className="text-[11px] text-slate-500">
               {lang === 'bn'
