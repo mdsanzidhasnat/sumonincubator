@@ -32,7 +32,7 @@ export const TrendingProducts: React.FC<TrendingProductsProps> = ({
   const duplicated = [...trending, ...trending];
 
   return (
-    <section className="py-10 bg-white border-y border-bismillah-borderLight">
+    <section className="py-10 border-y border-bismillah-borderLight bg-transparent">
       <div className="max-w-7xl mx-auto px-4 space-y-6">
         <h2 className="text-2xl sm:text-3xl font-black text-bismillah-bgDark tracking-tight">
           {lang === 'bn' ? 'জনপ্রিয় পণ্য' : 'Trending Products'}

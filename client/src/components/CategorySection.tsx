@@ -43,7 +43,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
   if (categoryProducts.length === 0) return null;
 
   return (
-    <section className="py-10 bg-white border-b border-bismillah-borderLight">
+    <section className="py-10 border-b border-bismillah-borderLight bg-transparent">
       <div className="max-w-7xl mx-auto px-4 space-y-6">
         <SectionHeaderBlock
           title={lang === 'bn' ? titleBn : titleEn}

@@ -11,9 +11,11 @@ import { AuthModal } from './AuthModal';
 import { VideosModal } from './VideosModal';
 import { WhatsAppWidget } from './WhatsAppWidget';
 import { FloatingContactButtons } from './FloatingContactButtons';
+import { useScrollBackground } from '../hooks/useScrollBackground';
 import { useApp } from '../context/AppContext';
 
 export const Layout: React.FC = () => {
+  useScrollBackground();
   const {
     lang, setLang, compareIds, cartItems, handleAddToCart,
     handleToggleWishlist, handleToggleCompare, wishlistIds, compareProducts,
@@ -25,7 +27,7 @@ export const Layout: React.FC = () => {
   } = useApp();
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-bismillah-primaryGreen selection:text-white">
+    <div className="min-h-screen flex flex-col text-slate-900 font-sans selection:bg-bismillah-primaryGreen selection:text-white bg-transparent">
       <TopBar
         lang={lang}
         setLang={setLang}

@@ -12,7 +12,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ lang }) => {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
   return (
-    <section id="blog-section" className="py-12 bg-white border-t border-bismillah-borderLight">
+    <section id="blog-section" className="py-12 border-t border-bismillah-borderLight bg-transparent">
       <div className="max-w-7xl mx-auto px-4 space-y-8">
         {/* HEADER */}
         <SectionHeaderBlock

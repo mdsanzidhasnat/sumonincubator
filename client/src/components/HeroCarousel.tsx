@@ -52,7 +52,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ lang, onShopNow }) =
   const percentMatch = badge.match(/[\d%]+/);
 
   return (
-    <section className="relative w-full bg-white overflow-hidden border-b border-bismillah-borderLight">
+    <section className="relative w-full overflow-hidden border-b border-bismillah-borderLight bg-transparent">
       <div className="max-w-7xl mx-auto px-4">
         <div className="relative w-full aspect-[21/9] md:aspect-[3/1] overflow-hidden">
       <img

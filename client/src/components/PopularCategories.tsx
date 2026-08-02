@@ -28,7 +28,7 @@ export const PopularCategories: React.FC<PopularCategoriesProps> = ({ lang }) =>
   };
 
   return (
-    <section className="py-10 bg-white border-b border-bismillah-borderLight">
+    <section className="py-10 border-b border-bismillah-borderLight bg-transparent">
       <div className="max-w-7xl mx-auto px-4 space-y-6">
         <h2 className="text-2xl sm:text-3xl font-black text-bismillah-bgDark tracking-tight flex items-center justify-center gap-2">
           <span>{lang === 'bn' ? 'জনপ্রিয় বিভাগ' : 'Popular Categories'}</span>

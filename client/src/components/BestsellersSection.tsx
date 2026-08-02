@@ -27,7 +27,7 @@ export const BestsellersSection: React.FC<BestsellersSectionProps> = ({
   const bestsellers = products.filter((p) => p.isBestseller).slice(0, 4);
 
   return (
-    <section className="py-12 bg-white border-y border-bismillah-borderLight">
+    <section className="py-12 border-y border-bismillah-borderLight bg-transparent">
       <div className="max-w-7xl mx-auto px-4 space-y-8">
         {/* HEADER */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">

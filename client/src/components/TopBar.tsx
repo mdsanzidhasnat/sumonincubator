@@ -22,7 +22,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   onOpenAuth,
 }) => {
   return (
-    <div className="hidden sm:block bg-bismillah-bgDark text-xs py-1.5 px-4 text-slate-300 transition-colors">
+    <div className="hidden sm:block bg-slate-900 text-xs py-1.5 px-4 text-slate-300 transition-colors">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
         {/* Left Bengali trust tagline */}
         <div className="flex items-center gap-2 font-medium text-slate-200">
@@ -78,7 +78,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           {/* Language Selector */}
           <button
             onClick={() => setLang(lang === 'bn' ? 'en' : 'bn')}
-            className="flex items-center gap-1 px-2 py-0.5 rounded-sm border border-slate-600 bg-bismillah-bgDark text-slate-200 hover:border-bismillah-accentYellow hover:text-bismillah-accentYellow font-semibold transition-all cursor-pointer"
+            className="flex items-center gap-1 px-2.5 py-0.5 rounded-full border border-slate-700 bg-slate-800/70 text-slate-200 hover:border-bismillah-accentYellow hover:text-bismillah-accentYellow font-semibold transition-all cursor-pointer"
             title="Toggle Language"
           >
             <Globe className="w-3.5 h-3.5 text-bismillah-accentYellow" />
