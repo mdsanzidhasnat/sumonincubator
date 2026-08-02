@@ -49,10 +49,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </span>
         )}
 
-        {/* Wishlist Heart — always visible */}
+        {/* Wishlist Heart — hover only (desktop) */}
         <button
           onClick={() => onToggleWishlist(product)}
-          className={`absolute top-3 right-3 z-10 w-8 h-8 sm:w-9 sm:h-9 rounded-sharp bg-white border border-bismillah-borderLight shadow-sm flex items-center justify-center transition-colors cursor-pointer ${
+          className={`absolute top-3 right-3 z-10 w-8 h-8 sm:w-9 sm:h-9 rounded-sharp bg-white border border-bismillah-borderLight shadow-sm flex items-center justify-center transition-all cursor-pointer opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 ${
             isInWishlist
               ? 'bg-rose-500 border-rose-500 text-white'
               : 'text-slate-600 hover:text-rose-500'
@@ -71,8 +71,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
 
-        {/* Hover Slide-Up Quick Actions (desktop only) */}
-        <div className="absolute inset-x-0 bottom-0 z-10 bg-slate-900/70 backdrop-blur-[2px] translate-y-full group-hover:translate-y-0 transition-transform duration-200 flex items-center justify-center gap-2 p-2">
+          {/* Hover Slide-Up Quick Actions (desktop only) */}
+        <div className="absolute inset-x-0 bottom-0 z-10 bg-slate-900/70 backdrop-blur-[2px] opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2 p-2">
           <button
             onClick={() => onQuickView(product)}
             className="w-10 h-10 rounded-sharp bg-white text-slate-800 hover:bg-bismillah-primaryGreen hover:text-white flex items-center justify-center transition-colors cursor-pointer"

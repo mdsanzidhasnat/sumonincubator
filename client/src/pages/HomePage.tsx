@@ -5,6 +5,8 @@ import { ProductGridSection } from '../components/ProductGridSection';
 import { BestsellersSection } from '../components/BestsellersSection';
 import { CategorySection } from '../components/CategorySection';
 import { BlogSection } from '../components/BlogSection';
+import { TrendingProducts } from '../components/TrendingProducts';
+import { PopularCategories } from '../components/PopularCategories';
 import { useApp } from '../context/AppContext';
 
 export const HomePage: React.FC = () => {
@@ -21,6 +23,18 @@ export const HomePage: React.FC = () => {
         lang={lang}
         onShopNow={() => navigate('/shop')}
       />
+
+      <TrendingProducts
+        lang={lang}
+        onQuickView={(p) => setQuickViewProduct(p)}
+        onAddToCart={handleAddToCart}
+        onToggleWishlist={handleToggleWishlist}
+        onToggleCompare={handleToggleCompare}
+        wishlistIds={wishlistIds}
+        compareIds={compareIds}
+      />
+
+      <PopularCategories lang={lang} />
 
       <ProductGridSection
         products={products}
