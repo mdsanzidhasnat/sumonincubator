@@ -25,7 +25,7 @@ export const Layout: React.FC = () => {
   } = useApp();
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-bismillah-primaryGreen selection:text-white">
       <TopBar
         lang={lang}
         setLang={setLang}
@@ -101,12 +101,12 @@ export const Layout: React.FC = () => {
       />
 
       {toastMessage && (
-        <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50 bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-2xl shadow-xl border border-slate-700 animate-in fade-in slide-in-from-bottom-3 duration-200 flex items-center gap-2">
+        <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50 bg-bismillah-bgDark text-white text-xs font-bold px-4 py-2.5 rounded-sm shadow-lg border border-slate-700 animate-in fade-in slide-in-from-bottom-3 duration-200 flex items-center gap-2">
           <span>{toastMessage}</span>
         </div>
       )}
 
-      <FloatingContactButtons />
+      <FloatingContactButtons lang={lang} />
       <WhatsAppWidget lang={lang} />
     </div>
   );

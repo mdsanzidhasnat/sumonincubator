@@ -10,7 +10,7 @@ export const NotFoundPage: React.FC = () => {
     <div className="py-20 bg-slate-50 min-h-full flex items-center justify-center">
       <div className="max-w-md mx-auto px-4 text-center space-y-6">
         <div className="text-8xl font-black text-slate-200">404</div>
-        <h1 className="text-2xl font-black text-slate-900">
+        <h1 className="text-2xl font-black text-bismillah-bgDark">
           {lang === 'bn' ? 'পেজ পাওয়া যায়নি' : 'Page Not Found'}
         </h1>
         <p className="text-sm text-slate-600 font-medium">
@@ -21,14 +21,14 @@ export const NotFoundPage: React.FC = () => {
         <div className="flex items-center justify-center gap-3">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-5 py-3 rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 bg-bismillah-primaryGreen hover:bg-emerald-700 text-white font-bold text-sm px-5 py-3 rounded-sharp transition-colors"
           >
             <Home className="w-4 h-4" />
             <span>{lang === 'bn' ? 'হোম পেজ' : 'Home Page'}</span>
           </Link>
           <Link
             to="/shop"
-            className="inline-flex items-center gap-2 bg-white border border-slate-200 hover:border-emerald-500 text-slate-800 font-bold text-sm px-5 py-3 rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 bg-white border border-bismillah-borderLight hover:border-bismillah-primaryGreen text-slate-800 font-bold text-sm px-5 py-3 rounded-sharp transition-colors"
           >
             <Search className="w-4 h-4" />
             <span>{lang === 'bn' ? 'শপ দেখুন' : 'Browse Shop'}</span>

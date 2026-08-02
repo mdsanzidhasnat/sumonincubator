@@ -33,18 +33,18 @@ export const Footer: React.FC<FooterProps> = ({
   };
 
   return (
-    <footer className="bg-slate-100 text-slate-800 border-t border-slate-200/80 pt-12 pb-6">
+    <footer className="bg-slate-100 text-slate-800 border-t border-bismillah-borderLight pt-12 pb-6">
       <div className="max-w-7xl mx-auto px-4 space-y-10">
         {/* TOP 4 COLUMNS GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* COLUMN 1: LOGO & CONTACT INFO */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-sm">
+              <div className="w-9 h-9 rounded-sharp bg-bismillah-primaryGreen flex items-center justify-center text-white">
                 <Egg className="w-5 h-5 stroke-[2.2]" />
               </div>
-              <span className="text-xl font-black text-slate-900 tracking-tight">
-                Sumon<span className="text-emerald-600">Incubator</span>
+              <span className="text-xl font-black text-bismillah-bgDark tracking-tight">
+                Sumon<span className="text-bismillah-primaryGreen">Incubator</span>
               </span>
             </Link>
 
@@ -56,7 +56,7 @@ export const Footer: React.FC<FooterProps> = ({
 
             <div className="space-y-2 text-xs text-slate-700 font-medium">
               <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-bismillah-primaryGreen shrink-0 mt-0.5" />
                 <span>
                   {lang === 'bn'
                     ? 'মিরপুর ১০, ঢাকা-১২১৬, বাংলাদেশ'
@@ -64,15 +64,15 @@ export const Footer: React.FC<FooterProps> = ({
                 </span>
               </div>
               <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
+                <Phone className="w-4 h-4 text-bismillah-primaryGreen shrink-0" />
                 <span>{phoneDisplay}</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-emerald-600 shrink-0" />
+                <Mail className="w-4 h-4 text-bismillah-primaryGreen shrink-0" />
                 <span>support@sumonincubator.com</span>
               </div>
-              <div className="flex items-center gap-2.5 text-[11px] text-slate-500 pt-1">
-                <ShieldCheck className="w-4 h-4 text-amber-500 shrink-0" />
+              <div className="flex items-center gap-2.5 text-[11px] text-bismillah-textMuted pt-1">
+                <ShieldCheck className="w-4 h-4 text-bismillah-accentYellow shrink-0" />
                 <span>Trade License No: TRAD/DNCC/019284/2024</span>
               </div>
             </div>
@@ -80,34 +80,34 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* COLUMN 2: CUSTOMER CARE */}
           <div className="space-y-3">
-            <h4 className="text-sm font-black text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-2">
+            <h4 className="text-sm font-black text-bismillah-bgDark uppercase tracking-wider border-b border-bismillah-borderLight pb-2">
               {lang === 'bn' ? 'কাস্টমার কেয়ার' : 'Customer Care'}
             </h4>
             <ul className="space-y-2 text-xs font-semibold text-slate-600">
               <li>
-                <a href="#" className="hover:text-emerald-600 transition-colors">
+                <a href="#" className="hover:text-bismillah-primaryGreen transition-colors">
                   {lang === 'bn' ? 'প্রাইভেসি পলিসি' : 'Privacy Policy'}
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-emerald-600 transition-colors">
+                <a href="#" className="hover:text-bismillah-primaryGreen transition-colors">
                   {lang === 'bn' ? 'রিফান্ড ও রিটার্ন পলিসি' : 'Refund & Return Policy'}
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-emerald-600 transition-colors">
+                <a href="#" className="hover:text-bismillah-primaryGreen transition-colors">
                   {lang === 'bn' ? 'টার্মস ও কন্ডিশনস' : 'Terms & Conditions'}
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-emerald-600 transition-colors">
+                <a href="#" className="hover:text-bismillah-primaryGreen transition-colors">
                   {lang === 'bn' ? '১ বছর রিপ্লেসমেন্ট ওয়ারেন্টি' : 'Warranty Policy'}
                 </a>
               </li>
               <li>
                 <button
                   onClick={onOpenAuth}
-                  className="hover:text-emerald-600 transition-colors cursor-pointer"
+                  className="hover:text-bismillah-primaryGreen transition-colors cursor-pointer"
                 >
                   {lang === 'bn' ? 'অর্ডার ট্র্যাক করুন' : 'Order Tracking'}
                 </button>
@@ -117,14 +117,14 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* COLUMN 3: CATEGORIES & QUICK LINKS */}
           <div className="space-y-3">
-            <h4 className="text-sm font-black text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-2">
+            <h4 className="text-sm font-black text-bismillah-bgDark uppercase tracking-wider border-b border-bismillah-borderLight pb-2">
               {lang === 'bn' ? 'ক্যাটাগরি সমূহ' : 'Quick Categories'}
             </h4>
             <ul className="space-y-2 text-xs font-semibold text-slate-600">
               <li>
                 <Link
                   to="/category/incubators"
-                  className="hover:text-emerald-600 transition-colors"
+                  className="hover:text-bismillah-primaryGreen transition-colors"
                 >
                   {lang === 'bn' ? 'অটোমেটিক ইনকিউবেটর' : 'Automatic Egg Incubators'}
                 </Link>
@@ -132,7 +132,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <Link
                   to="/category/parts"
-                  className="hover:text-emerald-600 transition-colors"
+                  className="hover:text-bismillah-primaryGreen transition-colors"
                 >
                   {lang === 'bn' ? 'XM-18 পার্টস ও কন্ট্রোলার' : 'Incubator Parts & Kits'}
                 </Link>
@@ -140,7 +140,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <Link
                   to="/category/ips-ups"
-                  className="hover:text-emerald-600 transition-colors"
+                  className="hover:text-bismillah-primaryGreen transition-colors"
                 >
                   {lang === 'bn' ? 'হোম আইপিএস ও ইনভার্টার' : 'Home UPS & IPS'}
                 </Link>
@@ -148,7 +148,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <Link
                   to="/category/battery"
-                  className="hover:text-emerald-600 transition-colors"
+                  className="hover:text-bismillah-primaryGreen transition-colors"
                 >
                   {lang === 'bn' ? 'টিউবুলার ব্যাটারি' : 'IPS & Solar Battery'}
                 </Link>
@@ -156,7 +156,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <button
                   onClick={onOpenVideos}
-                  className="hover:text-emerald-600 transition-colors cursor-pointer flex items-center gap-1 text-amber-600 font-bold"
+                  className="hover:text-bismillah-primaryGreen transition-colors cursor-pointer flex items-center gap-1 text-bismillah-accentYellow font-bold"
                 >
                   <span>{lang === 'bn' ? 'ভিডিও টিউটোরিয়াল গ্যালারি' : 'Video Tutorials'}</span>
                 </button>
@@ -166,7 +166,7 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* COLUMN 4: ABOUT US & OFFICE HOURS */}
           <div className="space-y-3">
-            <h4 className="text-sm font-black text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-2">
+            <h4 className="text-sm font-black text-bismillah-bgDark uppercase tracking-wider border-b border-bismillah-borderLight pb-2">
               {lang === 'bn' ? 'আমাদের সম্পর্কে' : 'About SumonIncubator'}
             </h4>
             <p className="text-xs text-slate-600 leading-relaxed font-medium">
@@ -175,8 +175,8 @@ export const Footer: React.FC<FooterProps> = ({
                 : 'Over 8 years of trusted service empowering poultry farmers across Bangladesh.'}
             </p>
 
-            <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
-              <p className="text-[11px] font-bold text-slate-900">
+            <div className="bg-white p-3 rounded-sharp border border-bismillah-borderLight space-y-1">
+              <p className="text-[11px] font-bold text-bismillah-bgDark">
                 {lang === 'bn' ? 'অফিস খোলা:' : 'Office Hours:'}
               </p>
               <p className="text-xs text-slate-600">
@@ -184,7 +184,7 @@ export const Footer: React.FC<FooterProps> = ({
                   ? 'শনিবার - বৃহস্পতিবার (সকাল ৯টা - রাত ৯টা)'
                   : 'Saturday - Thursday (9:00 AM - 9:00 PM)'}
               </p>
-              <p className="text-[11px] font-bold text-emerald-700 pt-1">
+              <p className="text-[11px] font-bold text-bismillah-primaryGreen pt-1">
                 bKash Merchant: 01700-000000
               </p>
             </div>
@@ -192,30 +192,30 @@ export const Footer: React.FC<FooterProps> = ({
         </div>
 
         {/* BOTTOM SECTION: PAYMENTS, COURIERS & SOCIALS */}
-        <div className="border-t border-slate-200 pt-8 space-y-6">
+        <div className="border-t border-bismillah-borderLight pt-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
             {/* Payment Methods */}
             <div>
-              <p className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">
+              <p className="text-[11px] font-extrabold text-bismillah-textMuted uppercase tracking-wider mb-2">
                 {lang === 'bn' ? 'গৃহীত পেমেন্ট মাধ্যমসমূহ' : 'Accepted Payment Methods'}
               </p>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="bg-pink-600 text-white font-black text-[10px] px-2.5 py-1 rounded-lg">
+                <span className="bg-pink-600 text-white font-black text-[10px] px-2.5 py-1 rounded-sharp">
                   bKash
                 </span>
-                <span className="bg-orange-600 text-white font-black text-[10px] px-2.5 py-1 rounded-lg">
+                <span className="bg-orange-600 text-white font-black text-[10px] px-2.5 py-1 rounded-sharp">
                   Nagad
                 </span>
-                <span className="bg-purple-700 text-white font-black text-[10px] px-2.5 py-1 rounded-lg">
+                <span className="bg-purple-700 text-white font-black text-[10px] px-2.5 py-1 rounded-sharp">
                   Rocket
                 </span>
-                <span className="bg-blue-600 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg">
+                <span className="bg-blue-600 text-white font-bold text-[10px] px-2.5 py-1 rounded-sharp">
                   VISA
                 </span>
-                <span className="bg-red-600 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg">
+                <span className="bg-red-600 text-white font-bold text-[10px] px-2.5 py-1 rounded-sharp">
                   Mastercard
                 </span>
-                <span className="bg-emerald-700 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg">
+                <span className="bg-bismillah-primaryGreen text-white font-bold text-[10px] px-2.5 py-1 rounded-sharp">
                   Cash on Delivery
                 </span>
               </div>
@@ -223,20 +223,20 @@ export const Footer: React.FC<FooterProps> = ({
 
             {/* Courier Partners */}
             <div>
-              <p className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">
+              <p className="text-[11px] font-extrabold text-bismillah-textMuted uppercase tracking-wider mb-2">
                 {lang === 'bn' ? 'ডেলিভারি পার্টনারসমূহ' : 'Delivery Partners'}
               </p>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="bg-white border border-slate-300 font-bold text-[11px] text-slate-800 px-2.5 py-1 rounded-lg">
+                <span className="bg-white border border-bismillah-borderLight font-bold text-[11px] text-slate-800 px-2.5 py-1 rounded-sharp">
                   Steadfast Courier
                 </span>
-                <span className="bg-white border border-slate-300 font-bold text-[11px] text-red-600 px-2.5 py-1 rounded-lg">
+                <span className="bg-white border border-bismillah-borderLight font-bold text-[11px] text-red-600 px-2.5 py-1 rounded-sharp">
                   Pathao Courier
                 </span>
-                <span className="bg-white border border-slate-300 font-bold text-[11px] text-slate-800 px-2.5 py-1 rounded-lg">
+                <span className="bg-white border border-bismillah-borderLight font-bold text-[11px] text-slate-800 px-2.5 py-1 rounded-sharp">
                   RedX
                 </span>
-                <span className="bg-white border border-slate-300 font-bold text-[11px] text-emerald-700 px-2.5 py-1 rounded-lg">
+                <span className="bg-white border border-bismillah-borderLight font-bold text-[11px] text-bismillah-primaryGreen px-2.5 py-1 rounded-sharp">
                   Sundarban
                 </span>
               </div>
@@ -244,7 +244,7 @@ export const Footer: React.FC<FooterProps> = ({
 
             {/* Social Media Circular Buttons */}
             <div className="flex items-center md:justify-end gap-3">
-              <span className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider hidden sm:inline">
+              <span className="text-[11px] font-extrabold text-bismillah-textMuted uppercase tracking-wider hidden sm:inline">
                 {lang === 'bn' ? 'যুক্ত থাকুন:' : 'Follow Us:'}
               </span>
 
@@ -252,7 +252,7 @@ export const Footer: React.FC<FooterProps> = ({
                 href={messengerPageUrl || 'https://facebook.com'}
                 target="_blank"
                 rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white shadow-xs transition-all"
+                className="w-9 h-9 rounded-sharp bg-white border border-bismillah-borderLight flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-all"
                 title="Facebook Page"
               >
                 <Facebook className="w-4 h-4 fill-current" />
@@ -262,7 +262,7 @@ export const Footer: React.FC<FooterProps> = ({
                 href="https://youtube.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center text-red-600 hover:bg-red-600 hover:text-white shadow-xs transition-all"
+                className="w-9 h-9 rounded-sharp bg-white border border-bismillah-borderLight flex items-center justify-center text-red-600 hover:bg-red-600 hover:text-white transition-all"
                 title="YouTube Channel"
               >
                 <Youtube className="w-4 h-4 fill-current" />
@@ -272,7 +272,7 @@ export const Footer: React.FC<FooterProps> = ({
                 href={`https://wa.me/${whatsappNumber}`}
                 target="_blank"
                 rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white shadow-xs transition-all"
+                className="w-9 h-9 rounded-sharp bg-white border border-bismillah-borderLight flex items-center justify-center text-bismillah-primaryGreen hover:bg-bismillah-primaryGreen hover:text-white transition-all"
                 title="WhatsApp Hotline"
               >
                 <WhatsAppIcon className="w-4 h-4" />
@@ -280,7 +280,7 @@ export const Footer: React.FC<FooterProps> = ({
 
               <button
                 onClick={scrollToTop}
-                className="w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center hover:bg-emerald-700 shadow-sm transition-all cursor-pointer"
+                className="w-9 h-9 rounded-sharp bg-bismillah-primaryGreen text-white flex items-center justify-center hover:bg-emerald-700 transition-all cursor-pointer"
                 title="Scroll to Top"
               >
                 <ArrowUp className="w-4 h-4" />
@@ -289,11 +289,11 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
 
           {/* Copyright line */}
-          <div className="pt-4 border-t border-slate-200/60 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 font-medium">
+          <div className="pt-4 border-t border-bismillah-borderLight flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-bismillah-textMuted font-medium">
             <p>
               © 2026 <span className="font-extrabold text-slate-800">SumonIncubator</span>. All rights reserved. Designed for Bangladesh Poultry Industry.
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-bismillah-textMuted">
               {lang === 'bn'
                 ? 'কারিগরি সহায়তায়: সুমন টেকনোলজি টিম'
                 : 'Powered by Sumon Tech Engine'}

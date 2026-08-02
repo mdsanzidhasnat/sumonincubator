@@ -1,5 +1,5 @@
 import React from 'react';
-import { Truck, CreditCard, Headphones, ShieldCheck, RotateCcw } from 'lucide-react';
+import { Truck, Zap, Headphones, RotateCcw } from 'lucide-react';
 import { Language } from '../types';
 import { trustBadges } from '../data/trustBadges';
 
@@ -11,39 +11,33 @@ export const TrustBadges: React.FC<TrustBadgesProps> = ({ lang }) => {
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case 'Truck':
-        return <Truck className="w-6 h-6" />;
-      case 'CreditCard':
-        return <CreditCard className="w-6 h-6" />;
+        return <Truck className="w-5 h-5 text-bismillah-primaryGreen" />;
+      case 'Zap':
+        return <Zap className="w-5 h-5 text-bismillah-accentYellow" />;
       case 'Headphones':
-        return <Headphones className="w-6 h-6" />;
-      case 'ShieldCheck':
-        return <ShieldCheck className="w-6 h-6" />;
+        return <Headphones className="w-5 h-5 text-bismillah-primaryGreen" />;
       case 'RotateCcw':
-        return <RotateCcw className="w-6 h-6" />;
+        return <RotateCcw className="w-5 h-5 text-bismillah-primaryGreen" />;
       default:
-        return <ShieldCheck className="w-6 h-6" />;
+        return <Truck className="w-5 h-5 text-bismillah-primaryGreen" />;
     }
   };
 
   return (
-    <section className="py-8 bg-white border-b border-slate-200/70">
+    <section className="w-full py-6 bg-white border-b border-bismillah-borderLight">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           {trustBadges.map((badge) => (
             <div
               key={badge.id}
-              className="bg-slate-50/80 hover:bg-white p-4 rounded-2xl border border-slate-200/80 hover:border-emerald-500/40 hover:shadow-md transition-all duration-200 flex items-center gap-3.5 group cursor-default"
+              className="flex flex-row items-center justify-center space-x-3 py-2"
             >
-              <div
-                className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${badge.colorBg} group-hover:scale-110 transition-transform`}
-              >
-                {getIcon(badge.icon)}
-              </div>
-              <div className="min-w-0">
-                <h4 className="text-xs font-black text-slate-900 group-hover:text-emerald-700 transition-colors">
+              {getIcon(badge.icon)}
+              <div className="min-w-0 text-center sm:text-left">
+                <h4 className="text-sm font-semibold text-slate-900 font-bangla">
                   {lang === 'bn' ? badge.titleBn : badge.title}
                 </h4>
-                <p className="text-[11px] text-slate-500 font-medium leading-tight mt-0.5 truncate">
+                <p className="text-[11px] text-bismillah-textMuted font-medium leading-tight mt-0.5">
                   {lang === 'bn' ? badge.subtitleBn : badge.subtitle}
                 </p>
               </div>

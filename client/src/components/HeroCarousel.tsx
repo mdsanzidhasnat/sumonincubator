@@ -73,6 +73,9 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 6000);
@@ -82,16 +85,16 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   const slide = slides[currentSlide];
 
   return (
-    <section className="relative bg-gradient-to-br from-slate-50 via-emerald-50/40 to-slate-100 overflow-hidden py-8 md:py-12 border-b border-slate-200/60">
+    <section className="relative bg-white overflow-hidden py-8 md:py-12 border-b border-bismillah-borderLight">
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* LEFT CONTENT COLUMN */}
           <div className="lg:col-span-7 space-y-5 animate-in fade-in slide-in-from-left-4 duration-300">
             {/* Tag Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/80 border border-emerald-300/60 text-emerald-800 text-xs font-extrabold tracking-wide">
-              <Zap className="w-3.5 h-3.5 text-emerald-600 fill-emerald-600" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-sharp bg-bismillah-primaryGreen text-white text-xs font-extrabold tracking-wide">
+              <Zap className="w-3.5 h-3.5 text-bismillah-accentYellow fill-bismillah-accentYellow" />
               <span>{lang === 'bn' ? slide.tagBn : slide.tagEn}</span>
-              <span className="bg-amber-500 text-slate-950 font-black px-2 py-0.2 rounded-full text-[10px]">
+              <span className="bg-bismillah-accentYellow text-slate-950 font-black px-2 py-0.2 rounded-full text-[10px]">
                 {lang === 'bn' ? slide.badgeBn : slide.badgeEn}
               </span>
             </div>
@@ -112,9 +115,9 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                 (feat, idx) => (
                   <span
                     key={idx}
-                    className="inline-flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1 rounded-lg text-xs font-bold text-slate-700 shadow-xs"
+                    className="inline-flex items-center gap-1.5 bg-white border border-bismillah-borderLight px-3 py-1 rounded-sharp text-xs font-bold text-slate-700"
                   >
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                    <ShieldCheck className="w-3.5 h-3.5 text-bismillah-primaryGreen" />
                     {feat}
                   </span>
                 )
@@ -123,8 +126,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
             {/* Pricing & CTA Row */}
             <div className="flex flex-wrap items-center gap-4 pt-3">
-              <div className="flex items-baseline gap-2 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-xs">
-                <span className="text-2xl font-black text-emerald-600">
+              <div className="flex items-baseline gap-2 bg-white px-4 py-2 rounded-sharp border border-bismillah-borderLight">
+                <span className="text-2xl font-black text-bismillah-primaryGreen">
                   {lang === 'bn' ? slide.priceBn : slide.priceEn}
                 </span>
                 <span className="text-sm text-slate-400 line-through font-semibold">
@@ -135,7 +138,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
               <div className="flex items-center gap-3">
                 <button
                   onClick={onShopNow}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm px-6 py-3 rounded-xl shadow-lg shadow-emerald-600/25 flex items-center gap-2 cursor-pointer transition-all hover:scale-105"
+                  className="border-2 border-black bg-transparent hover:bg-black text-black hover:text-white font-extrabold uppercase text-sm tracking-wider px-6 py-3 rounded-sharp flex items-center gap-2 cursor-pointer transition-colors"
                 >
                   <span>{lang === 'bn' ? 'অর্ডার করুন' : 'Shop Now'}</span>
                   <ArrowRight className="w-4 h-4" />
@@ -143,9 +146,9 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
                 <button
                   onClick={onOpenVideos}
-                  className="bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold text-sm px-4 py-3 rounded-xl shadow-xs flex items-center gap-2 cursor-pointer transition-all"
+                  className="bg-white hover:bg-slate-100 text-slate-800 border border-bismillah-borderLight font-bold text-sm px-4 py-3 rounded-sharp flex items-center gap-2 cursor-pointer transition-colors"
                 >
-                  <Play className="w-4 h-4 text-emerald-600 fill-emerald-600" />
+                  <Play className="w-4 h-4 text-bismillah-primaryGreen fill-bismillah-primaryGreen" />
                   <span>{lang === 'bn' ? 'ভিডিও দেখুন' : 'Watch Video'}</span>
                 </button>
               </div>
@@ -154,8 +157,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
           {/* RIGHT PRODUCT BANNER IMAGE COLUMN */}
           <div className="lg:col-span-5 relative group">
-            <div className="relative mx-auto max-w-md lg:max-w-none rounded-3xl overflow-hidden bg-white p-3 shadow-xl border border-slate-200/80 transform group-hover:scale-[1.01] transition-transform duration-300">
-              <div className="relative h-72 sm:h-80 md:h-96 rounded-2xl overflow-hidden bg-slate-100">
+            <div className="relative mx-auto max-w-md lg:max-w-none overflow-hidden bg-white border border-bismillah-borderLight">
+              <div className="relative h-72 sm:h-80 md:h-96 overflow-hidden bg-slate-100">
                 <img
                   src={slide.image}
                   alt={slide.titleEn}
@@ -164,20 +167,30 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent"></div>
 
+                {/* Circular Discount Sticker */}
+                <div className="absolute top-4 right-4 w-20 h-20 rounded-full bg-bismillah-accentYellow text-slate-950 flex flex-col items-center justify-center border-2 border-white shadow-md rotate-12">
+                  <span className="text-[9px] font-bold uppercase leading-none">
+                    {lang === 'bn' ? 'ছাড়' : 'OFF'}
+                  </span>
+                  <span className="text-sm font-black leading-none mt-0.5">
+                    {lang === 'bn' ? slide.badgeBn.replace('ছাড়', '').trim() : slide.badgeEn.replace('OFF', '').trim()}
+                  </span>
+                </div>
+
                 {/* Floating Trust Tag */}
-                <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3 rounded-xl border border-white/60 shadow-lg flex items-center justify-between">
+                <div className="absolute bottom-4 left-4 right-4 bg-white/95 p-3 rounded-sharp border border-bismillah-borderLight flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Award className="w-5 h-5 text-amber-500" />
+                    <Award className="w-5 h-5 text-bismillah-accentYellow" />
                     <div>
                       <p className="text-xs font-black text-slate-900">
                         SUMON Quality Certified
                       </p>
                       <p className="text-[10px] text-slate-500">
-                        {lang === 'bn' ? 'ফ্যাক্টরি টেস্টেড ও কোয়ালিটি চেকেড' : 'Factory Tested & Quality Checked'}
+                        {lang === 'bn' ? 'ফ্যাক্টরি টেস্টেড ও কোয়ালিটি চেকেড' : 'Factory Tested & Quality Checked'}
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-lg">
+                  <span className="text-xs font-bold text-bismillah-primaryGreen bg-bismillah-primaryGreen/10 px-2.5 py-1 rounded-sharp">
                     In Stock
                   </span>
                 </div>
@@ -188,17 +201,18 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
         {/* CAROUSEL CONTROLS & PAGINATION */}
         <div className="flex items-center justify-between pt-8">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" role="tablist" aria-label="Slides">
             {slides.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentSlide(idx)}
                 className={`h-2.5 rounded-full transition-all cursor-pointer ${
                   currentSlide === idx
-                    ? 'w-8 bg-emerald-600'
+                    ? 'w-8 bg-bismillah-primaryGreen'
                     : 'w-2.5 bg-slate-300 hover:bg-slate-400'
                 }`}
                 title={`Go to slide ${idx + 1}`}
+                aria-label={`Go to slide ${idx + 1}`}
               />
             ))}
           </div>
@@ -208,7 +222,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
               onClick={() =>
                 setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1))
               }
-              className="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center text-slate-700 hover:border-emerald-600 hover:text-emerald-600 shadow-xs cursor-pointer transition-all"
+              aria-label="Previous slide"
+              className="w-9 h-9 rounded-sharp bg-white border border-bismillah-borderLight flex items-center justify-center text-slate-700 hover:border-bismillah-primaryGreen hover:text-bismillah-primaryGreen cursor-pointer transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -216,7 +231,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
               onClick={() =>
                 setCurrentSlide((prev) => (prev + 1) % slides.length)
               }
-              className="w-9 h-9 rounded-full bg-white border border-slate-300 flex items-center justify-center text-slate-700 hover:border-emerald-600 hover:text-emerald-600 shadow-xs cursor-pointer transition-all"
+              aria-label="Next slide"
+              className="w-9 h-9 rounded-sharp bg-white border border-bismillah-borderLight flex items-center justify-center text-slate-700 hover:border-bismillah-primaryGreen hover:text-bismillah-primaryGreen cursor-pointer transition-colors"
             >
               <ChevronRight className="w-5 h-5" />
             </button>

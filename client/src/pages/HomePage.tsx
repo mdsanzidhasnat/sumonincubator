@@ -55,8 +55,7 @@ export const HomePage: React.FC = () => {
         titleEn="AUTOMATIC EGG INCUBATORS"
         titleBn="অটোমেটিক ডিম ইনকিউবেটর সিরিজ"
         subtitleEn="High hatch rate incubators built for Bangladeshi climate & dual AC/DC power."
-        subtitleBn="৯৮% হ্যাচিং গ্যারান্টি ও এসি/ডিসি পাওয়ার সাপোর্ট সহ ডিজিটাল ইনকিউবেটর।"
-        iconName="Egg"
+        subtitleBn="৯৮% হ্যাচিং গ্যারান্টি ও এসি/ডিসি পাওয়ার সাপোর্ট সহ ডিজিটাল ইনকিউবেটর।"
         products={products}
         lang={lang}
         onQuickView={(p) => setQuickViewProduct(p)}
@@ -73,7 +72,6 @@ export const HomePage: React.FC = () => {
         titleBn="ইনকিউবেটর পার্টস ও স্পেয়ার কিটস"
         subtitleEn="XM-18 controllers, humidity foggers, sensors & egg turning motors."
         subtitleBn="ডিজিটাল থার্মোস্ট্যাট, আর্দ্রতা ফগার, প্রোভ সেন্সর ও ডিম ঘুরানোর মোটর।"
-        iconName="Cpu"
         products={products}
         lang={lang}
         onQuickView={(p) => setQuickViewProduct(p)}
@@ -89,8 +87,7 @@ export const HomePage: React.FC = () => {
         titleEn="ELECTRONIC GADGETS & TIMERS"
         titleBn="ইলেকট্রনিক্স গ্যাজেট ও টাইমার সকেট"
         subtitleEn="Voltage protectors, digital socket timers and automatic power switches."
-        subtitleBn="ভোল্টেজ প্রটেক্টর, সকেট টাইমার ও ডিজিটাল পাওয়ার গার্ড গ্যাজেট।"
-        iconName="Sliders"
+        subtitleBn="ভোল্টেজ প্রটেক্টর, সকেট টাইমার ও ডিজিটাল পাওয়ার গার্ড গ্যাজেট।"
         products={products}
         lang={lang}
         onQuickView={(p) => setQuickViewProduct(p)}

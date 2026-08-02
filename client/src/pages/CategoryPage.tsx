@@ -21,11 +21,11 @@ export const CategoryPage: React.FC = () => {
     <div className="py-10 bg-slate-50 min-h-full">
       <div className="max-w-7xl mx-auto px-4 space-y-6">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-          <Link to="/" className="hover:text-emerald-600 transition-colors">
+        <nav className="flex items-center gap-2 text-xs font-semibold text-bismillah-textMuted">
+          <Link to="/" className="hover:text-bismillah-primaryGreen transition-colors">
             {lang === 'bn' ? 'হোম' : 'Home'}
           </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+          <ChevronRight className="w-3.5 h-3.5 text-bismillah-textMuted" />
           <span className="text-slate-800 font-bold">
             {category
               ? (lang === 'bn' ? category.nameBn : category.name)
@@ -35,25 +35,25 @@ export const CategoryPage: React.FC = () => {
 
         {/* Category header */}
         {category && (
-          <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-2">
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900">
+          <div className="bg-white rounded-sharp border border-bismillah-borderLight p-6 space-y-2">
+            <h1 className="text-2xl sm:text-3xl font-black text-bismillah-bgDark">
               {lang === 'bn' ? category.nameBn : category.name}
             </h1>
             <p className="text-sm text-slate-600 font-medium">
               {lang === 'bn' ? category.descriptionBn : category.description}
             </p>
-            <p className="text-xs font-bold text-emerald-700">
+            <p className="text-xs font-bold text-bismillah-primaryGreen">
               {categoryProducts.length} {lang === 'bn' ? 'টি প্রোডাক্ট পাওয়া গেছে' : 'products found'}
             </p>
           </div>
         )}
 
         {!category && (
-          <div className="bg-white rounded-2xl border border-slate-200 p-6">
-            <h1 className="text-2xl font-black text-slate-900">
+          <div className="bg-white rounded-sharp border border-bismillah-borderLight p-6">
+            <h1 className="text-2xl font-black text-bismillah-bgDark">
               {lang === 'bn' ? 'ক্যাটাগরি পাওয়া যায়নি' : 'Category Not Found'}
             </h1>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-sm text-bismillah-textMuted mt-1">
               {lang === 'bn' ? 'এই ক্যাটাগরিটি বিদ্যমান নেই।' : 'This category does not exist.'}
             </p>
           </div>
@@ -77,7 +77,7 @@ export const CategoryPage: React.FC = () => {
             ))}
           </div>
         ) : categorySlug && category ? (
-          <div className="bg-white rounded-2xl p-12 text-center border border-slate-200">
+          <div className="bg-white rounded-sharp p-12 text-center border border-bismillah-borderLight">
             <p className="text-base font-bold text-slate-800">
               {lang === 'bn'
                 ? 'এই ক্যাটাগরিতে কোনো প্রোডাক্ট পাওয়া যায়নি।'
@@ -85,7 +85,7 @@ export const CategoryPage: React.FC = () => {
             </p>
             <Link
               to="/shop"
-              className="inline-block mt-4 bg-emerald-600 text-white font-bold text-xs px-4 py-2 rounded-xl"
+              className="inline-block mt-4 bg-bismillah-primaryGreen text-white font-bold text-xs px-4 py-2 rounded-sharp"
             >
               {lang === 'bn' ? 'সকল প্রোডাক্ট দেখুন' : 'View All Products'}
             </Link>

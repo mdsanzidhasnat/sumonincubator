@@ -18,8 +18,8 @@ export const VideosModal: React.FC<VideosModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="relative bg-white rounded-3xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
+      <div className="relative bg-white rounded-lg max-w-3xl w-full shadow-2xl border border-bismillah-borderLight overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="p-4 bg-bismillah-bgDark text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Youtube className="w-5 h-5 text-red-500 fill-red-500" />
             <h3 className="text-base font-extrabold">
@@ -39,7 +39,7 @@ export const VideosModal: React.FC<VideosModalProps> = ({
             {videoTutorials.map((vid) => (
               <div
                 key={vid.id}
-                className="bg-slate-50 hover:bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-lg transition-all group cursor-pointer"
+                className="bg-slate-50 hover:bg-white rounded-lg border border-bismillah-borderLight overflow-hidden transition-all group cursor-pointer"
                 onClick={() =>
                   window.open(`https://youtube.com/results?search_query=Sumon+Incubator+${encodeURIComponent(vid.title)}`, '_blank')
                 }
@@ -62,10 +62,10 @@ export const VideosModal: React.FC<VideosModalProps> = ({
                 </div>
 
                 <div className="p-3 space-y-1">
-                  <h4 className="text-xs font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-emerald-700">
+                  <h4 className="text-xs font-bold text-bismillah-bgDark line-clamp-2 leading-snug group-hover:text-bismillah-primaryGreen">
                     {lang === 'bn' ? vid.titleBn : vid.title}
                   </h4>
-                  <p className="text-[10px] text-slate-500 font-medium">
+                  <p className="text-[10px] text-bismillah-textMuted font-medium">
                     {vid.views}
                   </p>
                 </div>

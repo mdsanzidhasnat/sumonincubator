@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Egg, Cpu, Sliders, Zap } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { Product, Language } from '../types';
 import { ProductCard } from './ProductCard';
+import { SectionHeaderBlock } from './SectionHeaderBlock';
 
 interface CategorySectionProps {
   categoryId: 'incubators' | 'parts' | 'gadgets' | 'ips-ups' | 'battery';
@@ -10,7 +11,6 @@ interface CategorySectionProps {
   titleBn: string;
   subtitleEn: string;
   subtitleBn: string;
-  iconName: string;
   products: Product[];
   lang: Language;
   onQuickView: (product: Product) => void;
@@ -27,7 +27,6 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
   titleBn,
   subtitleEn,
   subtitleBn,
-  iconName,
   products,
   lang,
   onQuickView,
@@ -41,49 +40,23 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
     .filter((p) => p.categoryId === categoryId)
     .slice(0, 4);
 
-  const getIcon = () => {
-    switch (iconName) {
-      case 'Egg':
-        return <Egg className="w-5 h-5 text-emerald-600" />;
-      case 'Cpu':
-        return <Cpu className="w-5 h-5 text-amber-600" />;
-      case 'Sliders':
-        return <Sliders className="w-5 h-5 text-indigo-600" />;
-      default:
-        return <Zap className="w-5 h-5 text-blue-600" />;
-    }
-  };
-
   if (categoryProducts.length === 0) return null;
 
   return (
-    <section className="py-10 bg-slate-50 border-b border-slate-200/60">
+    <section className="py-10 bg-white border-b border-bismillah-borderLight">
       <div className="max-w-7xl mx-auto px-4 space-y-6">
-        {/* HEADER WITH "MORE PRODUCT" PILL BUTTON ALIGNED ON RIGHT */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-xs flex items-center justify-center shrink-0">
-              {getIcon()}
-            </div>
-            <div>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-                {lang === 'bn' ? titleBn : titleEn}
-              </h3>
-              <p className="text-xs text-slate-500 font-medium">
-                {lang === 'bn' ? subtitleBn : subtitleEn}
-              </p>
-            </div>
-          </div>
-
-          {/* MORE PRODUCT PILL BUTTON */}
+        <SectionHeaderBlock
+          title={lang === 'bn' ? titleBn : titleEn}
+          subtitle={lang === 'bn' ? subtitleBn : subtitleEn}
+        >
           <Link
             to={`/category/${categoryId}`}
-            className="inline-flex items-center gap-1.5 bg-white hover:bg-emerald-600 text-emerald-700 hover:text-white border border-emerald-300 hover:border-emerald-600 font-bold text-xs px-4 py-2 rounded-full shadow-xs cursor-pointer transition-all self-start sm:self-center"
+            className="inline-flex items-center gap-1.5 bg-bismillah-primaryGreen hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2 rounded-t-sharp cursor-pointer transition-colors"
           >
             <span>{lang === 'bn' ? 'আরও প্রোডাক্ট দেখুন' : 'More Product'}</span>
             <ChevronRight className="w-4 h-4 stroke-[2.5]" />
           </Link>
-        </div>
+        </SectionHeaderBlock>
 
         {/* PRODUCTS GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
