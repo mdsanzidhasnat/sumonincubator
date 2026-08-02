@@ -357,9 +357,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           {checkoutStep === 'cart' && cartItems.length > 0 && (
             <div className="p-4 bg-slate-50 border-t border-bismillah-borderLight space-y-3">
               {/* Delivery Zone Toggle */}
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-700 bg-white p-2 rounded-lg border border-bismillah-borderLight">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-slate-700 bg-white p-2 rounded-lg border border-bismillah-borderLight">
                 <span>{lang === 'bn' ? 'ডেলিভারি এরিয়া:' : 'Delivery Area:'}</span>
-                <div className="flex gap-1">
+                <div className="flex flex-wrap gap-1">
                   <button
                     onClick={() => setDeliveryArea('dhaka')}
                     className={`px-2 py-1 rounded-lg text-[11px] font-bold cursor-pointer ${

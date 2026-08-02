@@ -35,7 +35,7 @@ export const TopBar: React.FC<TopBarProps> = ({
         </div>
 
         {/* Right utility buttons */}
-        <div className="flex items-center gap-4 sm:gap-6 font-medium text-slate-200">
+        <div className="flex items-center justify-center flex-wrap gap-x-4 gap-y-1 sm:gap-x-6 font-medium text-slate-200">
           {/* Compare Link */}
           <button
             onClick={onOpenCompare}

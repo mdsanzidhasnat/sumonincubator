@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import {
   Menu,
+  X,
   ChevronDown,
   Egg,
   Cpu,
@@ -27,7 +28,9 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const megaMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const getCategoryIcon = (iconName: string) => {
     switch (iconName) {
@@ -58,11 +61,38 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(e.target as Node)
+      ) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `px-3.5 py-3.5 border-b-2 flex items-center gap-1.5 transition-all cursor-pointer ${
       isActive
         ? 'border-bismillah-accentYellow text-white font-bold'
         : 'border-transparent text-white/85 hover:text-bismillah-accentYellow hover:border-bismillah-accentYellow/60'
+    }`;
+
+  const mobileLinkClass = ({ isActive }: { isActive: boolean }) =>
+    `w-full text-left px-4 py-2.5 flex items-center gap-3 transition-colors text-xs font-semibold ${
+      isActive
+        ? 'text-bismillah-primaryGreen bg-bismillah-primaryGreen/5'
+        : 'text-slate-700 hover:bg-bismillah-primaryGreen/5'
     }`;
 
   return (
@@ -71,7 +101,10 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
         {/* LEFT: MEGA MENU BUTTON FOR CATEGORIES */}
         <div className="relative" ref={megaMenuRef}>
           <button
-            onClick={() => setIsMegaMenuOpen(!isMegaMenuOpen)}
+            onClick={() => {
+              setIsMegaMenuOpen(!isMegaMenuOpen);
+              setIsMobileMenuOpen(false);
+            }}
             className="flex items-center gap-2.5 bg-bismillah-bgDark hover:bg-slate-800 text-white font-bold text-sm px-5 py-3.5 cursor-pointer transition-colors"
           >
             <Menu className="w-5 h-5 stroke-[2.2]" />
@@ -173,6 +206,93 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
               ? '৮৮টি ডিমে ৯৮% হ্যাচিং গ্যারান্টি!'
               : '98% Hatch Rate Guaranteed!'}
           </span>
+        </div>
+
+        {/* RIGHT (MOBILE): HAMBURGER MENU */}
+        <div ref={mobileMenuRef} className="relative md:hidden">
+          <button
+            onClick={() => {
+              setIsMobileMenuOpen(!isMobileMenuOpen);
+              setIsMegaMenuOpen(false);
+            }}
+            className="flex items-center gap-1.5 bg-bismillah-bgDark hover:bg-slate-800 text-white font-bold text-sm px-3.5 py-3.5 cursor-pointer transition-colors"
+            aria-label={lang === 'bn' ? 'মেনু খুলুন' : 'Open Menu'}
+            aria-expanded={isMobileMenuOpen}
+          >
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            <span>{lang === 'bn' ? 'মেনু' : 'Menu'}</span>
+          </button>
+
+          {/* Mobile Slide-Down Menu */}
+          {isMobileMenuOpen && (
+            <div className="absolute top-full right-0 w-72 sm:w-80 bg-white rounded-sharp shadow-lg border border-bismillah-borderLight z-50 text-slate-800 animate-in fade-in slide-in-from-top-2 duration-150 overflow-hidden max-h-[calc(100vh-4rem)] overflow-y-auto">
+              {/* Primary page links */}
+              <div className="py-2">
+                <NavLink to="/" end onClick={() => setIsMobileMenuOpen(false)} className={mobileLinkClass}>
+                  <Home className="w-4 h-4 text-bismillah-primaryGreen" />
+                  <span>{lang === 'bn' ? 'হোম' : 'Home'}</span>
+                </NavLink>
+                <NavLink to="/shop" onClick={() => setIsMobileMenuOpen(false)} className={mobileLinkClass}>
+                  <ShoppingBag className="w-4 h-4 text-bismillah-primaryGreen" />
+                  <span>{lang === 'bn' ? 'শপ' : 'Shop'}</span>
+                </NavLink>
+                <NavLink to="/blog" onClick={() => setIsMobileMenuOpen(false)} className={mobileLinkClass}>
+                  <BookOpen className="w-4 h-4 text-bismillah-primaryGreen" />
+                  <span>{lang === 'bn' ? 'আমাদের ব্লগ' : 'Our Blog'}</span>
+                </NavLink>
+                <NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)} className={mobileLinkClass}>
+                  <Info className="w-4 h-4 text-bismillah-primaryGreen" />
+                  <span>{lang === 'bn' ? 'আমাদের সম্পর্কে' : 'About Us'}</span>
+                </NavLink>
+                <NavLink to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={mobileLinkClass}>
+                  <Phone className="w-4 h-4 text-bismillah-primaryGreen" />
+                  <span>{lang === 'bn' ? 'যোগাযোগ' : 'Contact Us'}</span>
+                </NavLink>
+                <button
+                  onClick={() => {
+                    onOpenVideos();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-2.5 flex items-center gap-3 transition-colors text-xs font-semibold text-slate-700 hover:bg-bismillah-primaryGreen/5 cursor-pointer"
+                >
+                  <Video className="w-4 h-4 text-bismillah-accentYellow" />
+                  <span>{lang === 'bn' ? 'আমাদের ভিডিও' : 'Our Videos'}</span>
+                </button>
+              </div>
+
+              {/* Category links */}
+              <div className="border-t border-bismillah-borderLight">
+                <div className="px-4 py-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                  {lang === 'bn' ? 'সকল বিভাগ' : 'All Departments'}
+                </div>
+                <div className="pb-2">
+                  <Link
+                    to="/shop"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-full text-left px-4 py-2.5 flex items-center gap-3 hover:bg-bismillah-primaryGreen/5 transition-colors"
+                  >
+                    <Sparkles className="w-4 h-4 text-bismillah-primaryGreen" />
+                    <span className="text-xs font-semibold">
+                      {lang === 'bn' ? 'সকল প্রোডাক্ট' : 'All Products'}
+                    </span>
+                  </Link>
+                  {categories.map((cat) => (
+                    <Link
+                      key={cat.id}
+                      to={`/category/${cat.id}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="w-full text-left px-4 py-2.5 flex items-center gap-3 hover:bg-bismillah-primaryGreen/5 transition-colors"
+                    >
+                      {getCategoryIcon(cat.iconName)}
+                      <span className="text-xs font-semibold">
+                        {lang === 'bn' ? cat.nameBn : cat.name}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </nav>

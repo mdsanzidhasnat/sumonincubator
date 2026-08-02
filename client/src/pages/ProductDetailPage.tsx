@@ -156,10 +156,10 @@ export const ProductDetailPage: React.FC = () => {
                 )}
 
                 {/* Action buttons */}
-                <div className="flex items-center gap-3 pt-2">
+                <div className="flex flex-wrap items-center gap-3 pt-2">
                   <button
                     onClick={() => handleAddToCart(product)}
-                    className="bg-bismillah-primaryGreen hover:bg-emerald-700 text-white font-extrabold text-sm px-6 py-3 rounded-sharp flex items-center gap-2 cursor-pointer transition-all hover:scale-105"
+                    className="bg-bismillah-primaryGreen hover:bg-emerald-700 text-white font-extrabold text-sm px-5 sm:px-6 py-3 rounded-sharp flex items-center gap-2 cursor-pointer transition-all hover:scale-105"
                   >
                     <ShoppingBag className="w-4 h-4" />
                     <span>{lang === 'bn' ? 'কার্টে রাখুন' : 'Add to Cart'}</span>

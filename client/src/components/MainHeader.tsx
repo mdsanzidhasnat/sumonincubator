@@ -73,17 +73,17 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
     <header className="sticky top-0 z-40 bg-white border-b border-bismillah-borderLight transition-all">
       <div className="max-w-7xl mx-auto px-4 py-3.5 flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
         {/* LOGO AREA */}
-        <a href="/" className="flex items-center gap-2.5 group shrink-0">
-          <div className="w-10 h-10 bg-bismillah-bgDark flex items-center justify-center text-bismillah-accentYellow group-hover:bg-bismillah-primaryGreen transition-colors">
+        <a href="/" className="flex items-center gap-2.5 group shrink-0 min-w-0">
+          <div className="w-10 h-10 bg-bismillah-bgDark flex items-center justify-center text-bismillah-accentYellow group-hover:bg-bismillah-primaryGreen transition-colors shrink-0">
             <Egg className="w-6 h-6 stroke-[2.2]" />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-1">
-              <span className="text-xl font-extrabold tracking-tight text-slate-900">
+              <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 truncate">
                 SUMON<span className="text-bismillah-primaryGreen">INCUBATOR</span>
               </span>
             </div>
-            <p className="text-[10px] font-semibold text-bismillah-textMuted -mt-1 tracking-wider uppercase">
+            <p className="text-[10px] font-semibold text-bismillah-textMuted -mt-1 tracking-wider uppercase truncate">
               {lang === 'bn' ? 'ইনকিউবেটর ও ইলেকট্রনিক্স' : 'Electronics & Poultry Tech'}
             </p>
           </div>
@@ -218,7 +218,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
           {/* Cart Icon & Subtotal Drawer Button */}
           <button
             onClick={onOpenCart}
-            className="flex items-center gap-2.5 bg-bismillah-primaryGreen hover:bg-emerald-700 text-white px-4 py-2 rounded-sharp cursor-pointer transition-colors"
+            className="flex items-center gap-2.5 bg-bismillah-primaryGreen hover:bg-emerald-700 text-white px-3 sm:px-4 py-2 rounded-sharp cursor-pointer transition-colors shrink-0"
           >
             <div className="relative">
               <ShoppingBag className="w-5 h-5" />

@@ -21,7 +21,7 @@ export const WhatsAppWidget: React.FC<WhatsAppWidgetProps> = ({ lang }) => {
   return (
     <div className="fixed bottom-6 right-6 z-40">
       {isOpen && (
-        <div className="mb-3 w-80 bg-white rounded-lg shadow-2xl border border-bismillah-borderLight overflow-hidden animate-in slide-in-from-bottom-4 duration-200">
+        <div className="mb-3 w-[calc(100vw-3rem)] max-w-xs bg-white rounded-lg shadow-2xl border border-bismillah-borderLight overflow-hidden animate-in slide-in-from-bottom-4 duration-200">
           <div className="bg-bismillah-primaryGreen p-3 text-white flex items-center justify-between">
             <div className="flex items-center gap-2">
               <WhatsAppIcon className="w-4 h-4" />
