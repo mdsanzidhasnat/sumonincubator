@@ -22,7 +22,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   onOpenAuth,
 }) => {
   return (
-    <div className="bg-bismillah-bgDark text-xs py-1.5 px-4 text-slate-300 transition-colors">
+    <div className="hidden sm:block bg-bismillah-bgDark text-xs py-1.5 px-4 text-slate-300 transition-colors">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
         {/* Left Bengali trust tagline */}
         <div className="flex items-center gap-2 font-medium text-slate-200">

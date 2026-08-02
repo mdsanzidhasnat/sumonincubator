@@ -11,7 +11,7 @@ import { useApp } from '../context/AppContext';
 export const HomePage: React.FC = () => {
   const {
     lang, products, handleAddToCart, handleToggleWishlist, handleToggleCompare,
-    wishlistIds, compareIds, setQuickViewProduct, setIsVideosOpen,
+    wishlistIds, compareIds, setQuickViewProduct,
   } = useApp();
 
   const navigate = useNavigate();
@@ -21,7 +21,6 @@ export const HomePage: React.FC = () => {
       <HeroCarousel
         lang={lang}
         onShopNow={() => navigate('/shop')}
-        onOpenVideos={() => setIsVideosOpen(true)}
       />
 
       <TrustBadges lang={lang} />

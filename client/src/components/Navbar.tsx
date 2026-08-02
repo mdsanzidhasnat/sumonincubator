@@ -4,6 +4,7 @@ import {
   Menu,
   X,
   ChevronDown,
+  Globe,
   Egg,
   Cpu,
   Zap,
@@ -23,10 +24,11 @@ import { categories } from '../data/categories';
 
 interface NavbarProps {
   lang: Language;
+  setLang: (lang: Language) => void;
   onOpenVideos: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
+export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, onOpenVideos }) => {
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const megaMenuRef = useRef<HTMLDivElement>(null);
@@ -290,6 +292,23 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onOpenVideos }) => {
                     </Link>
                   ))}
                 </div>
+              </div>
+
+              {/* Language toggle footer */}
+              <div className="border-t border-bismillah-borderLight p-3">
+                <button
+                  onClick={() => {
+                    setLang(lang === 'bn' ? 'en' : 'bn');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full flex items-center justify-center gap-2 bg-bismillah-bgDark text-white font-bold text-xs px-3 py-2.5 rounded-sharp cursor-pointer transition-colors hover:bg-slate-800"
+                >
+                  <Globe className="w-4 h-4 text-bismillah-accentYellow" />
+                  <span>
+                    {lang === 'bn' ? 'ENGLISH' : 'বাংলা'} —{' '}
+                    {lang === 'bn' ? 'Switch Language' : 'ভাষা পরিবর্তন করুন'}
+                  </span>
+                </button>
               </div>
             </div>
           )}

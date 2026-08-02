@@ -46,6 +46,7 @@ export const Layout: React.FC = () => {
 
       <Navbar
         lang={lang}
+        setLang={setLang}
         onOpenVideos={() => setIsVideosOpen(true)}
       />
 
