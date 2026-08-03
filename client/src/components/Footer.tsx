@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Language } from '../types';
 import { useContactSettings } from '../context/ContactSettingsContext';
+import { useBrandSettings, splitBrandName } from '../context/BrandSettingsContext';
 import { WhatsAppIcon } from './icons/WhatsAppIcon';
 
 interface FooterProps {
@@ -28,6 +29,8 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenAuth,
 }) => {
   const { phoneDisplay, whatsappNumber, messengerPageId, messengerPageUrl } = useContactSettings();
+  const { logoUrl, brandName } = useBrandSettings();
+  const brandSplit = splitBrandName(brandName);
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -40,12 +43,18 @@ export const Footer: React.FC<FooterProps> = ({
           {/* COLUMN 1: LOGO & CONTACT INFO */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-bismillah-primaryGreen flex items-center justify-center text-white">
-                <Egg className="w-5 h-5 stroke-[2.2]" />
+              <div className="w-9 h-9 rounded-full bg-bismillah-primaryGreen flex items-center justify-center text-white overflow-hidden">
+                {logoUrl ? (
+                  <img src={logoUrl} alt={brandName} className="w-9 h-9 object-contain" />
+                ) : (
+                  <Egg className="w-5 h-5 stroke-[2.2]" />
+                )}
               </div>
               <span className="text-xl font-black tracking-tight">
-                <span className="text-bismillah-primaryGreen">Sumon's</span>
-                <span className="text-bismillah-accentOrange ml-1">World</span>
+                <span className="text-bismillah-primaryGreen">{brandSplit.first}</span>
+                {brandSplit.last ? (
+                  <span className="text-bismillah-accentOrange ml-1">{brandSplit.last}</span>
+                ) : null}
               </span>
             </Link>
 

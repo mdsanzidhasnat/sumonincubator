@@ -24,3 +24,10 @@ export const heroSettingsSchema = z.object({
     slides: z.array(heroSlideSchema).min(1).max(10),
   }),
 });
+
+export const brandSettingsSchema = z.object({
+  body: z.object({
+    logoUrl: z.string().trim().max(500).optional().default(''),
+    brandName: z.string().trim().min(1).max(80),
+  }),
+});

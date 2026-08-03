@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 
 import {
+  DEFAULT_BRAND_SETTINGS,
   DEFAULT_CONTACT_SETTINGS,
   DEFAULT_HERO_SLIDES,
   SettingsModel,
@@ -71,5 +72,28 @@ export class SettingsController {
     );
 
     res.status(200).json({ id: 'hero', slides: doc.heroSlides as HeroSlide[] });
+  });
+
+  getBrand = asyncHandler(async (_req: Request, res: Response) => {
+    const doc = await SettingsModel.findOne({ key: 'brand' }).lean();
+
+    res.setHeader('Cache-Control', 'no-cache');
+    res.status(200).json({ id: 'brand', ...DEFAULT_BRAND_SETTINGS, ...doc });
+  });
+
+  updateBrand = asyncHandler(async (req: Request, res: Response) => {
+    const body = (req.body ?? {}) as { logoUrl?: unknown; brandName?: unknown };
+    const data = {
+      logoUrl: typeof body.logoUrl === 'string' ? body.logoUrl.trim() : '',
+      brandName: typeof body.brandName === 'string' ? body.brandName.trim() : DEFAULT_BRAND_SETTINGS.brandName,
+    };
+
+    const doc = await SettingsModel.findOneAndUpdate(
+      { key: 'brand' },
+      { $set: data },
+      { new: true, upsert: true },
+    );
+
+    res.status(200).json({ id: 'brand', ...DEFAULT_BRAND_SETTINGS, ...doc.toObject() });
   });
 }

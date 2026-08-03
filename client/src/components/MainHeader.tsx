@@ -5,6 +5,7 @@ import { Product, Language } from '../types';
 import { categories } from '../data/categories';
 import { products as allProducts } from '../data/products';
 import { useContactSettings } from '../context/ContactSettingsContext';
+import { useBrandSettings, splitBrandName } from '../context/BrandSettingsContext';
 import logoImg from '../images/logo.jpeg';
 
 interface MainHeaderProps {
@@ -24,6 +25,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
 }) => {
   const navigate = useNavigate();
   const { phone, phoneDisplay } = useContactSettings();
+  const { logoUrl, brandName } = useBrandSettings();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -76,15 +78,22 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
         {/* LOGO AREA */}
         <a href="/" className="flex items-center gap-2.5 group shrink-0 min-w-0">
           <div className="w-10 h-10 bg-bismillah-bgDark flex items-center justify-center text-bismillah-accentYellow group-hover:bg-bismillah-primaryGreen transition-colors shrink-0 overflow-hidden">
-            <img src={logoImg} alt="Sumon's World Logo" className="w-10 h-10 object-contain" />
+            <img
+              src={logoUrl || logoImg}
+              alt={brandName}
+              className="w-10 h-10 object-contain"
+            />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1">
               <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 truncate">
-                <span className="text-bismillah-primaryGreen">Sumon's</span>
-                <span className="text-bismillah-accentOrange ml-1">World</span>
-              </span>
-            </div>
+                <span className="text-bismillah-primaryGreen">{splitBrandName(brandName).first}</span>
+                {splitBrandName(brandName).last ? (
+                  <span className="text-bismillah-accentOrange ml-1">
+                    {splitBrandName(brandName).last}
+                  </span>
+                ) : null}
+              </span>            </div>
             <p className="text-[10px] font-semibold text-bismillah-textMuted -mt-1 tracking-wider uppercase truncate">
               {lang === 'bn' ? 'ইনকিউবেটর ও ইলেকট্রনিক্স' : 'Electronics & Poultry Tech'}
             </p>

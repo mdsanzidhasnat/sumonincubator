@@ -33,6 +33,11 @@ export const DEFAULT_CONTACT_SETTINGS = {
   messengerPageUrl: 'https://www.facebook.com/Codeaptor',
 } as const;
 
+export const DEFAULT_BRAND_SETTINGS = {
+  logoUrl: '',
+  brandName: "Sumon's World",
+} as const;
+
 const heroSlideSchema = new Schema(
   {
     image: { type: String, default: '' },
@@ -54,6 +59,8 @@ const settingsSchema = new Schema(
     messengerPageId: { type: String, default: '' },
     messengerPageUrl: { type: String, default: '' },
     heroSlides: { type: [heroSlideSchema], default: [] },
+    logoUrl: { type: String, default: '' },
+    brandName: { type: String, default: "Sumon's World" },
   },
   { timestamps: true },
 );

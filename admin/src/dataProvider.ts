@@ -233,7 +233,12 @@ export const dataProvider: DataProvider = {
       return { data: category as never };
     }
     if (resource === 'settings') {
-      const endpoint = params.id === 'hero' ? '/api/v1/settings/hero' : '/api/v1/settings/contact';
+      const endpoint =
+        params.id === 'hero'
+          ? '/api/v1/settings/hero'
+          : params.id === 'brand'
+            ? '/api/v1/settings/brand'
+            : '/api/v1/settings/contact';
       const settings = await fetchJson<Record<string, unknown>>(endpoint);
       return { data: settings as never };
     }
@@ -273,7 +278,12 @@ export const dataProvider: DataProvider = {
   async update(resource, params): Promise<UpdateResult> {
     if (resource === 'settings') {
       const { id, ...data } = params.data as Record<string, unknown>;
-      const endpoint = id === 'hero' ? '/api/v1/settings/hero' : '/api/v1/settings/contact';
+      const endpoint =
+        id === 'hero'
+          ? '/api/v1/settings/hero'
+          : id === 'brand'
+            ? '/api/v1/settings/brand'
+            : '/api/v1/settings/contact';
       const settings = await fetchJson<Record<string, unknown>>(endpoint, {
         method: 'PUT',
         body: JSON.stringify(data),

@@ -166,9 +166,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               handleBuyNow(product);
               navigate('/checkout');
             }}
-            className="flex-1 bg-bismillah-accentYellow hover:bg-yellow-400 text-slate-950 font-bold text-xs sm:text-sm px-2 sm:px-4 py-2.5 rounded-sm flex items-center justify-center gap-2 cursor-pointer transition-colors"
+            className="flex-1 bg-bismillah-accentOrange hover:bg-orange-500 text-white font-bold text-xs sm:text-sm px-2 sm:px-4 py-2.5 rounded-sm flex items-center justify-center gap-2 cursor-pointer transition-colors"
           >
-            <Zap className="w-4 h-4 shrink-0 fill-bismillah-accentYellow text-slate-950" />
+            <Zap className="w-4 h-4 shrink-0 fill-bismillah-accentOrange text-white" />
             <span>{lang === 'bn' ? 'এখনই কিনুন' : 'Buy Now'}</span>
           </button>
         </div>

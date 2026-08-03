@@ -23,6 +23,8 @@ import { Dashboard } from './Dashboard';
 import { ProductCreate, ProductEdit, ProductList } from './products';
 import { CategoryList } from './categories';
 import { BulkImport } from './BulkImport';
+import StorefrontIcon from '@mui/icons-material/Storefront';
+import { BrandSettingsEdit } from './BrandSettings';
 import { ContactSettingsEdit } from './Settings';
 import { HeroSettingsEdit } from './HeroSettings';
 import { OrderEdit, OrderList } from './orders';
@@ -39,6 +41,7 @@ const MyMenu = () => {
       <Menu.ResourceItem name="analytics" />
       <Menu.Item to="/bulk-import" primaryText="Bulk Import" leftIcon={<UploadFileIcon />} />
       <Menu.Item to="/hero-settings" primaryText="Hero Banner" leftIcon={<SlideshowIcon />} />
+      <Menu.Item to="/brand-settings" primaryText="Brand / Logo" leftIcon={<StorefrontIcon />} />
       <Menu.Item to="/settings" primaryText="Contact Settings" leftIcon={<SettingsIcon />} />
     </Menu>
   );
@@ -69,6 +72,7 @@ export const App = () => (
     <CustomRoutes>
       <Route path="/bulk-import" element={<BulkImport />} />
       <Route path="/hero-settings" element={<HeroSettingsEdit />} />
+      <Route path="/brand-settings" element={<BrandSettingsEdit />} />
       <Route path="/settings" element={<ContactSettingsEdit />} />
     </CustomRoutes>
   </Admin>

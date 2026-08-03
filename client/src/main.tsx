@@ -3,13 +3,16 @@ import {createRoot} from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
 import App from './App.tsx';
 import {ContactSettingsProvider} from './context/ContactSettingsContext.tsx';
+import {BrandSettingsProvider} from './context/BrandSettingsContext.tsx';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ContactSettingsProvider>
-        <App />
+        <BrandSettingsProvider>
+          <App />
+        </BrandSettingsProvider>
       </ContactSettingsProvider>
     </BrowserRouter>
   </StrictMode>,
