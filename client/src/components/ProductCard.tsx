@@ -9,6 +9,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { Product, Language } from '../types';
+import { useApp } from '../context/AppContext';
 
 interface ProductCardProps {
   product: Product;
@@ -31,6 +32,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   isInWishlist,
   isInCompare,
 }) => {
+  const { handleBuyNow } = useApp();
   return (
     <div className="group bg-white rounded-sharp border border-bismillah-borderLight hover:border-bismillah-primaryGreen transition-colors duration-300 flex flex-col overflow-hidden relative">
       {/* PRODUCT IMAGE ZONE */}
@@ -148,14 +150,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <span>{lang === 'bn' ? 'স্টকে আছে' : 'In Stock'}</span>
         </div>
 
-        {/* Full-width Add To Cart */}
-        <button
-          onClick={() => onAddToCart(product)}
-          className="mt-auto w-full bg-bismillah-primaryGreen hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-sm flex items-center justify-center gap-2 cursor-pointer transition-colors"
-        >
-          <ShoppingBag className="w-4 h-4" />
-          <span>{lang === 'bn' ? 'কার্টে রাখুন' : 'Add to Cart'}</span>
-        </button>
+        {/* Add To Cart + Buy Now */}
+        <div className="mt-auto flex gap-2">
+          <button
+            onClick={() => onAddToCart(product)}
+            className="flex-1 bg-bismillah-primaryGreen hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm px-2 sm:px-4 py-2.5 rounded-sm flex items-center justify-center gap-2 cursor-pointer transition-colors"
+          >
+            <ShoppingBag className="w-4 h-4 shrink-0" />
+            <span>{lang === 'bn' ? 'কার্টে রাখুন' : 'Add to Cart'}</span>
+          </button>
+          <button
+            onClick={() => handleBuyNow(product)}
+            className="flex-1 bg-bismillah-accentYellow hover:bg-yellow-400 text-slate-950 font-bold text-xs sm:text-sm px-2 sm:px-4 py-2.5 rounded-sm flex items-center justify-center gap-2 cursor-pointer transition-colors"
+          >
+            <Zap className="w-4 h-4 shrink-0 fill-bismillah-accentYellow text-slate-950" />
+            <span>{lang === 'bn' ? 'এখনই কিনুন' : 'Buy Now'}</span>
+          </button>
+        </div>
       </div>
     </div>
   );

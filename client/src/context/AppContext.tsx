@@ -8,6 +8,8 @@ interface AppContextType {
   setLang: (l: Language) => void;
   cartItems: CartItem[];
   handleAddToCart: (product: Product, quantity?: number) => void;
+  handleBuyNow: (product: Product) => void;
+  checkoutNonce: number;
   handleUpdateQuantity: (productId: string, quantity: number) => void;
   handleRemoveFromCart: (productId: string) => void;
   wishlistIds: string[];
@@ -39,6 +41,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [lang, setLang] = useState<Language>('bn');
   const [products, setProducts] = useState<Product[]>(fallbackProducts);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [checkoutNonce, setCheckoutNonce] = useState(0);
   const [wishlistIds, setWishlistIds] = useState<string[]>([]);
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -84,6 +87,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
     setIsCartOpen(true);
   }, []);
+
+  const handleBuyNow = useCallback((product: Product) => {
+    setCheckoutNonce((n) => n + 1);
+    handleAddToCart(product, 1);
+  }, [handleAddToCart]);
 
   const handleUpdateQuantity = useCallback((productId: string, quantity: number) => {
     if (quantity <= 0) {
@@ -143,7 +151,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const value = useMemo<AppContextType>(() => ({
     lang, setLang,
-    cartItems, handleAddToCart, handleUpdateQuantity, handleRemoveFromCart,
+    cartItems, handleAddToCart, handleBuyNow, checkoutNonce, handleUpdateQuantity, handleRemoveFromCart,
     wishlistIds, handleToggleWishlist,
     compareIds, handleToggleCompare, handleRemoveCompare,
     cartTotal, cartCount, compareProducts,
@@ -155,7 +163,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     quickViewProduct, setQuickViewProduct,
     toastMessage, showToast,
   }), [
-    lang, cartItems, handleAddToCart, handleUpdateQuantity, handleRemoveFromCart,
+    lang, cartItems, handleAddToCart, handleBuyNow, checkoutNonce, handleUpdateQuantity, handleRemoveFromCart,
     wishlistIds, handleToggleWishlist,
     compareIds, handleToggleCompare, handleRemoveCompare,
     cartTotal, cartCount, compareProducts, products,

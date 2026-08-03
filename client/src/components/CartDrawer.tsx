@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Trash2, ShoppingBag, Plus, Minus, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { CartItem, Language } from '../types';
 
@@ -9,6 +9,7 @@ interface CartDrawerProps {
   onUpdateQuantity: (productId: string, quantity: number) => void;
   onRemoveItem: (productId: string) => void;
   lang: Language;
+  checkoutNonce: number;
 }
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({
@@ -18,6 +19,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onUpdateQuantity,
   onRemoveItem,
   lang,
+  checkoutNonce,
 }) => {
   const [coupon, setCoupon] = useState('');
   const [appliedDiscount, setAppliedDiscount] = useState(0);
@@ -29,6 +31,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
   const [formError, setFormError] = useState('');
+
+  useEffect(() => {
+    if (isOpen && checkoutNonce > 0) {
+      setCheckoutStep('checkout');
+    }
+  }, [isOpen, checkoutNonce]);
 
   if (!isOpen) return null;
 
