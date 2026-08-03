@@ -135,6 +135,26 @@ interface OrderListResponse {
   totalPages: number;
 }
 
+interface AnalyticsEventDto {
+  id: string;
+  sessionId: string;
+  path: string;
+  title: string;
+  referrer: string;
+  ip: string;
+  deviceType: string;
+  browser: string;
+  createdAt: string;
+}
+
+interface AnalyticsListResponse {
+  items: AnalyticsEventDto[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 /** Adds form-facing fields the REST DTO doesn't carry (priceCents, categoryKey). */
 function toFormRecord(product: ProductDto): ProductDto {
   return { ...product, categoryKey: product.categoryId } as ProductDto;
@@ -167,6 +187,19 @@ export const dataProvider: DataProvider = {
       if (filter.q) query.set('q', String(filter.q));
       if (filter.status) query.set('status', String(filter.status));
       const result = await fetchJson<OrderListResponse>(`/api/v1/orders?${query.toString()}`);
+      return { data: result.items as never, total: result.total };
+    }
+
+    if (resource === 'analytics') {
+      const { page, perPage } = params.pagination ?? { page: 1, perPage: 25 };
+      const query = new URLSearchParams({
+        page: String(page),
+        limit: String(perPage),
+      });
+      const filter = (params.filter ?? {}) as Record<string, unknown>;
+      if (filter.path) query.set('path', String(filter.path));
+      if (filter.deviceType) query.set('deviceType', String(filter.deviceType));
+      const result = await fetchJson<AnalyticsListResponse>(`/api/v1/analytics/events?${query.toString()}`);
       return { data: result.items as never, total: result.total };
     }
 

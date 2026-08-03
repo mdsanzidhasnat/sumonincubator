@@ -15,6 +15,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
 
 import { authProvider } from './authProvider';
 import { dataProvider } from './dataProvider';
@@ -25,6 +26,7 @@ import { BulkImport } from './BulkImport';
 import { ContactSettingsEdit } from './Settings';
 import { HeroSettingsEdit } from './HeroSettings';
 import { OrderEdit, OrderList } from './orders';
+import { VisitorList } from './analytics';
 
 const MyMenu = () => {
   const hasDashboard = useHasDashboard();
@@ -34,6 +36,7 @@ const MyMenu = () => {
       <Menu.ResourceItem name="products" />
       <Menu.ResourceItem name="categories" />
       <Menu.ResourceItem name="orders" />
+      <Menu.ResourceItem name="analytics" />
       <Menu.Item to="/bulk-import" primaryText="Bulk Import" leftIcon={<UploadFileIcon />} />
       <Menu.Item to="/hero-settings" primaryText="Hero Banner" leftIcon={<SlideshowIcon />} />
       <Menu.Item to="/settings" primaryText="Contact Settings" leftIcon={<SettingsIcon />} />
@@ -62,6 +65,7 @@ export const App = () => (
     />
     <Resource name="categories" list={CategoryList} icon={CategoryIcon} />
     <Resource name="orders" list={OrderList} edit={OrderEdit} icon={ReceiptLongIcon} />
+    <Resource name="analytics" list={VisitorList} icon={AnalyticsIcon} />
     <CustomRoutes>
       <Route path="/bulk-import" element={<BulkImport />} />
       <Route path="/hero-settings" element={<HeroSettingsEdit />} />

@@ -19,6 +19,10 @@ import CategoryIcon from '@mui/icons-material/Category';
 import PercentIcon from '@mui/icons-material/Percent';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import PeopleIcon from '@mui/icons-material/People';
+import OnlinePredictionIcon from '@mui/icons-material/OnlinePrediction';
+import TodayIcon from '@mui/icons-material/Today';
 
 interface OrderStats {
   totals: {
@@ -63,6 +67,28 @@ interface ProductStats {
     price: number;
     image: string;
     stockQty: number;
+    createdAt: string;
+  }>;
+}
+
+interface AnalyticsStats {
+  totals: {
+    pageViews: number;
+    uniqueVisitors: number;
+    todayViews: number;
+    todayVisitors: number;
+    onlineNow: number;
+  };
+  topPages: Array<{ path: string; views: number; visitors: number }>;
+  byDevice: Array<{ deviceType: string; count: number }>;
+  recent: Array<{
+    id: string;
+    sessionId: string;
+    path: string;
+    title: string;
+    ip: string;
+    deviceType: string;
+    browser: string;
     createdAt: string;
   }>;
 }
@@ -114,6 +140,7 @@ function StatCard({
 export const Dashboard = () => {
   const [stats, setStats] = useState<ProductStats | null>(null);
   const [orderStats, setOrderStats] = useState<OrderStats | null>(null);
+  const [analytics, setAnalytics] = useState<AnalyticsStats | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -146,6 +173,24 @@ export const Dashboard = () => {
       })
       .catch(() => {
         // Orders endpoint may be unavailable; dashboard should still render.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/v1/analytics/stats', { credentials: 'same-origin' })
+      .then(async (response) => {
+        const json = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(json?.error?.message ?? 'Failed to load analytics');
+        }
+        if (!cancelled) setAnalytics(json as AnalyticsStats);
+      })
+      .catch(() => {
+        // Analytics may be unavailable; dashboard should still render.
       });
     return () => {
       cancelled = true;
@@ -212,6 +257,43 @@ export const Dashboard = () => {
             icon={<PriceCheckIcon />}
             label="Revenue (BDT)"
             value={orderStats ? Math.round(orderStats.totals.revenue).toLocaleString() : '0'}
+          />
+        </Grid>
+      </Grid>
+
+      <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
+        Visitors
+      </Typography>
+      <Grid container spacing={2} mb={2}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard
+            icon={<VisibilityIcon />}
+            label="Page views"
+            value={(analytics?.totals.pageViews ?? 0).toLocaleString()}
+            color="info"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard
+            icon={<PeopleIcon />}
+            label="Unique visitors"
+            value={(analytics?.totals.uniqueVisitors ?? 0).toLocaleString()}
+            color="success"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard
+            icon={<OnlinePredictionIcon />}
+            label="Online now"
+            value={analytics?.totals.onlineNow ?? 0}
+            color="error"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard
+            icon={<TodayIcon />}
+            label="Today views"
+            value={(analytics?.totals.todayViews ?? 0).toLocaleString()}
           />
         </Grid>
       </Grid>
@@ -331,6 +413,103 @@ export const Dashboard = () => {
                   <Typography variant="body2" sx={{ fontWeight: 600 }}>
                     ৳{order.total.toFixed(0)}
                   </Typography>
+                </Box>
+              ))}
+            </Stack>
+          )}
+        </CardContent>
+      </Card>
+
+      <Grid container spacing={2} sx={{ mt: 2 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card>
+            <CardHeader title="Top pages" avatar={<VisibilityIcon />} />
+            <CardContent>
+              {!analytics || analytics.topPages.length === 0 ? (
+                <Typography color="text.secondary">No visits yet</Typography>
+              ) : (
+                <Stack spacing={1}>
+                  {analytics.topPages.map((page) => {
+                    const max = analytics.topPages[0]?.views ?? 1;
+                    const pct = (page.views / max) * 100;
+                    return (
+                      <Box key={page.path}>
+                        <Box display="flex" justifyContent="space-between">
+                          <Typography variant="body2" sx={{ fontWeight: 500 }} noWrap>
+                            {page.path}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {page.views} views · {page.visitors} visitors
+                          </Typography>
+                        </Box>
+                        <LinearProgress
+                          variant="determinate"
+                          value={pct}
+                          sx={{ height: 6, borderRadius: 3 }}
+                        />
+                      </Box>
+                    );
+                  })}
+                </Stack>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card>
+            <CardHeader title="By device" avatar={<PeopleIcon />} />
+            <CardContent>
+              {!analytics || analytics.byDevice.length === 0 ? (
+                <Typography color="text.secondary">No data</Typography>
+              ) : (
+                <Stack spacing={1}>
+                  {analytics.byDevice.map((device) => {
+                    const max = analytics.byDevice[0]?.count ?? 1;
+                    const pct = (device.count / max) * 100;
+                    return (
+                      <Box key={device.deviceType}>
+                        <Box display="flex" justifyContent="space-between">
+                          <Typography variant="body2" textTransform="capitalize">
+                            {device.deviceType}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {device.count}
+                          </Typography>
+                        </Box>
+                        <LinearProgress
+                          variant="determinate"
+                          value={pct}
+                          sx={{ height: 6, borderRadius: 3 }}
+                        />
+                      </Box>
+                    );
+                  })}
+                </Stack>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      <Card sx={{ mt: 2 }}>
+        <CardHeader title="Recent visits" avatar={<VisibilityIcon />} />
+        <CardContent>
+          {!analytics || analytics.recent.length === 0 ? (
+            <Typography color="text.secondary">No visits yet</Typography>
+          ) : (
+            <Stack spacing={1}>
+              {analytics.recent.map((event) => (
+                <Box key={event.id} display="flex" alignItems="center" gap={2}>
+                  <Box flex={1} minWidth={0}>
+                    <Typography variant="body2" sx={{ fontWeight: 500 }} noWrap>
+                      {event.path}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {event.deviceType} · {event.browser}
+                      {event.ip ? ` · ${event.ip}` : ''} ·{' '}
+                      {new Date(event.createdAt).toLocaleString()}
+                    </Typography>
+                  </Box>
                 </Box>
               ))}
             </Stack>

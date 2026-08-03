@@ -11,6 +11,7 @@ import { AuthModal } from './AuthModal';
 import { VideosModal } from './VideosModal';
 import { WhatsAppWidget } from './WhatsAppWidget';
 import { FloatingContactButtons } from './FloatingContactButtons';
+import { VisitorTracker } from './VisitorTracker';
 import { useApp } from '../context/AppContext';
 
 export const Layout: React.FC = () => {
@@ -26,6 +27,7 @@ export const Layout: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col text-slate-900 font-sans selection:bg-bismillah-primaryGreen selection:text-white bg-transparent">
+      <VisitorTracker />
       <TopBar
         lang={lang}
         setLang={setLang}

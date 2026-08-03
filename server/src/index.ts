@@ -17,6 +17,8 @@ import { SettingsController } from './controllers/settings.controller.js';
 import { OrderController } from './controllers/order.controller.js';
 import { OrderService } from './services/order.service.js';
 import { SteadfastService } from './services/steadfast.service.js';
+import { AnalyticsController } from './controllers/analytics.controller.js';
+import { AnalyticsService } from './services/analytics.service.js';
 
 export async function start(): Promise<void> {
   await connectDb();
@@ -30,6 +32,7 @@ export async function start(): Promise<void> {
   const settingsController = new SettingsController();
   const steadfastService = new SteadfastService();
   const orderController = new OrderController(new OrderService(steadfastService));
+  const analyticsController = new AnalyticsController(new AnalyticsService());
 
   const app = await createApp({
     productController,
@@ -38,6 +41,7 @@ export async function start(): Promise<void> {
     categoryController,
     settingsController,
     orderController,
+    analyticsController,
   });
 
   await new Promise<void>((resolve, reject) => {
