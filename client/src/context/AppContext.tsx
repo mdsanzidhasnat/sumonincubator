@@ -9,9 +9,9 @@ interface AppContextType {
   cartItems: CartItem[];
   handleAddToCart: (product: Product, quantity?: number) => void;
   handleBuyNow: (product: Product) => void;
-  checkoutNonce: number;
   handleUpdateQuantity: (productId: string, quantity: number) => void;
   handleRemoveFromCart: (productId: string) => void;
+  clearCart: () => void;
   wishlistIds: string[];
   handleToggleWishlist: (product: Product) => void;
   compareIds: string[];
@@ -41,7 +41,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [lang, setLang] = useState<Language>('bn');
   const [products, setProducts] = useState<Product[]>(fallbackProducts);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [checkoutNonce, setCheckoutNonce] = useState(0);
   const [wishlistIds, setWishlistIds] = useState<string[]>([]);
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -89,9 +88,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, []);
 
   const handleBuyNow = useCallback((product: Product) => {
-    setCheckoutNonce((n) => n + 1);
-    handleAddToCart(product, 1);
-  }, [handleAddToCart]);
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.product.id === product.id);
+      if (existing) {
+        return prev.map((item) =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prev, { product, quantity: 1 }];
+    });
+  }, []);
 
   const handleUpdateQuantity = useCallback((productId: string, quantity: number) => {
     if (quantity <= 0) {
@@ -107,6 +115,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const handleRemoveFromCart = useCallback((productId: string) => {
     setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
+  }, []);
+
+  const clearCart = useCallback(() => {
+    setCartItems([]);
   }, []);
 
   const handleToggleWishlist = useCallback((product: Product) => {
@@ -151,7 +163,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const value = useMemo<AppContextType>(() => ({
     lang, setLang,
-    cartItems, handleAddToCart, handleBuyNow, checkoutNonce, handleUpdateQuantity, handleRemoveFromCart,
+    cartItems, handleAddToCart, handleBuyNow, handleUpdateQuantity, handleRemoveFromCart, clearCart,
     wishlistIds, handleToggleWishlist,
     compareIds, handleToggleCompare, handleRemoveCompare,
     cartTotal, cartCount, compareProducts,
@@ -163,7 +175,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     quickViewProduct, setQuickViewProduct,
     toastMessage, showToast,
   }), [
-    lang, cartItems, handleAddToCart, handleBuyNow, checkoutNonce, handleUpdateQuantity, handleRemoveFromCart,
+    lang, cartItems, handleAddToCart, handleBuyNow, handleUpdateQuantity, handleRemoveFromCart, clearCart,
     wishlistIds, handleToggleWishlist,
     compareIds, handleToggleCompare, handleRemoveCompare,
     cartTotal, cartCount, compareProducts, products,

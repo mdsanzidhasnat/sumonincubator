@@ -10,6 +10,8 @@ import { SearchPage } from './pages/SearchPage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { BlogPage } from './pages/BlogPage';
+import { CheckoutPage } from './pages/CheckoutPage';
+import { CheckoutSuccessPage } from './pages/CheckoutSuccessPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { AdminPage } from './pages/AdminPage';
 
@@ -26,6 +28,8 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/blog" element={<BlogPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/admin/*" element={<AdminPage />} />

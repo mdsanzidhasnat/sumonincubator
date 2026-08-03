@@ -81,3 +81,37 @@ export interface VideoTutorial {
   thumbnail: string;
   youtubeId: string;
 }
+
+export type PaymentMethodId = 'cod' | 'bkash' | 'nagad';
+
+export interface CheckoutFormData {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  districtId: string | null;
+  thanaId: string | null;
+  address: string;
+  paymentMethod: PaymentMethodId;
+  location: { lat: number; lng: number } | null;
+}
+
+export interface OrderInfo {
+  orderId: string;
+  total: number;
+  subtotal: number;
+  deliveryCharge: number;
+  paymentMethod: PaymentMethodId;
+  customer: {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    district: string;
+    thana: string;
+    address: string;
+    location: { lat: number; lng: number } | null;
+  };
+  items: CartItem[];
+  placedAt: string;
+}

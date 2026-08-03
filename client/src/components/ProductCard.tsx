@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Heart,
   GitCompare,
@@ -32,6 +33,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   isInWishlist,
   isInCompare,
 }) => {
+  const navigate = useNavigate();
   const { handleBuyNow } = useApp();
   return (
     <div className="group bg-white rounded-sharp border border-bismillah-borderLight hover:border-bismillah-primaryGreen transition-colors duration-300 flex flex-col overflow-hidden relative">
@@ -160,7 +162,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <span>{lang === 'bn' ? 'কার্টে রাখুন' : 'Add to Cart'}</span>
           </button>
           <button
-            onClick={() => handleBuyNow(product)}
+            onClick={() => {
+              handleBuyNow(product);
+              navigate('/checkout');
+            }}
             className="flex-1 bg-bismillah-accentYellow hover:bg-yellow-400 text-slate-950 font-bold text-xs sm:text-sm px-2 sm:px-4 py-2.5 rounded-sm flex items-center justify-center gap-2 cursor-pointer transition-colors"
           >
             <Zap className="w-4 h-4 shrink-0 fill-bismillah-accentYellow text-slate-950" />

@@ -23,7 +23,7 @@ export const Layout: React.FC = () => {
     isCartOpen, setIsCartOpen, isCompareOpen, setIsCompareOpen,
     isAuthOpen, setIsAuthOpen, isVideosOpen, setIsVideosOpen,
     quickViewProduct, setQuickViewProduct, cartTotal, cartCount,
-    toastMessage, checkoutNonce,
+    toastMessage,
   } = useApp();
 
   return (
@@ -69,7 +69,6 @@ export const Layout: React.FC = () => {
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveFromCart}
         lang={lang}
-        checkoutNonce={checkoutNonce}
       />
 
       <QuickViewModal
