@@ -89,6 +89,52 @@ interface CategoryDto {
   itemCount: number;
 }
 
+interface OrderDto {
+  id: string;
+  orderId: string;
+  status: string;
+  paymentMethod: string;
+  customer: {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    district: string;
+    thana: string;
+    address: string;
+  };
+  items: Array<{
+    productId: string;
+    title: string;
+    titleBn: string;
+    image: string;
+    price: number;
+    quantity: number;
+  }>;
+  subtotal: number;
+  deliveryCharge: number;
+  total: number;
+  courier: {
+    status: string;
+    consignmentId: string;
+    trackingCode: string;
+    trackingLink: string;
+    invoice: string;
+    error: string;
+    attemptedAt: string | null;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface OrderListResponse {
+  items: OrderDto[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 /** Adds form-facing fields the REST DTO doesn't carry (priceCents, categoryKey). */
 function toFormRecord(product: ProductDto): ProductDto {
   return { ...product, categoryKey: product.categoryId } as ProductDto;
@@ -109,6 +155,19 @@ export const dataProvider: DataProvider = {
     if (resource === 'categories') {
       const categories = await fetchJson<CategoryDto[]>('/api/v1/categories');
       return { data: categories as never, total: categories.length };
+    }
+
+    if (resource === 'orders') {
+      const { page, perPage } = params.pagination ?? { page: 1, perPage: 25 };
+      const query = new URLSearchParams({
+        page: String(page),
+        limit: String(perPage),
+      });
+      const filter = (params.filter ?? {}) as Record<string, unknown>;
+      if (filter.q) query.set('q', String(filter.q));
+      if (filter.status) query.set('status', String(filter.status));
+      const result = await fetchJson<OrderListResponse>(`/api/v1/orders?${query.toString()}`);
+      return { data: result.items as never, total: result.total };
     }
 
     const { page, perPage } = params.pagination ?? { page: 1, perPage: 25 };
@@ -141,8 +200,13 @@ export const dataProvider: DataProvider = {
       return { data: category as never };
     }
     if (resource === 'settings') {
-      const settings = await fetchJson<Record<string, unknown>>('/api/v1/settings/contact');
+      const endpoint = params.id === 'hero' ? '/api/v1/settings/hero' : '/api/v1/settings/contact';
+      const settings = await fetchJson<Record<string, unknown>>(endpoint);
       return { data: settings as never };
+    }
+    if (resource === 'orders') {
+      const order = await fetchJson<OrderDto>(`/api/v1/orders/${params.id}`);
+      return { data: order as never };
     }
     const product = await fetchJson<ProductDto>(`/api/v1/products/${params.id}`);
     return { data: toFormRecord(product) as never };
@@ -175,12 +239,21 @@ export const dataProvider: DataProvider = {
 
   async update(resource, params): Promise<UpdateResult> {
     if (resource === 'settings') {
-      const { id: _id, ...data } = params.data as Record<string, unknown>;
-      const settings = await fetchJson<Record<string, unknown>>('/api/v1/settings/contact', {
+      const { id, ...data } = params.data as Record<string, unknown>;
+      const endpoint = id === 'hero' ? '/api/v1/settings/hero' : '/api/v1/settings/contact';
+      const settings = await fetchJson<Record<string, unknown>>(endpoint, {
         method: 'PUT',
         body: JSON.stringify(data),
       });
       return { data: settings as never };
+    }
+    if (resource === 'orders') {
+      const { status } = params.data as { status?: string };
+      const order = await fetchJson<OrderDto>(`/api/v1/orders/${params.id}/status`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status }),
+      });
+      return { data: order as never };
     }
     const { id, ...data } = params.data as Record<string, unknown>;
     const product = await fetchJson<ProductDto>(`/api/v1/products/${params.id}`, {

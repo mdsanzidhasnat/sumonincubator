@@ -14,6 +14,9 @@ import { BulkImportService } from './services/bulk-import.service.js';
 import { BulkImportController } from './controllers/bulk-import.controller.js';
 import { CategoryController } from './controllers/category.controller.js';
 import { SettingsController } from './controllers/settings.controller.js';
+import { OrderController } from './controllers/order.controller.js';
+import { OrderService } from './services/order.service.js';
+import { SteadfastService } from './services/steadfast.service.js';
 
 export async function start(): Promise<void> {
   await connectDb();
@@ -25,6 +28,8 @@ export async function start(): Promise<void> {
   const bulkImportController = new BulkImportController(new BulkImportService(repository));
   const categoryController = new CategoryController();
   const settingsController = new SettingsController();
+  const steadfastService = new SteadfastService();
+  const orderController = new OrderController(new OrderService(steadfastService));
 
   const app = await createApp({
     productController,
@@ -32,6 +37,7 @@ export async function start(): Promise<void> {
     bulkImportController,
     categoryController,
     settingsController,
+    orderController,
   });
 
   await new Promise<void>((resolve, reject) => {

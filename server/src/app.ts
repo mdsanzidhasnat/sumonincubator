@@ -15,11 +15,13 @@ import { uploadRoutes } from './routes/upload.routes.js';
 import { authRoutes } from './routes/auth.routes.js';
 import { categoryRoutes } from './routes/categories.routes.js';
 import { settingsRoutes } from './routes/settings.routes.js';
+import { orderRoutes } from './routes/order.routes.js';
 import type { ProductController } from './controllers/product.controller.js';
 import type { UploadController } from './controllers/upload.controller.js';
 import type { BulkImportController } from './controllers/bulk-import.controller.js';
 import type { CategoryController } from './controllers/category.controller.js';
 import type { SettingsController } from './controllers/settings.controller.js';
+import type { OrderController } from './controllers/order.controller.js';
 
 export interface AppDeps {
   productController: ProductController;
@@ -27,6 +29,7 @@ export interface AppDeps {
   bulkImportController: BulkImportController;
   categoryController: CategoryController;
   settingsController: SettingsController;
+  orderController: OrderController;
 }
 
 const adminStaticDir = path.resolve(
@@ -40,6 +43,7 @@ export async function createApp(deps: AppDeps): Promise<Express> {
 
   app.use(
     helmet({
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
       contentSecurityPolicy: {
         directives: {
           ...helmet.contentSecurityPolicy.getDefaultDirectives(),
@@ -74,6 +78,7 @@ export async function createApp(deps: AppDeps): Promise<Express> {
     '/api/v1/uploads',
     uploadRoutes(deps.uploadController, true, requireAdmin()),
   );
+  app.use('/api/v1/orders', orderRoutes(deps.orderController, requireAdmin()));
 
   if (env.ADMIN_ENABLED) {
     app.use(env.ADMIN_PATH, express.static(adminStaticDir));

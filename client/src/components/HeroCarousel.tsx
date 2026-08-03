@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Language } from '../types';
+import { API_BASE } from '../lib/api';
 
 interface HeroCarouselProps {
   lang: Language;
   onShopNow: () => void;
 }
 
-const slides = [
+interface HeroSlide {
+  id?: number;
+  titleBn: string;
+  titleEn: string;
+  image: string;
+  badgeBn: string;
+  badgeEn: string;
+}
+
+const fallbackSlides: HeroSlide[] = [
   {
     id: 1,
     titleBn: 'সুমন অটোমেটিক ইনকিউবেটর — ডিম ফোটার ৯৮% পর্যন্ত নিশ্চয়তা!',
@@ -35,7 +45,26 @@ const slides = [
 ];
 
 export const HeroCarousel: React.FC<HeroCarouselProps> = ({ lang, onShopNow }) => {
+  const [slides, setSlides] = useState<HeroSlide[]>(fallbackSlides);
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    let active = true;
+    fetch(`${API_BASE}/api/v1/settings/hero`)
+      .then((res) => (res.ok ? (res.json() as Promise<{ slides?: HeroSlide[] }>) : null))
+      .then((data) => {
+        if (active && data?.slides?.length) {
+          setSlides(data.slides);
+          setCurrentSlide(0);
+        }
+      })
+      .catch(() => {
+        /* fall back to defaults */
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -45,7 +74,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ lang, onShopNow }) =
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   const slide = slides[currentSlide];
   const badge = lang === 'bn' ? slide.badgeBn : slide.badgeEn;

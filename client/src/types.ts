@@ -84,6 +84,25 @@ export interface VideoTutorial {
 
 export type PaymentMethodId = 'cod' | 'bkash' | 'nagad';
 
+export interface OrderItemSnapshot {
+  productId: string;
+  title: string;
+  titleBn: string;
+  slug?: string;
+  image?: string;
+  price: number;
+  quantity: number;
+}
+
+export interface CourierInfo {
+  status: 'pending' | 'created' | 'failed' | 'not_configured';
+  consignmentId?: string;
+  trackingCode?: string;
+  trackingLink?: string;
+  invoice?: string;
+  error?: string;
+}
+
 export interface CheckoutFormData {
   firstName: string;
   lastName: string;
@@ -96,11 +115,28 @@ export interface CheckoutFormData {
   location: { lat: number; lng: number } | null;
 }
 
-export interface OrderInfo {
-  orderId: string;
-  total: number;
+export interface CreateOrderRequest {
+  customer: {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    district: string;
+    thana: string;
+    address: string;
+    location: { lat: number; lng: number } | null;
+  };
+  items: OrderItemSnapshot[];
   subtotal: number;
   deliveryCharge: number;
+  total: number;
+  paymentMethod: PaymentMethodId;
+}
+
+export interface OrderInfo {
+  id?: string;
+  orderId: string;
+  status?: string;
   paymentMethod: PaymentMethodId;
   customer: {
     firstName: string;
@@ -112,6 +148,10 @@ export interface OrderInfo {
     address: string;
     location: { lat: number; lng: number } | null;
   };
-  items: CartItem[];
-  placedAt: string;
+  items: OrderItemSnapshot[];
+  subtotal: number;
+  deliveryCharge: number;
+  total: number;
+  courier?: CourierInfo | null;
+  placedAt?: string;
 }

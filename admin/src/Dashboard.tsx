@@ -18,6 +18,29 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import CategoryIcon from '@mui/icons-material/Category';
 import PercentIcon from '@mui/icons-material/Percent';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+
+interface OrderStats {
+  totals: {
+    orders: number;
+    pending: number;
+    confirmed: number;
+    delivered: number;
+    cancelled: number;
+    returned: number;
+    cod: number;
+    prepaid: number;
+    revenue: number;
+  };
+  recent: Array<{
+    id: string;
+    orderId: string;
+    status: string;
+    total: number;
+    createdAt: string;
+    customer: { firstName: string; lastName: string; phone: string };
+  }>;
+}
 
 interface ProductStats {
   totals: {
@@ -90,6 +113,7 @@ function StatCard({
 
 export const Dashboard = () => {
   const [stats, setStats] = useState<ProductStats | null>(null);
+  const [orderStats, setOrderStats] = useState<OrderStats | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -104,6 +128,24 @@ export const Dashboard = () => {
       })
       .catch((err) => {
         if (!cancelled) setError(err instanceof Error ? err.message : 'Failed to load stats');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/v1/orders/stats', { credentials: 'same-origin' })
+      .then(async (response) => {
+        const json = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(json?.error?.message ?? 'Failed to load order stats');
+        }
+        if (!cancelled) setOrderStats(json as OrderStats);
+      })
+      .catch(() => {
+        // Orders endpoint may be unavailable; dashboard should still render.
       });
     return () => {
       cancelled = true;
@@ -152,6 +194,25 @@ export const Dashboard = () => {
         </Grid>
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard icon={<PercentIcon />} label="Avg discount" value={`${stats.totals.avgDiscountPct.toFixed(1)}%`} />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard icon={<ReceiptLongIcon />} label="Total orders" value={orderStats?.totals.orders ?? 0} color="primary" />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard icon={<WarningIcon />} label="Pending" value={orderStats?.totals.pending ?? 0} color="warning" />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard icon={<PriceCheckIcon />} label="COD orders" value={orderStats?.totals.cod ?? 0} color="success" />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <StatCard
+            icon={<PriceCheckIcon />}
+            label="Revenue (BDT)"
+            value={orderStats ? Math.round(orderStats.totals.revenue).toLocaleString() : '0'}
+          />
         </Grid>
       </Grid>
 
@@ -237,6 +298,38 @@ export const Dashboard = () => {
                   </Typography>
                   <Typography variant="body2" sx={{ fontWeight: 600 }}>
                     ৳{product.price.toFixed(0)}
+                  </Typography>
+                </Box>
+              ))}
+            </Stack>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card sx={{ mt: 2 }}>
+        <CardHeader title="Recent orders" avatar={<ReceiptLongIcon />} />
+        <CardContent>
+          {!orderStats ? (
+            <Typography color="text.secondary">No orders yet</Typography>
+          ) : orderStats.recent.length === 0 ? (
+            <Typography color="text.secondary">No orders yet</Typography>
+          ) : (
+            <Stack spacing={1}>
+              {orderStats.recent.map((order) => (
+                <Box key={order.id} display="flex" alignItems="center" gap={2}>
+                  <Box flex={1}>
+                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                      #{order.orderId} · {order.customer.firstName} {order.customer.lastName}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {order.customer.phone} · {new Date(order.createdAt).toLocaleString()}
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" color="text.secondary" textTransform="capitalize">
+                    {order.status}
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                    ৳{order.total.toFixed(0)}
                   </Typography>
                 </Box>
               ))}

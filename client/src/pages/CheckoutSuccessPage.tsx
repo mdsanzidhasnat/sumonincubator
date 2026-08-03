@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { CheckCircle2, Package, MapPin, Phone, CreditCard, ShoppingBag } from 'lucide-react';
+import { CheckCircle2, Package, MapPin, Phone, CreditCard, ShoppingBag, Truck } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { useContactSettings } from '../context/ContactSettingsContext';
 import { PAYMENT_METHODS, PaymentMethodInfo } from '../data/paymentMethods';
@@ -134,6 +134,64 @@ export const CheckoutSuccessPage: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* COURIER TRACKING */}
+        {order.courier && order.courier.status === 'created' && (
+          <div className="bg-white rounded-sharp border border-bismillah-borderLight p-5 sm:p-6 space-y-3">
+            <div className="flex items-center gap-2 border-b border-bismillah-borderLight pb-3">
+              <Truck className="w-5 h-5 text-bismillah-primaryGreen" />
+              <h2 className="text-base font-extrabold text-slate-900">
+                {lang === 'bn' ? 'কুরিয়ার ট্র্যাকিং' : 'Courier Tracking'}
+              </h2>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm">
+              <div>
+                <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                  {lang === 'bn' ? 'ট্র্যাকিং কোড' : 'Tracking Code'}
+                </p>
+                {order.courier.trackingLink ? (
+                  <a
+                    href={order.courier.trackingLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-black text-bismillah-primaryGreen text-lg underline underline-offset-2"
+                  >
+                    {order.courier.trackingCode}
+                  </a>
+                ) : (
+                  <p className="font-black text-bismillah-primaryGreen text-lg">
+                    {order.courier.trackingCode}
+                  </p>
+                )}
+              </div>
+              {order.courier.consignmentId && (
+                <div>
+                  <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                    {lang === 'bn' ? 'কনসাইনমেন্ট আইডি' : 'Consignment ID'}
+                  </p>
+                  <p className="font-bold text-slate-800">{order.courier.consignmentId}</p>
+                </div>
+              )}
+            </div>
+            {order.courier.trackingLink && (
+              <a
+                href={order.courier.trackingLink}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-xs font-extrabold text-bismillah-primaryGreen underline underline-offset-2"
+              >
+                {lang === 'bn'
+                  ? 'ট্র্যাকিং পেজে যান (Steadfast)'
+                  : 'Track your parcel on Steadfast'}
+              </a>
+            )}
+            <p className="text-[11px] text-slate-500">
+              {lang === 'bn'
+                ? 'আপনার পণ্যটি শীঘ্রই কুরিয়ারে হস্তান্তর করা হবে।'
+                : 'Your parcel will be handed to the courier shortly.'}
+            </p>
+          </div>
+        )}
 
         {/* PAYMENT */}
         <div className="bg-white rounded-sharp border border-bismillah-borderLight p-5 sm:p-6 space-y-5">

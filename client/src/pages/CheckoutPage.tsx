@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShoppingBag, Truck, ShieldCheck, Lock, ArrowRight, ChevronLeft } from 'lucide-react';
+import { ShoppingBag, Truck, ShieldCheck, Lock, ArrowRight, ChevronLeft, Loader2 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SearchableSelect } from '../components/SearchableSelect';
 import { LocationShareMap, SharedLocation } from '../components/LocationShareMap';
 import { BD_DISTRICTS, getThanas } from '../data/bangladesh';
-import { OrderInfo, PaymentMethodId } from '../types';
+import { CreateOrderRequest, OrderInfo, PaymentMethodId } from '../types';
 
 export const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ export const CheckoutPage: React.FC = () => {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodId>('cod');
   const [location, setLocation] = useState<SharedLocation | null>(null);
   const [formError, setFormError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   const selectedDistrict = useMemo(
     () => BD_DISTRICTS.find((d) => d.id === districtId) ?? null,
@@ -71,7 +72,7 @@ export const CheckoutPage: React.FC = () => {
     );
   }
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
 
@@ -101,12 +102,7 @@ export const CheckoutPage: React.FC = () => {
       return;
     }
 
-    const order: OrderInfo = {
-      orderId: `AF-${Math.floor(100000 + Math.random() * 900000)}`,
-      total,
-      subtotal,
-      deliveryCharge,
-      paymentMethod,
+    const payload: CreateOrderRequest = {
       customer: {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
@@ -117,12 +113,46 @@ export const CheckoutPage: React.FC = () => {
         address: address.trim(),
         location,
       },
-      items: cartItems,
-      placedAt: new Date().toISOString(),
+      items: cartItems.map(({ product, quantity }) => ({
+        productId: product.id,
+        title: product.title,
+        titleBn: product.titleBn,
+        slug: product.sku ?? '',
+        image: product.image,
+        price: product.price,
+        quantity,
+      })),
+      subtotal,
+      deliveryCharge,
+      total,
+      paymentMethod,
     };
 
-    clearCart();
-    navigate('/checkout/success', { state: { order } });
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/v1/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const json = (await res.json().catch(() => ({}))) as OrderInfo & {
+        error?: { message?: string };
+      };
+      if (!res.ok) {
+        throw new Error(json?.error?.message ?? 'Order failed');
+      }
+
+      clearCart();
+      navigate('/checkout/success', { state: { order: json as OrderInfo } });
+    } catch {
+      setFormError(
+        lang === 'bn'
+          ? 'অর্ডারটি গ্রহণ করা যায়নি। দয়া করে আবার চেষ্টা করুন।'
+          : 'We could not place your order. Please try again.',
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const paymentOptions: { id: PaymentMethodId; name: string; nameBn: string; color: string }[] = [
@@ -360,10 +390,20 @@ export const CheckoutPage: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full bg-bismillah-primaryGreen hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 rounded-sharp shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                disabled={submitting}
+                className="w-full bg-bismillah-primaryGreen hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 rounded-sharp shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                <span>{lang === 'bn' ? 'অর্ডার কনফার্ম করুন' : 'Place Order'}</span>
-                <ArrowRight className="w-4 h-4" />
+                {submitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>{lang === 'bn' ? 'অর্ডার প্রসেস হচ্ছে...' : 'Processing...'}</span>
+                  </>
+                ) : (
+                  <>
+                    <span>{lang === 'bn' ? 'অর্ডার কনফার্ম করুন' : 'Place Order'}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
               </button>
               <p className="flex items-center justify-center gap-1.5 text-[10px] text-slate-400">
                 <Lock className="w-3 h-3" />
