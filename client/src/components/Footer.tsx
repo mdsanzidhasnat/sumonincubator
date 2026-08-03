@@ -43,8 +43,9 @@ export const Footer: React.FC<FooterProps> = ({
               <div className="w-9 h-9 rounded-full bg-bismillah-primaryGreen flex items-center justify-center text-white">
                 <Egg className="w-5 h-5 stroke-[2.2]" />
               </div>
-              <span className="text-xl font-black text-white tracking-tight">
-                Sumon's<span className="text-bismillah-primaryGreen ml-1">World</span>
+              <span className="text-xl font-black tracking-tight">
+                <span className="text-bismillah-primaryGreen">Sumon's</span>
+                <span className="text-bismillah-accentOrange ml-1">World</span>
               </span>
             </Link>
 

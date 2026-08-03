@@ -11,11 +11,9 @@ import { AuthModal } from './AuthModal';
 import { VideosModal } from './VideosModal';
 import { WhatsAppWidget } from './WhatsAppWidget';
 import { FloatingContactButtons } from './FloatingContactButtons';
-import { useScrollBackground } from '../hooks/useScrollBackground';
 import { useApp } from '../context/AppContext';
 
 export const Layout: React.FC = () => {
-  useScrollBackground();
   const {
     lang, setLang, compareIds, cartItems, handleAddToCart,
     handleToggleWishlist, handleToggleCompare, wishlistIds, compareProducts,

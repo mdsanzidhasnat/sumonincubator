@@ -71,20 +71,21 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#00799E] text-white backdrop-blur border-b border-[#00607d] shadow-[0_8px_30px_rgba(2,63,86,0.06)] transition-all">
+    <header className="sticky top-0 z-40 bg-white border-b border-bismillah-borderLight transition-all">
       <div className="max-w-7xl mx-auto px-4 py-3.5 flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
         {/* LOGO AREA */}
         <a href="/" className="flex items-center gap-2.5 group shrink-0 min-w-0">
-          <div className="w-10 h-10 bg-bismillah-primaryGreen flex items-center justify-center text-white group-hover:bg-slate-900 transition-colors shrink-0 overflow-hidden rounded-md">
+          <div className="w-10 h-10 bg-bismillah-bgDark flex items-center justify-center text-bismillah-accentYellow group-hover:bg-bismillah-primaryGreen transition-colors shrink-0 overflow-hidden">
             <img src={logoImg} alt="Sumon's World Logo" className="w-10 h-10 object-contain" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1">
-              <span className="text-lg sm:text-xl font-extrabold tracking-tight text-white truncate">
-                Sumon's<span className="text-white/90 ml-1">World</span>
+              <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 truncate">
+                <span className="text-bismillah-primaryGreen">Sumon's</span>
+                <span className="text-bismillah-accentOrange ml-1">World</span>
               </span>
             </div>
-            <p className="text-[10px] font-semibold text-white/80 -mt-1 tracking-wider uppercase truncate">
+            <p className="text-[10px] font-semibold text-bismillah-textMuted -mt-1 tracking-wider uppercase truncate">
               {lang === 'bn' ? 'ইনকিউবেটর ও ইলেকট্রনিক্স' : 'Electronics & Poultry Tech'}
             </p>
           </div>
@@ -95,7 +96,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
           ref={searchContainerRef}
           className="relative flex-1 max-w-2xl mx-2 order-last md:order-none w-full md:w-auto"
         >
-          <form onSubmit={handleSearch} className="flex items-center bg-white border border-white/30 rounded-full pl-3 pr-1.5 py-1.5 shadow-sm focus-within:border-white focus-within:ring-2 focus-within:ring-white/20 transition-all">
+          <form onSubmit={handleSearch} className="flex items-center bg-white border border-bismillah-borderLight rounded-sharp pl-3 pr-1.5 py-1 focus-within:border-bismillah-primaryGreen focus-within:ring-2 focus-within:ring-bismillah-primaryGreen/20 transition-all">
             {/* Category Dropdown inside Search */}
             <div className="relative border-r border-slate-300/70 pr-2 mr-2 hidden sm:block shrink-0">
               <select
@@ -141,7 +142,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
             {/* Search Submit Button */}
             <button
               type="submit"
-              className="bg-bismillah-primaryGreen hover:bg-slate-900 text-white p-2 rounded-full cursor-pointer transition-colors shrink-0"
+              className="bg-bismillah-primaryGreen hover:bg-emerald-700 text-white p-2 rounded-sharp cursor-pointer transition-colors shrink-0"
             >
               <Search className="w-4 h-4 stroke-[2.5]" />
             </button>
@@ -201,16 +202,16 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
           {/* Phone Helpline */}
           <a
             href={`tel:${phone}`}
-            className="hidden lg:flex items-center gap-3 px-3.5 py-1.5 rounded-full border border-white/30 hover:border-white/60 transition-all bg-white/10 text-white"
+            className="hidden lg:flex items-center gap-3 px-3.5 py-1.5 rounded-sharp border border-bismillah-borderLight hover:border-bismillah-primaryGreen/50 transition-all"
           >
             <div className="w-9 h-9 bg-bismillah-primaryGreen/10 text-bismillah-primaryGreen flex items-center justify-center shrink-0">
               <Phone className="w-4 h-4 stroke-[2.2]" />
             </div>
             <div>
-              <p className="text-[10px] font-semibold text-white uppercase tracking-wider">
+              <p className="text-[10px] font-semibold text-bismillah-textMuted uppercase tracking-wider">
                 {lang === 'bn' ? 'হটলাইন কল করুন' : 'Hotline Call'}
               </p>
-              <p className="text-xs font-bold text-white tracking-tight">
+              <p className="text-xs font-bold text-slate-900 tracking-tight">
                 {phoneDisplay.replace(/^\+880\s*/, '0')}
               </p>
             </div>
@@ -219,7 +220,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
           {/* Cart Icon & Subtotal Drawer Button */}
           <button
             onClick={onOpenCart}
-            className="flex items-center gap-2.5 bg-white text-[#00799E] hover:bg-slate-100 px-3 sm:px-4 py-2 rounded-full cursor-pointer transition-colors shrink-0 shadow-sm font-semibold"
+            className="flex items-center gap-2.5 bg-bismillah-primaryGreen hover:bg-emerald-700 text-white px-3 sm:px-4 py-2 rounded-sharp cursor-pointer transition-colors shrink-0"
           >
             <div className="relative">
               <ShoppingBag className="w-5 h-5" />
